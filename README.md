@@ -1,4 +1,4 @@
-﻿# Valeria ⚜️🌹
+# Valeria ⚜️🌹
 
 Orta çağ Fransa–İngiltere temalı mektuplaşma/hikaye uygulaması; Carmen'in yeni versiyonu. Karakterlerini (unvan, hane, fief, kişilik) oluşturursun, onlarla mektuplaşırsın; iki tarafı da sen yazabilir ya da **🤖 Bot modu** ile karakterin cevap vermesini sağlayabilirsin. Arayüz **English / Français**. Saf HTML + CSS + JS; derleme ya da sunucu gerekmez, internetsiz de açılır.
 
@@ -52,6 +52,10 @@ ProjectMemory/        bilgi kütüphanesi (INDEX.md'den başla)
 - **🎭 Olaylar:** sohbette 🎭 düğmesi her şeyin listesini açar: sıradaki adımlar, onun favorileri, 🎲 sürpriz, kategori sekmeleri, arama.
 - **🧠 Hafıza:** her karakter ilk kezleri (tarihiyle), en sevdiklerini, sorularına verdiğin cevapları ve son mektubunu hatırlar; kendisi bahseder, çelişkini yakalar, uzun süre yazmazsan sitem eder. "Do you remember…?" diye sorabilirsin. Profilde 🧠 kartı.
 - **📏 Beden:** Height, Weight, Boob/Butt/Pussy/Anal Size (Carmen'le aynı). Me'de kendi cinsiyetin ve Dick Size. Bunlara bağlı yeni olaylar, sorular ve onun soruları.
+
+## Yeni (v0.6)
+- **🌍 Yöre sesi:** karakterler kendi dillerinde selamlaşıp vedalaşır (Fàilte, Demat, Kaixo… Kenavo, Slán, Agur), yöresel hitap kullanır, azizleri adına yemin eder, bayramlarından, türkülerinden, atasözlerinden bahseder; memleketinin sevdiği şeye sevinir, sevmediğine burun kıvırır. Azizini, bayramını, türküsünü, atasözünü, dilini sorabilirsin; o da seni memleketine davet eder.
+- **📯 Haberci:** ana sayfada. Uygulama yenilikleri orta çağ fermanı olarak (haberci Gautier anlatır) ve her gün değişen diyar haberleri (tıklayınca bölgeye git ya da o hanıma yaz).
 
 ## Carmen ile yedek uyumu
 Yedek dosyası Carmen'le aynı biçimdedir (`amor-stories-backup`, v1): Carmen yedeği Valeria'ya, Valeria yedeği Carmen'e yüklenebilir. Ayrıntı: [ProjectMemory/backup.md](ProjectMemory/backup.md).

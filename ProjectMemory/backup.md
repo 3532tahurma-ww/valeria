@@ -25,6 +25,12 @@ Tam alan açıklaması Carmen'de: `C:\Users\3225t\Desktop\Carmen\docs\YEDEK-JSON
 | `bot` | sohbet id → `false` ise bot kapalı (yoksa açık: varsayılan) |
 | `botAsk` | sohbet id → karakterin sorduğu sorunun id'si (sonraki mesajın cevap sayılır) |
 | `botEvent` | sohbet id → o anki bot olayı (`'missionary'` vb.) |
+| `myFeasts` | 📅 kendi özel günlerin `[{ id: 'my-…', m, d, icon, look, name, desc }]` |
+| `characters[].mem.feastDay` | en son söz ettiği bayram `'Y-M-D:id'` |
+| `characters[].feel` | 🤝❤️🔥 `{ trust, love, desire }` 0–100 |
+| mesaj `feel`, `st` | değişim çipi metni (`'🤝+2 ❤️+1'`), `st: 1` = durum kartı notu |
+| `botScene` | sohbet id → 🎬 süren sahne `{ id, done, idle }` |
+| `characters[].mem.scenes / eps / ep / epSeen` | 🎬 tamamlanan sahneler (sayı), 📖 biten bölümler (zaman), süren bölüm `{ id, i }`, teklif edilen bölümler |
 
 ## Carmen'den gelince
 - Bilinmeyen alanlar (`monia`, `accounts`, `theme`…) olduğu gibi saklanır; tekrar dışa aktarınca kaybolmaz.

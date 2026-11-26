@@ -527,6 +527,66 @@ body.candle .leaf-b > p:first-child::first-letter { color: var(--gold); }
 .quick::-webkit-scrollbar { display: none; }
 .quick.static { flex-wrap: wrap; border: 0; background: none; padding: 0 0 8px; }
 .qlabel { flex: none; font-size: 1rem; }
+/* 📅 feast days (js/feasts.js): palette comes from FEAST_LOOKS vars on <body>; drifting emojis; home banner */
+.lab-sclog { border-top: 1px dashed var(--line); padding: 6px 0; }
+.lab-sclog .msg { margin: 4px 0; }
+.lab-out .linkish, .home-feast .linkish { background: none; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; text-decoration: underline dotted; }
+#ambient.fe i { background: none; box-shadow: none; width: auto; height: auto; border-radius: 0; font-size: var(--fs); line-height: 1; }
+#ambient.fe.down i { top: -30px; bottom: auto; animation-name: fdown; }
+@keyframes fdown {
+  0% { transform: translate(0, 0) rotate(0); opacity: 0; }
+  10% { opacity: .8; }
+  90% { opacity: .6; }
+  100% { transform: translate(var(--drift), 105vh) rotate(220deg); opacity: 0; }
+}
+body.feast::before {
+  background:
+    repeating-linear-gradient(45deg, color-mix(in srgb, var(--wine) 8%, transparent) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(-45deg, color-mix(in srgb, var(--gold) 10%, transparent) 0 1px, transparent 1px 26px),
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--gold) 18%, transparent), transparent 60%);
+}
+body.feast #nav { box-shadow: 0 -2px 14px color-mix(in srgb, var(--gold) 55%, transparent); }
+.feast-banner {
+  display: flex; align-items: center; gap: 10px; margin: 10px 12px; padding: 12px 14px; cursor: pointer; text-align: center;
+  background: linear-gradient(120deg, var(--wine), var(--wine2)); color: #fbf1d8; border: 2px solid var(--gold); border-radius: 14px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 25%, transparent), var(--shadow); animation: rise .4s ease both;
+}
+.feast-banner div { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.feast-banner small { letter-spacing: .12em; text-transform: uppercase; font-size: .7rem; color: var(--gold); }
+.feast-banner b { font-size: 1.25rem; }
+.feast-banner em { font-size: .85rem; opacity: .9; }
+.fb-orn { font-size: 1.8rem; animation: fbsway 3s ease-in-out infinite; }
+.fb-orn:last-child { animation-delay: -1.5s; }
+@keyframes fbsway { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg) scale(1.08); } }
+@media (prefers-reduced-motion: reduce) { .fb-orn { animation: none; } }
+.feast-row { display: flex; align-items: center; gap: 8px; }
+.feast-sw { display: inline-block; width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--line); vertical-align: middle; }
+.feast-list button.on { background: var(--wine); color: #fbf1d8; }
+/* 🤝❤️🔥 feelings: meters, change chip, 📰 status cards */
+.feelbar { display: flex; gap: 10px; padding: 4px 10px; background: var(--paper); border-top: 1px solid var(--line); font-size: .78rem; }
+.feelbar[hidden] { display: none; }
+.feelbar.top { border-top: 0; border-bottom: 1px solid var(--line); }
+.feelbar.static { border: 0; padding: 0 0 8px; background: none; }
+.fm { flex: 1; display: inline-flex; align-items: center; gap: 4px; min-width: 0; white-space: nowrap; }
+.fm i { flex: 1; height: 6px; border-radius: 3px; background: rgba(0, 0, 0, .12); overflow: hidden; }
+.fm i b { display: block; height: 100%; border-radius: 3px; transition: width .6s ease; }
+.fm-trust i b { background: #2f5d3a; } .fm-love i b { background: #a3243b; } .fm-desire i b { background: #d2691e; }
+.feelchip { display: block; margin-top: 4px; font-size: .72rem; opacity: .75; letter-spacing: .5px; }
+.msg.sys.st span { background: rgba(176, 141, 60, .14); border: 1px dashed var(--gold); border-radius: 10px; padding: 3px 10px; font-style: italic; }
+/* 🎬 scene strip + 🕯️ Dame Mathilde's advice */
+.qscene { flex: none; display: inline-flex; align-items: center; gap: 5px; padding: 4px 4px 4px 10px; font-size: .82rem; white-space: nowrap; background: var(--wine); color: #f8ecd0; border: 1px solid #e2bd5f; border-radius: 14px; }
+.qscene b { color: #e2bd5f; letter-spacing: 1px; }
+.qscene button { background: none; border: 0; color: #f8ecd0; padding: 0 6px; cursor: pointer; }
+.tips { display: flex; gap: 6px; align-items: center; padding: 3px 6px 3px 10px; background: linear-gradient(90deg, rgba(176, 141, 60, .18), var(--paper)); border-top: 1px solid var(--line); font-size: .76rem; line-height: 1.3; }
+.tips[hidden] { display: none; }
+.tips-ava { flex: none; font-size: 1rem; line-height: 1; }
+.tips-body { flex: 1; min-width: 0; }
+.tips-body p { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+.tips.open .tips-body p { white-space: normal; }
+.tips-body .chips { display: flex; flex-wrap: nowrap; gap: 4px; overflow-x: auto; scrollbar-width: none; margin-top: 2px; }
+.tips-body .chips::-webkit-scrollbar { display: none; }
+.tips-body .qchip { padding: 2px 8px; font-size: .74rem; animation: none; }
+.tips-x { flex: none; padding: 2px 4px; font-size: .8rem; }
 .qchip {
   flex: none; display: inline-flex; align-items: center; gap: 4px; padding: 5px 11px; font-size: .85rem; white-space: nowrap;
   background: linear-gradient(var(--paper), rgba(176, 141, 60, .12)); border: 1px solid var(--gold); border-radius: 14px; color: var(--ink);
@@ -605,3 +665,39 @@ body.candle .leaf-b > p:first-child::first-letter { color: var(--gold); }
 .composer .send { font-size: 1.5rem; }
 
 .fxbar[hidden] { display: none; }
+
+/* ================= v0.6: the Herald ================= */
+.news-tabs { display: flex; gap: 8px; justify-content: center; margin: 0 0 12px; }
+.dot-new { background: #a3172b; color: #fff; border-radius: 8px; padding: 0 6px; font-size: .75rem; }
+.news-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.news-item {
+  width: 100%; display: flex; gap: 12px; align-items: flex-start; text-align: left; padding: 12px; background: var(--paper);
+  border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: 4px; box-shadow: var(--shadow); transition: transform .15s;
+}
+.news-item:hover { transform: translateX(3px); }
+.news-item.headline { border-left-color: var(--wine); background: linear-gradient(120deg, var(--paper), rgba(122, 31, 43, .08)); }
+.news-item.small { padding: 8px 12px; margin-top: 6px; box-shadow: none; }
+.news-ic { font-size: 1.8rem; flex: none; line-height: 1; }
+.news-item.small .news-ic { font-size: 1.3rem; }
+.news-t { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.news-t small { color: var(--muted); font-size: .75rem; }
+.news-t b { font-family: var(--gothic); font-weight: normal; font-size: 1.2rem; color: var(--wine); line-height: 1.2; }
+body.candle .news-t b { color: var(--gold); }
+.news-item.small .news-t b { font-family: var(--serif); font-weight: bold; font-size: .9rem; color: var(--ink); }
+.news-t em { color: var(--muted); font-size: .88rem; }
+.new { color: #a3172b; }
+.herald .news-item { margin-bottom: 0; }
+.proclamation h4 { margin: 14px 0 4px; color: var(--wine); }
+body.candle .proclamation h4 { color: var(--gold); }
+.pro-meta { text-align: center; color: var(--muted); font-size: .8rem; margin: 0 0 4px; }
+.pro-sum { font-style: italic; text-align: center; }
+.herald-says { display: flex; gap: 10px; margin-top: 16px; padding: 12px; background: rgba(176, 141, 60, .1); border: 1px dashed var(--gold); border-radius: 4px; }
+.herald-says > span { font-size: 2rem; }
+.herald-says p { margin: 0 0 8px; font-style: italic; }
+.sign { text-align: right; color: var(--muted); font-style: italic; }
+.tid-lady { display: flex; gap: 12px; align-items: center; margin: 10px 0; }
+.tid-lady img { width: 80px; height: 100px; object-fit: cover; border: 2px solid var(--gold); border-radius: 6px 6px 40% 40% / 6px 6px 22% 22%; }
+.tid-lady div { display: flex; flex-direction: column; gap: 2px; }
+.tid-lady small { color: var(--muted); }
+.homeland .bk-kv { margin-top: 6px; font-size: .85rem; }
+.homeland .bk-kv th { width: 28px; }

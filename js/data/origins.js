@@ -116,5 +116,80 @@ Valeria.ORIGINS = {
     food: ['roast lamb with chestnuts', 'agneau rôti aux châtaignes'], drink: ["wine of Olite", "vin d'Olite"], oath: ['Santiago!', 'Santiago !'],
     custom: ['pilgrims to Compostela cross our bridges every day', 'les pèlerins de Compostelle traversent nos ponts chaque jour'], traits: ['Bold', 'Pious', 'Proud'],
     lines: { en: ['Navarre is small, {sen}, but the mountains make it tall.', '*makes the sign of the cross* For the pilgrims on the road tonight.'], fr: ['La Navarre est petite, {sen}, mais les montagnes la grandissent.', '*se signe* Pour les pèlerins sur la route ce soir.'] }
+  },
+  luxembourg: {
+    food: ['smoked pork with broad beans', 'porc fumé aux fèves'], drink: ['white wine of the Moselle', 'vin blanc de Moselle'], oath: ['By Saint Willibrord!', 'Par saint Willibrord !'],
+    custom: ['our house wears the crowns of Germany, Bohemia and Hungary at once, and still counts its debts', 'notre maison porte à la fois les couronnes d’Allemagne, de Bohême et de Hongrie, et compte encore ses dettes'], traits: ['Proud', 'Courtly', 'Learned'],
+    lines: { en: ['Luxembourg is a rock, {sen}, and we are as stubborn as it is.', 'In Brussels the cloth halls are taller than the churches. Nobody minds.'], fr: ['Luxembourg est un rocher, {sen}, et nous sommes aussi têtus que lui.', 'À Bruxelles, les halles aux draps sont plus hautes que les églises. Personne ne s’en plaint.'] }
+  },
+  rhineland: {
+    food: ['sauerbraten and black bread', 'bœuf mariné et pain noir'], drink: ['Rhenish wine', 'vin du Rhin'], oath: ['By the Three Kings of Cologne!', 'Par les Rois mages de Cologne !'],
+    custom: ['every castle on the Rhine takes a toll from every boat', 'chaque château du Rhin prélève un péage sur chaque bateau'], traits: ['Learned', 'Pious', 'Witty'],
+    lines: { en: ['*hums a boatman’s song from the Rhine*', 'In Heidelberg the scholars argue all night. I sometimes win.'], fr: ['*fredonne un chant de bateliers du Rhin*', 'À Heidelberg, les savants se disputent toute la nuit. Il m’arrive de gagner.'] }
+  },
+  savoy: {
+    food: ['Alpine cheese and roasted chestnuts', 'fromage des Alpes et châtaignes grillées'], drink: ['wine of the Aosta valley', "vin du val d'Aoste"], oath: ['By Saint Maurice!', 'Par saint Maurice !'],
+    custom: ['we keep the passes of the Alps, and everyone pays to cross', 'nous gardons les cols des Alpes, et chacun paie pour passer'], traits: ['Cunning', 'Loyal', 'Courtly'],
+    lines: { en: ['From Chambéry to Turin, {sen}, every road crosses a mountain and every mountain is ours.', '*pulls her fur closer* Snow already, on the Great Saint Bernard.'], fr: ['De Chambéry à Turin, {sen}, chaque route franchit une montagne et chaque montagne est à nous.', '*resserre sa fourrure* Déjà la neige, au Grand-Saint-Bernard.'] }
+  },
+  bavaria: {
+    food: ['roast pork and pretzels', 'rôti de porc et bretzels'], drink: ['monastery beer', "bière d'abbaye"], oath: ['Himmelherrgott!', 'Himmelherrgott !'],
+    custom: ['the monks brew better beer than the dukes can drink', 'les moines brassent une meilleure bière que les ducs ne peuvent en boire'], traits: ['Bold', 'Pious', 'Plain speech'],
+    lines: { en: ['*laughs, cheeks red* We Bavarians do everything a little louder.', 'In Nuremberg they build clocks that tell the hour better than the bells.'], fr: ['*rit, les joues rouges* Nous autres Bavarois faisons tout un peu plus fort.', 'À Nuremberg, on construit des horloges qui disent l’heure mieux que les cloches.'] }
+  },
+  saxony: {
+    food: ['Thuringian sausages', 'saucisses de Thuringe'], drink: ['wine of the Elbe valley', "vin de la vallée de l'Elbe"], oath: ['By Saint Boniface!', 'Par saint Boniface !'],
+    custom: ['silver from the Ore Mountains pays for every feast in Meissen', 'l’argent des monts Métallifères paie chaque fête à Meissen'], traits: ['Stern', 'Learned', 'Loyal'],
+    lines: { en: ['A Saxon keeps her word and her accounts, {sen}. Both to the penny.', 'They tell of a minstrels’ contest at the Wartburg. I would have won it.'], fr: ['Une Saxonne tient sa parole et ses comptes, {sen}. Les deux au denier près.', 'On raconte un tournoi de ménestrels à la Wartbourg. Je l’aurais gagné.'] }
+  },
+  austria: {
+    food: ['roast capon and dumplings', 'chapon rôti et quenelles'], drink: ['new wine from the Vienna hills', 'vin nouveau des collines de Vienne'], oath: ['By Saint Coloman!', 'Par saint Coloman !'],
+    custom: ['our dukes call themselves archdukes, and keep a charter with five seals to prove it', 'nos ducs se disent archiducs, et gardent une charte à cinq sceaux pour le prouver'], traits: ['Courtly', 'Cunning', 'Proud'],
+    lines: { en: ['*smiles* Let others fight, {sen}. We prefer to marry.', 'The Danube at Vienna is wider than any quarrel.'], fr: ['*sourit* Que d’autres fassent la guerre, {sen}. Nous préférons nous marier.', 'Le Danube à Vienne est plus large que toutes les querelles.'] }
+  },
+  bohemia: {
+    food: ['roast goose with dumplings', 'oie rôtie et quenelles'], drink: ['beer of Pilsen', 'bière de Pilsen'], oath: ['By Saint Wenceslas!', 'Par saint Venceslas !'],
+    custom: ['the silver of Kutná Hora pays for the stone bridge of Prague', 'l’argent de Kutná Hora paie le pont de pierre de Prague'], traits: ['Rebellious', 'Learned', 'Passionate'],
+    lines: { en: ['*says something in Czech, softly* It sounds like water over stones, no?', 'Prague has a hundred spires, {sen}, and a secret under every one.'], fr: ['*dit quelque chose en tchèque, doucement* On dirait de l’eau sur des pierres, non ?', 'Prague a cent clochers, {sen}, et un secret sous chacun.'] }
+  },
+  hungary: {
+    food: ['goulash of the herdsmen', 'goulash des bouviers'], drink: ['wine of Syrmia, the wine of kings', 'vin de Syrmie, vin des rois'], oath: ['By Saint Stephen!', 'Par saint Étienne !'],
+    custom: ['a Hungarian learns to ride before she learns to walk', 'une Hongroise apprend à monter à cheval avant de marcher'], traits: ['Bold', 'Proud', 'Passionate'],
+    lines: { en: ['*laughs* On the puszta, {sen}, the sky is so big you can hear it.', 'At Visegrád the fountains run with wine on feast days. Truly.'], fr: ['*rit* Dans la puszta, {sen}, le ciel est si grand qu’on l’entend.', 'À Visegrád, les fontaines coulent de vin les jours de fête. Vraiment.'] }
+  },
+  poland: {
+    food: ['pierogi and hunter’s stew', 'pierogi et ragoût du chasseur'], drink: ['honey mead', 'hydromel'], oath: ['By Saint Stanislaus!', 'Par saint Stanislas !'],
+    custom: ['a queen of Poland is crowned a king, so nobody may question her', "une reine de Pologne est couronnée roi, pour que nul ne puisse la contester"], traits: ['Proud', 'Pious', 'Bold'],
+    lines: { en: ['In Kraków the trumpeter plays from the tower every hour, and stops mid-note. Ask me why.', '*raises a cup of mead* To your health, {sen}! In Poland we never toast just once.'], fr: ['À Cracovie, le trompette joue du haut de la tour chaque heure, et s’arrête au milieu d’une note. Demandez-moi pourquoi.', '*lève une coupe d’hydromel* À votre santé, {sen} ! En Pologne, on ne trinque jamais qu’une seule fois.'] }
+  },
+  prussia: {
+    food: ['smoked eel from the lagoon', 'anguille fumée de la lagune'], drink: ['Danzig Jopen beer', 'bière Jopen de Dantzig'], oath: ['By the Virgin of Marienburg!', 'Par la Vierge de Marienbourg !'],
+    custom: ['the knights pray seven times a day and count amber in between', 'les chevaliers prient sept fois par jour et comptent l’ambre entre-temps'], traits: ['Stern', 'Pious', 'Loyal'],
+    lines: { en: ['*turns a bead of amber in her fingers* The sea gives it after every storm.', 'Marienburg has more bricks than Paris has stones, {sen}.'], fr: ['*fait tourner une perle d’ambre entre ses doigts* La mer la donne après chaque tempête.', 'Marienbourg a plus de briques que Paris n’a de pierres, {sen}.'] }
+  },
+  holland: {
+    food: ['herring and cheese of Gouda', 'hareng et fromage de Gouda'], drink: ['beer of Haarlem', 'bière de Haarlem'], oath: ['By Saint Jerome of Noordwijk!', 'Par saint Jérôme de Noordwijk !'],
+    custom: ['the Hooks and the Cods have quarrelled for sixty years, and nobody remembers why', 'les Hameçons et les Cabillauds se querellent depuis soixante ans, et nul ne sait plus pourquoi'], traits: ['Plain speech', 'Stern', 'Witty'],
+    lines: { en: ['In Holland we argue with the sea every winter, {sen}. Princes do not frighten us.', '*smells faintly of peat smoke and salt*'], fr: ['En Hollande, nous nous disputons avec la mer chaque hiver, {sen}. Les princes ne nous font pas peur.', '*sent légèrement la tourbe et le sel*'] }
+  },
+  brunswick: {
+    food: ['Westphalian ham and rye bread', 'jambon de Westphalie et pain de seigle'], drink: ['Brunswick mumme beer', 'bière mumme de Brunswick'], oath: ['By Saint Blaise!', 'Par saint Blaise !'],
+    custom: ['salt from Lüneburg pays for half the churches of the north', 'le sel de Lunebourg paie la moitié des églises du Nord'], traits: ['Proud', 'Loyal', 'Plain speech'],
+    lines: { en: ['Our lion has stood in Brunswick for two hundred years. He has seen many suitors leave.', 'In Bremen the merchants have a stone Roland to guard their freedoms. I have my own guardians.'], fr: ['Notre lion se dresse à Brunswick depuis deux cents ans. Il a vu partir bien des prétendants.', 'À Brême, les marchands ont un Roland de pierre pour garder leurs libertés. J’ai mes propres gardiens.'] }
+  },
+  mecklenburg: {
+    food: ['smoked fish of the Baltic', 'poisson fumé de la Baltique'], drink: ['beer of Wismar', 'bière de Wismar'], oath: ['By the Holy Blood of Wilsnack!', 'Par le Saint-Sang de Wilsnack !'],
+    custom: ['the Diet of the Hanse meets in Lübeck, and kings wait at its door', 'la diète de la Hanse se réunit à Lübeck, et les rois attendent à sa porte'], traits: ['Cunning', 'Bold', 'Learned'],
+    lines: { en: ['In Lübeck a merchant’s word is worth more than a duke’s seal. I have both.', '*counts on her fingers* Herring, salt, furs, amber… everything passes through Lübeck, {sen}.'], fr: ['À Lübeck, la parole d’un marchand vaut plus que le sceau d’un duc. J’ai les deux.', '*compte sur ses doigts* Hareng, sel, fourrures, ambre… tout passe par Lübeck, {sen}.'] }
+  },
+  brandenburg: {
+    food: ['carp from the Havel and turnips', 'carpe de la Havel et navets'], drink: ['beer of Bernau', 'bière de Bernau'], oath: ['By Saint Otto of Pomerania!', 'Par saint Otton de Poméranie !'],
+    custom: ['this very year the Emperor gave the March to a Hohenzollern, and the robber knights are not pleased', 'cette année même, l’Empereur a donné la Marche à un Hohenzollern, et les chevaliers brigands ne sont pas contents'], traits: ['Stern', 'Rebellious', 'Bold'],
+    lines: { en: ['Sand, pines and lakes, {sen}. Brandenburg is poor, but it is proud.', 'The new margrave brought cannon to knock down the Quitzows’ castles. I watched from the walls.'], fr: ['Du sable, des pins et des lacs, {sen}. Le Brandebourg est pauvre, mais il est fier.', 'Le nouveau margrave a amené des canons pour abattre les châteaux des Quitzow. J’ai regardé du haut des remparts.'] }
+  },
+  denmark: {
+    food: ['herring of the Sound and rye porridge', 'hareng du Sund et bouillie de seigle'], drink: ['mead and Rostock beer', 'hydromel et bière de Rostock'], oath: ['By Saint Knud!', 'Par saint Knud !'],
+    custom: ['one king wears three crowns, and the queen is an English princess', 'un seul roi porte trois couronnes, et la reine est une princesse anglaise'], traits: ['Bold', 'Proud', 'Loyal'],
+    lines: { en: ['Every ship that enters the Baltic passes under our eyes, {sen}. Every one.', '*draws her fur closer* The Sound froze last winter. We walked to Scania.'], fr: ['Chaque navire qui entre dans la Baltique passe sous nos yeux, {sen}. Chacun.', '*resserre sa fourrure* Le Sund a gelé l’hiver dernier. Nous sommes allés à pied en Scanie.'] }
   }
 };

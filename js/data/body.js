@@ -237,7 +237,7 @@ window.Valeria = window.Valeria || {};
 
   // ---------- 🧠 memory lines ({event} {n} {days} {date} {was} {now}) ----------
   V.MEMORY = {
-    first: { en: ['Our first {event}… I will remember this.', '*quietly* The first {event}. Write it in your book of hours.'], fr: ['Notre premier moment — {event}… je m’en souviendrai.', "*doucement* La première fois : {event}. Écrivez-le dans votre livre d'heures."] },
+    first: { en: ['Our first time: {event}. I will remember this.', '*quietly* The first time: {event}. Write it in your book of hours.'], fr: ['Notre premier moment — {event}… je m’en souviendrai.', "*doucement* La première fois : {event}. Écrivez-le dans votre livre d'heures."] },
     often: { en: ['{event} again? You never tire of it. 😏', 'That makes {n} times, {sen}. I keep count.'], fr: ['{event}, encore ? Vous ne vous en lassez pas. 😏', 'Cela fait {n} fois, {sen}. Je compte.'] },
     away: { en: ['{days} days without a letter, {sen}. I was beginning to worry.', 'You vanished for {days} days. Explain yourself.'], fr: ['{days} jours sans lettre, {sen}. Je commençais à m’inquiéter.', 'Vous avez disparu {days} jours. Expliquez-vous.'] },
     remember: { en: ['I remember our first {event}, on {date}.', 'How could I forget? Our first {event}, {date}…'], fr: ['Je me souviens de notre premier moment — {event} — le {date}.', 'Comment oublier ? {event}, la première fois, le {date}…'] },

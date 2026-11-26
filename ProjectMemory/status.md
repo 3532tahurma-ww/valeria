@@ -1,6 +1,22 @@
-﻿# Durum
+# Durum
 
 ## Bitti
+### v0.12.0
+- 🪕 Canlı üretilen lavta müziği (6 özgün parça, çevrimdışı), ayarlarda Minstrels / Lute / Off, ferman.
+### v0.11.0
+- 📅 Sabit yıl 1415 + içerik tutarlılığı; ⚓ Kuzey Almanya, Hollanda ve Danimarka (37 bölge).
+### v0.10.1
+- 🦁 Orta Avrupa 2. aşama: 8 aziz günü + 4 tasarım, bölgeye özel diyar haberleri (`TIDINGS.home`), ferman.
+### v0.10.0
+- 🦅 Orta Avrupa 1. aşama: 10 yeni bölge (32), 5 realm, 8 hane, 4 isim havuzu, köken + yöre sesi, ferman.
+### v0.9.0
+- 📅 Aziz günleri / bayramlar + günün tasarımı, 🎉 bayram deneyi, kendi özel günler, Calendar of Saints, ferman.
+### v0.8.0
+- 🤝❤️🔥 Duygular, 📰 durum kartları + değişim çipi, Book of the Heart, ferman; Mathilde paneli küçüldü.
+### v0.7.0
+- 🎬 Sahneler, 📖 bölümler, 🕯️ Dame Mathilde öneri çubuğu, Book of Scenes, ferman.
+### v0.6.0
+- Yöre sesi ve tepkileri, Haberci (fermanlar + diyar haberleri), kitaplar güncellendi.
 ### v0.5.0
 - 🎭 Olaylar listesi, 🧠 hafıza, 📏 beden özellikleri + bağlı olaylar/sorular/onun soruları.
 ### v0.4.0

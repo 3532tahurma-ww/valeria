@@ -28,7 +28,99 @@ Valeria.Library = (() => {
     const fxName = id => id ? `${V.FX.ICON[id] || ''} ${esc(UI.t('fx.' + id))}` : '';
     const CAT = { courtship: T('💐 Courtship', '💐 Galanterie'), tender: T('🫂 Tenderness', '🫂 Tendresse'), intimacy: T('🔥 Intimacy', '🔥 Intimité'), command: T('🗣️ Commands', '🗣️ Ordres') };
 
+    const evN = id => { const e = V.EVENTS.events.find(x => x.id === id); return e ? `${e.icon} ${esc(e.name[L])}` : esc(id); };
     return {
+      // 📅 feast days (js/data/feasts.js, engine js/feasts.js)
+      calendar() {
+        const F = V.Feasts, y = new Date().getFullYear(), dt = d => d.toLocaleDateString(L, { day: 'numeric', month: 'long' });
+        const cur = F.current(), nx = F.next(), LK = V.FEAST_LOOKS;
+        const MONTHS = [[1, 3], [4, 6], [7, 9], [10, 12]];
+        const mName = m => new Date(y, m - 1, 1).toLocaleDateString(L, { month: 'long' });
+        const row = x => `<tr${cur && cur.id === x.f.id ? ' class="on"' : ''}><td>${dt(x.date)}</td><td>${x.f.icon} <b>${esc(x.f.name[L])}</b><br><small>${esc(x.f.desc[L])}</small></td><td>${LK[x.f.look] ? LK[x.f.look].banner : ''} ${(F.look(x.f).fall || F.look(x.f).rise || []).join('')}</td></tr>`;
+        return [
+          { title: T('Feast days', 'Les jours de fête'), html: `
+            <p>${T('The year of Valeria is the year of the Church and of the countryside: saints’ days, the great feasts, and the old festivals of fire, May and harvest.', 'L’année de Valeria est celle de l’Église et des campagnes : jours des saints, grandes fêtes, et vieilles fêtes du feu, de mai et des moissons.')}</p>
+            <p>${T('<b>On a feast day the whole app dresses up</b>: new colours, snowflakes, petals, candles or shamrocks drifting across the screen instead of the dust, a banner on the Home page, and a burst of the feast’s effect the first time you open Valeria that day.', '<b>Un jour de fête, toute l’application se pare</b> : nouvelles couleurs, flocons, pétales, chandelles ou trèfles qui dérivent à l’écran au lieu de la poussière, une bannière sur l’Accueil, et l’effet de la fête la première fois que vous ouvrez Valeria ce jour-là.')}</p>
+            <p>${T('<b>She speaks of it</b> in her first answer of the day; if it is the saint of her own land, she is prouder still. Dame Mathilde reminds you to wish her a happy feast.', '<b>Elle en parle</b> dans sa première réponse du jour ; si c’est le saint de sa propre terre, elle en est plus fière encore. Dame Mathilde vous rappelle de lui souhaiter bonne fête.')}</p>
+            <p>${T('In the <b>🧪 Laboratory → 🎉 Feast day lab</b> you can celebrate any feast now, switch the designs off, and add your own special days.', 'Dans le <b>🧪 Laboratoire → 🎉 Labo des jours de fête</b>, vous pouvez fêter n’importe quelle fête maintenant, couper les décors et ajouter vos propres jours de fête.')}</p>
+            <p>📅 ${cur ? `${T('Today', 'Aujourd’hui')}: ${cur.icon} <b>${esc(cur.name[L])}</b>` : `${T('Next', 'Prochaine')}: ${nx.f.icon} <b>${esc(nx.f.name[L])}</b>, ${dt(nx.date)}`}</p>` },
+          ...MONTHS.map(([a, b2]) => ({ title: `🗓️ ${mName(a)} – ${mName(b2)}`, html: table([T('Date', 'Date'), T('Feast', 'Fête'), T('Design', 'Décor')], F.year(y).filter(x => x.date.getMonth() + 1 >= a && x.date.getMonth() + 1 <= b2).map(row)) })),
+          { title: T('✝ Movable feasts', '✝ Les fêtes mobiles'), html: `
+            <p>${T('Some feasts follow Easter, which moves every year with the moon. This year Easter falls on', 'Certaines fêtes suivent Pâques, qui change chaque année avec la lune. Cette année, Pâques tombe le')} <b>${dt(F.easter(y))}</b>${T(', next year on', ', l’an prochain le')} ${dt(F.easter(y + 1))}.</p>
+            ${table([T('Feast', 'Fête'), T('Easter', 'Pâques'), y, y + 1], (V.FEASTS || []).filter(f => f.e != null).map(f => `<tr><td>${f.icon} ${esc(f.name[L])}</td><td>${f.e > 0 ? '+' : ''}${f.e}</td><td>${dt(F.dateOf(f, y))}</td><td>${dt(F.dateOf(f, y + 1))}</td></tr>`))}` },
+          { title: T('🎨 The designs', '🎨 Les décors'), html: table([T('Design', 'Décor'), T('Colours', 'Couleurs'), T('Drifting', 'Dérive'), T('Effect', 'Effet'), T('Feasts', 'Fêtes')],
+            Object.keys(LK).map(k => `<tr><td>${LK[k].banner} ${k}</td><td>${Object.values(LK[k].vars || {}).map(v => `<span class="feast-sw" style="background:${esc(v)}"></span>`).join('')}</td><td>${(LK[k].fall || LK[k].rise || []).join(' ')} ${LK[k].fall ? '⬇️' : '⬆️'}</td><td>${fxName(LK[k].fx)}</td><td><small>${F.all().filter(f => f.look === k).map(f => f.icon + ' ' + esc(f.name[L])).join(', ')}</small></td></tr>`)) },
+          { title: T('🏠 Saints of the lands', '🏠 Les saints des terres'), html: `<p>${T('On these days, a lady from the land speaks of her own saint with pride.', 'Ces jours-là, une dame de la terre parle avec fierté de son propre saint.')}</p>` +
+            table([T('Feast', 'Fête'), T('Their own saint in', 'Leur saint en')], (V.FEASTS || []).filter(f => f.home).map(f => `<tr><td>${f.icon} ${esc(f.name[L])}</td><td>${f.home.map(o => o.startsWith('realm:') ? (V.REALMS[o.slice(6)] || { name: {} }).name[L] : ((V.REGIONS.find(r => r.id === o) || { name: {} }).name[L])).map(esc).join(', ')}</td></tr>`)) },
+          { title: T('💝 Your own days', '💝 Vos propres jours'), html: (UI.S().myFeasts || []).length
+            ? table([T('Date', 'Date'), T('Day', 'Jour'), T('Design', 'Décor')], UI.S().myFeasts.map(f => ({ f, date: F.dateOf(f, y) })).map(row))
+            : `<p>${T('None yet. Add a birthday, the day you met or any day dear to you in the 🎉 Feast day lab.', 'Aucun pour l’instant. Ajoutez un anniversaire, le jour de votre rencontre ou tout jour qui vous est cher dans le 🎉 Labo des jours de fête.')}</p>` }
+        ];
+      },
+
+      // 🤝❤️🔥 feelings and 📰 status cards (js/data/feelings.js, engine js/feel.js)
+      feelings() {
+        const F = V.FEELINGS, fn = k => { const m = F.find(x => x.id === k); return `${m.icon} ${esc(m.name[L])}`; };
+        const dl = o => Object.keys(o || {}).filter(k => o[k]).map(k => `${F.find(x => x.id === k).icon}${o[k] > 0 ? '+' : ''}${o[k]}`).join(' ');
+        const sayRow = (k, when) => `<tr><td>${when}</td><td>${V.FEEL_SAY[k][L].map(s => { const [e, l] = s.split('|'); return `${e} <i>“${esc(l.replace(/\{sen\}/g, '…'))}”</i>`; }).join('<br>')}</td></tr>`;
+        const ev = V.EVENTS.events.filter(e => e.kind !== 'cmd' || V.FEEL_EV[e.id]);
+        return [
+          { title: T('Her heart', 'Son cœur'), html: `
+            <p>${T('Every character carries three feelings for you, from 0 to 100:', 'Chaque personnage porte trois sentiments pour vous, de 0 à 100 :')} ${fn('trust')}, ${fn('love')}, ${fn('desire')}. ${T('They are shown above the letter in bot mode and on her profile.', 'Ils sont affichés au-dessus de la lettre en mode bot et sur son profil.')}</p>
+            <p>${T('Each letter you send changes them. Under her first answer, a small line such as <code>🤝+2 ❤️+1</code> tells you exactly what your letter did to her heart. Courtship and tenderness build trust and love; intimacy builds desire, and the climax releases it.',
+              'Chaque lettre envoyée les modifie. Sous sa première réponse, une petite ligne comme <code>🤝+2 ❤️+1</code> vous dit exactement ce que votre lettre a fait à son cœur. La cour et la tendresse bâtissent la confiance et l’amour ; l’intimité nourrit le désir, et l’extase le libère.')}</p>
+            <p>${T('Doing the same thing again within three letters touches her only half as much. What her homeland loves raises her love; what it frowns upon lowers her trust. Completing scenes and episodes, answering her questions all count; a silence of two days or more cools her love a little.',
+              'Refaire la même chose dans les trois lettres ne la touche qu’à moitié. Ce que sa terre aime fait monter son amour ; ce qu’elle désapprouve fait baisser sa confiance. Accomplir des scènes et des épisodes, répondre à ses questions, tout compte ; un silence de deux jours ou plus refroidit un peu son amour.')}</p>
+            <p>${T('Her temper matters: a Romantic lady’s love grows faster, a Passionate one burns quicker, a Proud one is slow to trust.', 'Son caractère compte : l’amour d’une Romantique grandit plus vite, une Passionnée s’embrase plus tôt, une Fière tarde à faire confiance.')}</p>
+            ${table([T('Temper', 'Caractère'), T('Starts with', 'Commence avec'), T('Grows', 'Croît')], Object.keys(V.FEEL_MUL).map(tr => `<tr><td>${esc(UI.traitLabel(tr))}</td><td>${dl(V.FEEL_INIT.traits[tr])}</td><td>${Object.keys(V.FEEL_MUL[tr]).map(k => `${F.find(x => x.id === k).icon}×${V.FEEL_MUL[tr][k]}`).join(' ')}</td></tr>`))}` },
+          { title: T('📰 Status cards', '📰 Cartes d’humeur'), html: `
+            <p>${T('When a feeling crosses a threshold, a card appears in the letter, in her own words: <i>🤝 Trust 48 → 52 · “I think I can trust you.”</i> Trust and love cross at', 'Quand un sentiment franchit un seuil, une carte apparaît dans la lettre, avec ses propres mots : <i>🤝 Confiance 48 → 52 · « Je crois que je peux vous faire confiance. »</i> La confiance et l’amour franchissent')} ${V.FEEL_STEPS.join(' / ')} (${T('up or down', 'en montant ou en descendant')}), ${T('desire at', 'le désir à')} ${V.DESIRE_STEPS.join(' / ')}. ${T('At most two cards per letter.', 'Deux cartes au plus par lettre.')}</p>
+            <p>${T('<b>⋮ → 📰 Status cards</b> switches between Off, Cards, and Cards + changes (the default, with the change line under her answers).', '<b>⋮ → 📰 Cartes d’humeur</b> passe de Aucune à Cartes, puis Cartes + changements (par défaut, avec la ligne de changement sous ses réponses).')}</p>
+            ${table([T('When', 'Quand'), T('She says', 'Elle dit')], [
+              sayRow('trustUp', `🤝 ${T('trust rises', 'la confiance monte')}`), sayRow('trustDn', `🤝 ${T('trust falls', 'la confiance baisse')}`),
+              sayRow('loveUp', `❤️ ${T('love rises', 'l’amour monte')}`), sayRow('loveDn', `❤️ ${T('love falls', 'l’amour baisse')}`),
+              sayRow('desireUp50', '🔥 50'), sayRow('desireUp80', '🔥 80'), sayRow('tooSoon', `😟 ${T('too soon', 'trop tôt')}`), sayRow('fin', `✨ ${T('after the climax', 'après l’extase')}`)])}` },
+          { title: T('😟 Too soon', '😟 Trop tôt'), html: `
+            <p>${T('Some acts need her trust (or love) first. Below it she lets it happen but hesitates: a “too soon” card, and her trust falls. Dame Mathilde warns you.', 'Certains actes demandent d’abord sa confiance (ou son amour). En dessous, elle se laisse faire mais hésite : une carte « trop tôt », et sa confiance baisse. Dame Mathilde vous prévient.')}</p>
+            ${table([T('Act', 'Acte'), T('Needs', 'Demande')], V.EVENTS.events.filter(e => e.kind === 'act' && V.Feel.needOf(e)).map(e => `<tr><td>${e.icon} ${esc(e.name[L])}</td><td>${Object.keys(V.Feel.needOf(e)).map(k => `${fn(k)} ${V.Feel.needOf(e)[k]}`).join(', ')}</td></tr>`))}` },
+          { title: T('What each letter does', 'Ce que fait chaque lettre'), html: table([T('Event', 'Événement'), T('Change', 'Changement')],
+            ev.map(e => `<tr><td>${e.icon} ${esc(e.name[L])}</td><td>${dl(V.Feel.of(e.id))}</td></tr>`)) +
+            `<p><small>${T('Also', 'Aussi')}: ${T('scene completed', 'scène accomplie')} ${dl(V.FEEL_MORE.sceneEnd)} · ${T('episode', 'épisode')} ${dl(V.FEEL_MORE.epEnd)} · ${T('scene broken', 'scène brisée')} ${dl(V.FEEL_MORE.sceneFail)} · ${T('answer', 'réponse')} ${dl(V.FEEL_MORE.answer)} · ${T('her land loves it', 'sa terre aime')} ${dl(V.FEEL_MORE.like)} · ${T('frowns upon it', 'désapprouve')} ${dl(V.FEEL_MORE.dislike)} · ${T('2+ days of silence', '2 jours de silence ou plus')} ${dl(V.FEEL_MORE.away)}</small></p>` }
+        ];
+      },
+
+      // 🎬 scenes and 📖 episodes (js/data/scenes.js, engine js/scenes.js)
+      scenes() {
+        const SC = V.SCENES || [], EP = V.EPISODES || [], scN = id => { const s = SC.find(x => x.id === id); return s ? `${s.icon} ${esc(s.name[L])}` : esc(id); };
+        const N = V.SCENE_NOTES;
+        return [
+          { title: T('How scenes work', 'Comment fonctionnent les scènes'), html: `
+            <p>${T('A scene turns a single moment into a little story of several letters. One event <b>opens</b> it (a dance, a bath, the silk ribbon…); a note appears in the letter and a red strip above the ⚡ bar shows the scene and its progress ●●○.',
+              'Une scène transforme un simple moment en une petite histoire de plusieurs lettres. Un événement l’<b>ouvre</b> (une danse, un bain, le ruban de soie…) ; une note apparaît dans la lettre et une bande rouge au-dessus de la barre ⚡ montre la scène et sa progression ●●○.')}</p>
+            <p>${T('Then come the <b>steps</b>. <i>Free</i> scenes need a number of them in any order; <i>in order</i> scenes need every step, one after the other. The ⚡ bar and Dame Mathilde always put the steps left first. When the steps are done, the <b>finish</b> (🏁, usually the climax) completes the scene; scenes without a finish complete at once.',
+              'Viennent ensuite les <b>étapes</b>. Les scènes <i>libres</i> en demandent un certain nombre, dans n’importe quel ordre ; les scènes <i>dans l’ordre</i> demandent chaque étape, l’une après l’autre. La barre ⚡ et Dame Mathilde proposent toujours d’abord les étapes restantes. Quand elles sont faites, la <b>fin</b> (🏁, souvent l’extase) accomplit la scène ; les scènes sans fin s’accomplissent aussitôt.')}</p>
+            <p>${T('A finish too early ends the scene without completing it, “stop” ends it, ✕ on the strip too, and too many other acts break it (“the moment has passed”). Talk and questions never break a scene. Steps she cannot do (her gender or figure) are skipped, and a scene without enough steps for her never opens.',
+              'Une fin trop précoce termine la scène sans l’accomplir, « arrêtez » la termine, le ✕ de la bande aussi, et trop d’autres actes la brisent (« le moment est passé »). La conversation et les questions ne brisent jamais une scène. Les étapes qu’elle ne peut faire (son genre ou sa silhouette) sont sautées, et une scène sans assez d’étapes pour elle ne s’ouvre pas.')}</p>
+            <p>${T('A completed scene is kept in her 🧠 memory (on her profile) and counts for the episodes. When your letter means nothing to her, she sometimes offers a scene herself.',
+              'Une scène accomplie reste dans sa 🧠 mémoire (sur son profil) et compte pour les épisodes. Quand votre lettre ne lui dit rien, elle propose parfois elle-même une scène.')}</p>
+            <p>${T('Try any scene without writing a real letter in <b>🧪 Laboratory → 🎬 Scene lab</b>: her real memory is not touched.', 'Essayez n’importe quelle scène sans écrire de vraie lettre dans <b>🧪 Laboratoire → 🎬 Labo des scènes</b> : sa vraie mémoire n’est pas touchée.')}</p>
+            <p><small>${T('Notes in the letter', 'Notes dans la lettre')}: <i>${esc(N.open[L])}</i> · <i>${esc(N.ready[L])}</i> · <i>${esc(N.end[L])}</i></small></p>` },
+          { title: T('🎬 All the scenes', '🎬 Toutes les scènes'), html: table([T('Scene', 'Scène'), T('Opens with', 'S’ouvre par'), T('Steps', 'Étapes'), T('Finish', 'Fin')],
+            SC.map(s => `<tr><td>${s.icon} <b>${esc(s.name[L])}</b><br><small>${esc(s.desc[L])}</small></td><td>${evN(s.open)}</td><td><small>${s.mode === 'seq' ? T('in order', 'dans l’ordre') + ': ' : `${s.need} ${T('of', 'parmi')}: `}${s.steps.map(evN).join(s.mode === 'seq' ? ' → ' : ', ')}</small></td><td>${s.fin ? evN(s.fin) : '—'}</td></tr>`)) },
+          { title: T('📖 Episodes', '📖 Les épisodes'), html: `
+            <p>${T('An episode chains several scenes in order, over one evening or many days. Finishing its first scene starts it (📖 note); each next scene moves it on, and the last one ends it with fireworks. Her memory keeps the episode in progress, so you can come back days later: she reminds you of the next scene.',
+              'Un épisode enchaîne plusieurs scènes dans l’ordre, sur une soirée ou plusieurs jours. Accomplir sa première scène le commence (note 📖) ; chaque scène suivante le fait avancer, et la dernière le termine en feu d’artifice. Sa mémoire garde l’épisode en cours : vous pouvez revenir des jours plus tard, elle vous rappelle la scène suivante.')}</p>
+            <p>${T('Episodes open by <b>rank</b>: the more different scenes you have completed with her, the further you go. Some also need another episode first.', 'Les épisodes s’ouvrent par <b>rang</b> : plus vous avez accompli de scènes différentes avec elle, plus vous allez loin. Certains demandent aussi un autre épisode avant.')}</p>
+            ${table([T('Rank', 'Rang'), T('Scenes completed', 'Scènes accomplies')], (V.EP_TIERS || []).map(x => `<tr><td>${x.icon} ${esc(x.name[L])}</td><td>${x.need}</td></tr>`))}` },
+          { title: T('📖 All the episodes', '📖 Tous les épisodes'), html: table([T('Episode', 'Épisode'), T('Scenes', 'Scènes'), T('Rank', 'Rang')],
+            EP.map(e => { const tr = (V.EP_TIERS || []).find(x => x.n === e.tier); return `<tr><td>${e.icon} <b>${esc(e.name[L])}</b><br><small>${esc(e.desc[L])}</small><br><small><i>“${esc(e.ask[L][0])}”</i></small></td><td><small>${e.scenes.map(scN).join(' → ')}</small></td><td>${tr ? `${tr.icon} ${esc(tr.name[L])}` : ''}${(e.after || []).length ? `<br><small>${T('after', 'après')}: ${e.after.map(id => { const a = EP.find(x => x.id === id); return a ? esc(a.name[L]) : id; }).join(', ')}</small>` : ''}</td></tr>`; })) },
+          { title: T('🕯️ Dame Mathilde', '🕯️ Dame Mathilde'), html: `
+            <p>${T('Above the ⚡ bar, Dame Mathilde, the old confidante, whispers advice after each answer, like Lia in Carmen: answer her question first; the steps of the scene in progress; a greeting for a first letter; tenderness after the climax; the next scene of the episode; what follows the act in progress; and when nothing is happening, an episode she dreams of or a scene you have never played. Tap a chip to put it in your letter.',
+              'Au-dessus de la barre ⚡, Dame Mathilde, la vieille confidente, souffle un conseil après chaque réponse, comme Lia dans Carmen : répondez d’abord à sa question ; les étapes de la scène en cours ; un salut pour une première lettre ; de la tendresse après l’extase ; la scène suivante de l’épisode ; la suite de l’acte en cours ; et quand rien ne se passe, un épisode dont elle rêve ou une scène jamais jouée. Touchez une puce pour la mettre dans votre lettre.')}</p>
+            <p>${T('✕ hides her; <b>⋮ → 🕯️ Dame Mathilde</b> brings her back.', '✕ la cache ; <b>⋮ → 🕯️ Dame Mathilde</b> la fait revenir.')}</p>` }
+        ];
+      },
+
       events() {
         const evs = V.EVENTS.events.filter(e => e.cat !== 'question');
         const intro = { title: T('How events work', 'Comment fonctionnent les événements'), html: `
@@ -84,6 +176,13 @@ Valeria.Library = (() => {
               'Sinon, au choix : <b>sa propre question</b> (3 fois sur 10), l’<b>écho</b> du mot le plus long que vous avez écrit (« Fauconnerie ? Parlez-m’en… »), une phrase sur <b>sa terre natale</b>, ou une réponse générale marquée par son caractère.')}</li></ol>` },
           { title: T('Topics she follows', 'Les sujets qu’elle suit'), html: table([T('Topic', 'Sujet'), T('Words', 'Mots'), T('Example', 'Exemple')],
             (V.TOPICS || []).map(tp => `<tr><td>${tp.icon} <b>${esc(tp.name[L])}</b></td><td>${trig(tp)}</td><td><small>${sample(tp.reply[L])}</small></td></tr>`)) },
+          { title: T('🌍 The voice of her land', 'La voix de sa terre'), html: `
+            <p>${T('Her homeland colours what she says:', 'Sa terre natale colore ce qu’elle dit :')}</p>
+            <ul><li>${T('She greets and says farewell in her own tongue (<i>Fàilte</i>, <i>Demat</i>, <i>Kaixo</i>… <i>Kenavo</i>, <i>Slán</i>, <i>Agur</i>) and calls you by a word of home (<i>cariad</i>, <i>a stór</i>, <i>mon còr</i>…).', 'Elle salue et dit adieu dans sa langue (<i>Fàilte</i>, <i>Demat</i>, <i>Kaixo</i>… <i>Kenavo</i>, <i>Slán</i>, <i>Agur</i>) et vous appelle d’un mot de chez elle (<i>cariad</i>, <i>a stór</i>, <i>mon còr</i>…).')}</li>
+            <li>${T('At strong moments (climax, jealousy, a spank, war, an apology) she may swear by her saints.', 'Aux moments forts (extase, jalousie, fessée, guerre, excuses), elle peut jurer par ses saints.')}</li>
+            <li>${T('Every land <b>loves</b> some things and <b>frowns upon</b> others (see each land in the <i>Book of Realms</i>): she says so when you do them.', 'Chaque terre <b>aime</b> certaines choses et en <b>désapprouve</b> d’autres (voir chaque terre dans le <i>Livre des royaumes</i>) : elle le dit quand vous les faites.')}<br>${((V.REGIONAL || {}).like || {})[L] ? V.REGIONAL.like[L].concat(V.REGIONAL.dislike[L]).map(s => `<i>“${esc(s)}”</i>`).join('<br>') : ''}</li>
+            <li>${T('When she has nothing to answer, she may speak of home or quote a saying of her land.', 'Quand elle n’a rien à répondre, elle peut parler de chez elle ou citer un dicton de sa terre.')}<br>${(((V.REGIONAL || {}).talk || {})[L] || []).concat(((V.REGIONAL || {}).proverb || {})[L] || []).map(s => `<i>“${esc(s)}”</i>`).join('<br>')}</li>
+            <li>${T('Ask her about her patron saint, a feast at home, a song of her land, a saying or her tongue (<i>Book of Questions</i>); she may ask you to visit her land or taste its food (<i>Her Questions</i>).', 'Demandez-lui son saint patron, une fête de chez elle, un chant de sa terre, un dicton ou sa langue (<i>Livre des questions</i>) ; elle peut vous inviter chez elle ou vous faire goûter sa cuisine (<i>Ses questions</i>).')}</li></ul>` },
           { title: T('Echo and silence', 'Écho et silence'), html: `
             <p>${T('Echo lines', 'Phrases d’écho')}: ${(V.ECHO[L] || []).map(s => `<i>“${esc(s)}”</i>`).join(' · ')}</p>
             <p>${T('During an act', 'Pendant un acte')}: ${(V.DURING[L] || []).map(s => `<i>“${esc(s)}”</i>`).join(' · ')}</p>
@@ -136,6 +235,11 @@ Valeria.Library = (() => {
                 ${kv(T('Houses', 'Maisons'), esc(r.houses.map(UI.houseLabel).join(', ')))}${kv(T('Tongue', 'Langue'), esc(UI.t('lang.' + r.lang)))}
                 ${kv(T('Table', 'Table'), O.food ? `🍲 ${esc(O.food[i])} · 🍷 ${esc(O.drink[i])}` : '')}${kv(T('Oath', 'Juron'), O.oath ? `<i>${esc(O.oath[i])}</i>` : '')}
                 ${kv(T('Custom', 'Coutume'), O.custom ? esc(O.custom[i]) : '')}${kv(T('Temper', 'Humeur'), esc((O.traits || []).map(UI.traitLabel).join(', ')))}
+                ${kv(T('Hello · farewell', 'Bonjour · adieu'), [O.greet, O.bye].filter(Boolean).map(x => `<i>${esc(x[i])}</i>`).join(' · '))}
+                ${kv(T('Endearment', 'Mot doux'), O.pet ? `<i>${esc(O.pet[i])}</i>` : '')}${kv(T('Patron saint', 'Saint patron'), O.saint ? esc(O.saint[i]) : '')}
+                ${kv(T('Feast', 'Fête'), O.feast ? esc(O.feast[i]) : '')}${kv(T('Song', 'Chant'), O.song ? esc(O.song[i]) : '')}${kv(T('Saying', 'Dicton'), O.proverb ? `« ${esc(O.proverb[i])} »` : '')}
+                ${kv(T('Loves', 'Aime'), (O.likes || []).map(x => V.EVENTS.events.find(e => e.id === x)).filter(Boolean).map(e => `${e.icon} ${esc(e.name[L])}`).join(', '))}
+                ${kv(T('Frowns upon', 'Désapprouve'), (O.dislikes || []).map(x => V.EVENTS.events.find(e => e.id === x)).filter(Boolean).map(e => `${e.icon} ${esc(e.name[L])}`).join(', '))}
                 ${kv(T('Your court', 'Votre cour'), here.length ? esc(here.map(c => c.name).join(', ')) : '—')}</table>
                 ${O.lines ? `<p>${O.lines[L].map(s => `<i>“${esc(s.replace('{sen}', UI.S().user.name || UI.t('you')))}”</i>`).join('<br>')}</p>` : ''}
                 <p><button class="btn ghost" data-act="lib-map" data-id="${r.id}">🗺️ ${T('Show on the map', 'Voir sur la carte')}</button></p>`

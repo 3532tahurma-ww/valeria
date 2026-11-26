@@ -8,6 +8,11 @@
  *   botEvent: thread id -> current bot event id (e.g. 'missionary') or null
  *   botAsk:   thread id -> id of the question she asked (js/data/talk.js ASKS), answered by your next letter
  *   botLog:   thread id -> last 12 event / question ids you triggered (⚡ shortcuts skip recent ones)
+ *   botScene: thread id -> 🎬 scene in progress { id, done: [event ids], idle } (js/scenes.js)
+ *   myFeasts: 📅 your own special days [{ id: 'my-…', m, d, icon, look, name: {en, fr}, desc: {en, fr} }] (js/feasts.js, 🎉 Feast lab)
+ *   characters[].mem.feastDay: 'YYYY-M-D:feast id' she last spoke of
+ *   characters[].feel: 🤝❤️🔥 { trust, love, desire } 0–100 (js/feel.js); her messages may carry feel: '🤝+2 ❤️+1', status-card notes st: 1
+ *   characters[].mem.scenes / eps / ep / epSeen: 🎬 scenes completed and 📖 episodes (js/scenes.js)
  * Unknown fields from a Carmen backup (monia, accounts, ...) are kept untouched so a round trip loses nothing.
  */
 window.Valeria = window.Valeria || {};
@@ -26,7 +31,9 @@ Valeria.Store = (() => {
     bot: {},
     botEvent: {},
     botAsk: {},
-    botLog: {}
+    botLog: {},
+    botScene: {},
+    myFeasts: []
   });
 
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
@@ -34,8 +41,8 @@ Valeria.Store = (() => {
 
   function fill(data) {
     const s = Object.assign(defaults(), isObj(data) ? data : {});
-    ['characters', 'threads', 'pinned', 'keywords'].forEach(k => { if (!Array.isArray(s[k])) s[k] = []; });
-    ['chats', 'side', 'turns', 'bot', 'botEvent', 'botAsk', 'botLog'].forEach(k => { if (!isObj(s[k])) s[k] = {}; });
+    ['characters', 'threads', 'pinned', 'keywords', 'myFeasts'].forEach(k => { if (!Array.isArray(s[k])) s[k] = []; });
+    ['chats', 'side', 'turns', 'bot', 'botEvent', 'botAsk', 'botLog', 'botScene'].forEach(k => { if (!isObj(s[k])) s[k] = {}; });
     s.user = Object.assign(defaults().user, isObj(s.user) ? s.user : {});
     s.characters.forEach(c => {
       ['traits', 'album', 'tags'].forEach(k => { if (!Array.isArray(c[k])) c[k] = []; });

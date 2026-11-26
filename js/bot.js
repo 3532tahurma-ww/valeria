@@ -19,9 +19,11 @@
  *   2. talk or act event → its lines; questions may get a counter question (counter, 40%); normal talk 10% her own question;
  *      climax / cuddle 35% an 'after' question; talk 15% a homeland bubble
  *   3. command (again / faster / slower / stop / name / look)
- *   4. fallback linked to the topic: TOPICS word → topic line; in an act → DURING; else 30% her question, 25% ECHO of a long word,
- *      15% homeland line, else fallback lines (with personality variants)
+ *   4. fallback linked to the topic: TOPICS word → topic line; in an act → DURING; else 30% her question, 20% ECHO of a long word,
+ *      12% homeland line, 10% homeland proverb, else fallback lines (with personality variants)
+ *   🌍 homeReact after every event: greeting / farewell in her tongue, her oath on strong moments, a line when her land likes / dislikes it
  * Placeholders: {sen}/{you} user, {ben}/{me} her name, {city} {region} {house} {title} {age} {food} {drink} {oath} {custom} {event} {word} {place} {placecustom}
+ *   homeland: {pet} {saint} {feast} {song} {proverb} {greetword} {byeword}
  */
 window.Valeria = window.Valeria || {};
 
@@ -129,7 +131,11 @@ Valeria.Bot = (() => {
       age: (char && char.age) || '?',
       food: o('food', ['bread and honey', 'pain et miel']), drink: o('drink', ['wine', 'vin']),
       oath: o('oath', ['By all the saints!', 'Par tous les saints !']), custom: o('custom', ['the bells ring for every feast', 'les cloches sonnent à chaque fête']),
-      event: ev ? ev.name[L] : '', word: '', place: '', placecustom: ''
+      event: ev ? ev.name[L] : '', word: '', place: '', placecustom: '',
+      // 🌍 homeland voice (js/data/homeland.js)
+      pet: o('pet', ['my dear', 'mon cher']), saint: o('saint', ['all the saints', 'tous les saints']), feast: o('feast', ['the harvest feast', 'la fête des moissons']),
+      song: o('song', ['an old ballad', 'une vieille ballade']), proverb: o('proverb', ['Slowly goes far', 'Qui va lentement va loin']),
+      greetword: o('greet', ['Good morrow', 'Bonjour']), byeword: o('bye', ['Farewell', 'Adieu'])
     };
   }
   const fill = (s, v) => String(s).replace(/\{(\w+)\}/g, (m, k) => (v[k] != null ? v[k] : m));
@@ -160,7 +166,17 @@ Valeria.Bot = (() => {
     const out = [];
     const say = arr => { if (arr && arr.length) out.push(pick(arr)); };
     const addAsk = pool => { const a = pool.length ? pick(pool) : null; if (a) { out.push(a.q[L]); ask = a.id; } };
-    const addOrigin = () => { if (O && O.lines && O.lines[L]) out.push(pick(O.lines[L])); };
+    const RG = V.REGIONAL || {}, i = L === 'fr' ? 1 : 0;
+    const addOrigin = () => { if (O && O.lines && O.lines[L]) out.push(pick(O.lines[L].concat(O.pet ? (RG.talk || {})[L] || [] : []))); };
+    // 🌍 how her homeland colours a reply to an event: greeting / farewell in her tongue, oath, likes and dislikes
+    const homeReact = e => {
+      if (!O || !out.length) return;
+      if (e.id === 'greet' && O.greet && roll(0.6)) out[0] = `${O.greet[i]}! ${out[0]}`;
+      if (e.id === 'farewell' && O.bye && roll(0.7)) out.push(pick(RG.bye[L]));
+      if (['climax', 'jealousy', 'spank', 'war', 'sorry'].includes(e.id) && O.oath && roll(0.3)) out[0] = `${O.oath[i]} ${out[0]}`;
+      if ((O.likes || []).includes(e.id) && roll(0.5)) memLine(RG.like, { event: e.name[L] });
+      else if ((O.dislikes || []).includes(e.id) && roll(0.6)) memLine(RG.dislike, { event: e.name[L] });
+    };
 
     const ev = best(evs.filter(e => e.kind !== 'cmd'), n, char);
     const A = asked ? askById(asked) : null;
@@ -197,6 +213,7 @@ Valeria.Bot = (() => {
       rec.ev = ev.id;
       if (ev.id === 'q_memory') { remember(); return finish(); }
       say(lines(ev, L, char));
+      homeReact(ev);
       if (ev.kind === 'act') {
         if (ev.id !== event) { sys = `${ev.icon} ${ev.name[L]}`; effect = ev.effect || ''; }
         event = ev.id;
@@ -240,8 +257,9 @@ Valeria.Bot = (() => {
     const recall = Object.keys(M.asks || {}).filter(k => ((MEM.recall || {})[k] || {})[M.asks[k]]);
     if (recall.length && roll(0.2)) { const k = pick(recall); memLine(MEM.recall[k][M.asks[k]], {}); return finish(); }
     if (r < 0.3 && talkAsks.length) addAsk(talkAsks);
-    else if (r < 0.55 && word) { v.word = word; say(V.ECHO[L]); }
-    else if (r < 0.7 && O) addOrigin();
+    else if (r < 0.5 && word) { v.word = word; say(V.ECHO[L]); }
+    else if (r < 0.62 && O) addOrigin();
+    else if (r < 0.72 && O && O.proverb && RG.proverb) memLine(RG.proverb, {});
     else say(lines(D.fallback, L, char));
     return finish();
 

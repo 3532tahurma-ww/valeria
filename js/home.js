@@ -1,6 +1,6 @@
 /*
  * Valeria - 🏠 Home page (like Carmen's portal home)
- * Sections: date line (canonical hour, weather, feast day) · 📯 herald ticker · 🌹 lady of the day · 👑 your court carousel ·
+ * Sections: date line (canonical hour, weather, feast day) · 📯 ticker of today's tidings · 📯 Herald card (js/news.js) · 🌹 lady of the day · 👑 your court carousel ·
  *           ✉️ recent letters · 📜 proclamations (notables asking for letters) · 🗺️ ladies of the realms · 📚 library · map card.
  * Everything "of the day" is seeded by the date (Gen.rng), so it stays the same all day and changes tomorrow.
  * Notables come from MapView.notables (same people as on the map).
@@ -16,13 +16,6 @@ Valeria.Home = (() => {
     summer: [['☀️', 'Hot sun', 'Grand soleil'], ['⛈️', 'Storm', 'Orage'], ['🌤️', 'Fair', 'Beau temps']],
     autumn: [['🌧️', 'Rain', 'Pluie'], ['🍂', 'Falling leaves', 'Feuilles mortes'], ['🌫️', 'Mist', 'Brume'], ['🌬️', 'Wind', 'Vent']]
   };
-  // [month, day, EN, FR]
-  const FEASTS = [[1, 3, 'Saint Genevieve', 'Sainte Geneviève'], [1, 6, 'Epiphany', "l'Épiphanie"], [1, 21, 'Saint Agnes', 'Sainte Agnès'], [2, 1, 'Saint Brigid', 'Sainte Brigitte'],
-    [2, 14, 'Saint Valentine', 'Saint Valentin'], [3, 1, 'Saint David', 'Saint David'], [3, 17, 'Saint Patrick', 'Saint Patrick'], [4, 23, 'Saint George', 'Saint Georges'],
-    [6, 24, 'Midsummer, Saint John', 'la Saint-Jean'], [7, 15, 'Saint Swithun', 'Saint Swithun'], [7, 22, 'Saint Mary Magdalene', 'Sainte Marie-Madeleine'], [8, 25, 'Saint Louis', 'Saint Louis'],
-    [9, 29, 'Michaelmas', 'la Saint-Michel'], [10, 1, 'Saint Remi', 'Saint Remi'], [10, 9, 'Saint Denis', 'Saint Denis'], [10, 25, 'Saint Crispin', 'Saint Crépin'],
-    [11, 1, 'All Saints', 'la Toussaint'], [11, 11, 'Martinmas', 'la Saint-Martin'], [11, 20, 'Saint Edmund', 'Saint Edmond'], [11, 25, 'Saint Catherine', 'Sainte Catherine'],
-    [11, 30, 'Saint Andrew', 'Saint André'], [12, 6, 'Saint Nicholas', 'Saint Nicolas'], [12, 13, 'Saint Lucy', 'Sainte Lucie'], [12, 25, 'Christmas', 'Noël'], [12, 29, 'Saint Thomas Becket', 'Saint Thomas Becket']];
   const SLOGANS = [['Every letter is a little conquest.', 'Chaque lettre est une petite conquête.'], ['Between two crowns, a thousand hearts.', 'Entre deux couronnes, mille cœurs.'],
     ['Seal it with wax, send it with hope.', 'Scellez-la de cire, envoyez-la avec espoir.'], ['The war is outside. The letters are in here.', 'La guerre est dehors. Les lettres sont ici.']];
   const PROCLAIM = [['Seeking a knight who writes better than he jousts.', 'Cherche chevalier qui écrive mieux qu’il ne joute.'],
@@ -33,29 +26,17 @@ Valeria.Home = (() => {
     ['They say I am dangerous. Write and find out.', 'On me dit dangereuse. Écrivez et vous verrez.'],
     ['Fluent in French, English and sighs.', 'Je parle français, anglais et soupirs.'],
     ['My chaperone sleeps at nine. I do not.', 'Mon chaperon dort à neuf heures. Pas moi.']];
-  const NEWS = [['📯 {lady} seeks a gallant correspondent.', '📯 {lady} cherche un correspondant galant.'],
-    ['⚔️ Skirmish near {city}: the roads are unsafe.', '⚔️ Escarmouche près de {city} : les routes sont dangereuses.'],
-    ['🏇 A tourney is proclaimed at {city} next Sunday.', '🏇 Un tournoi est proclamé à {city} dimanche prochain.'],
-    ['💍 Wedding in {region}: the bells ring for three days.', '💍 Noces en {region} : les cloches sonnent trois jours.'],
-    ['🐎 A messenger lost his horse near {city}. Letters will be late.', '🐎 Un messager a perdu son cheval près de {city}. Les lettres seront en retard.'],
-    ['🍷 New wine has reached {city}. The taverns are full.', '🍷 Le vin nouveau est arrivé à {city}. Les tavernes sont pleines.'],
-    ['🕯️ Pilgrims crowd the roads of {region}.', '🕯️ Les pèlerins se pressent sur les routes de {region}.'],
-    ['🎭 Minstrels arrive in {city} with a scandalous new song.', '🎭 Des ménestrels arrivent à {city} avec une chanson scandaleuse.'],
-    ['🌹 Rumour at court: {lady} refused another suitor.', '🌹 Rumeur à la cour : {lady} a refusé un nouveau prétendant.']];
-
   const dayKey = () => new Date().toISOString().slice(0, 10);
   const season = m => (m === 12 || m <= 2 ? 'winter' : m <= 5 ? 'spring' : m <= 8 ? 'summer' : 'autumn');
   const pickR = (r, a) => a[Math.floor(r() * a.length)];
   const shuffle = (r, a) => { const c = a.slice(); for (let i = c.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [c[i], c[j]] = [c[j], c[i]]; } return c; };
 
+  // 📅 today's feast (js/feasts.js) or the next one
   function feast(L) {
-    const d = new Date(), m = d.getMonth() + 1, day = d.getDate(), i = L === 'fr' ? 3 : 2;
-    const today = FEASTS.find(f => f[0] === m && f[1] === day);
-    if (today) return { today: true, name: today[i] };
-    const doy = (mm, dd) => mm * 31 + dd, now = doy(m, day);
-    const next = FEASTS.find(f => doy(f[0], f[1]) > now) || FEASTS[0];
-    const date = new Date(d.getFullYear() + (doy(next[0], next[1]) > now ? 0 : 1), next[0] - 1, next[1]);
-    return { today: false, name: next[i], date: date.toLocaleDateString(L, { day: 'numeric', month: 'long' }) };
+    const f = V.Feasts.current();
+    if (f) return { today: true, f, name: f.name[L] };
+    const n = V.Feasts.next();
+    return { today: false, f: n.f, name: n.f.name[L], date: n.date.toLocaleDateString(L, { day: 'numeric', month: 'long' }) };
   }
 
   // n notables from different regions, seeded by the day: [{ nb, region, i }]
@@ -86,13 +67,10 @@ Valeria.Home = (() => {
     const pic = (c, cls) => c.photo ? `<img class="${cls}" src="${esc(c.photo)}" alt="" loading="lazy" onerror="this.remove()">` : UI.crest(c, 'xl');
 
     // 📯 ticker
-    const nbs = notablesOfDay(UI, 9, 'news');
-    const news = NEWS.map((n, k) => {
-      const x = nbs[k % nbs.length];
-      const txt = n[i].replace('{lady}', `${x.nb.name}, ${x.nb.job}`).replace('{city}', x.region.cities[Math.floor(r() * x.region.cities.length)][0]).replace('{region}', x.region.name[L]);
-      return `<button data-act="home-map" data-r="${x.region.id}">${esc(txt)}</button>`;
-    });
-    const ticker = shuffle(r, news).join('<span class="dot">❦</span>');
+    // 📯 ticker and Herald card: today's tidings (js/news.js) + the latest proclamation
+    const tids = V.News.tidings(UI, 8);
+    const ticker = tids.map(n => `<button data-act="tiding-open" data-k="${n.k}">${n.icon} ${esc(n.title)}</button>`).join('<span class="dot">❦</span>');
+    const head = V.PROCLAMATIONS[0], unread = V.News.unread();
 
     // 📜 proclamations + 🗺️ ladies of the realms
     const pro = notablesOfDay(UI, 2, 'pro');
@@ -111,13 +89,23 @@ Valeria.Home = (() => {
 
     UI.main.innerHTML = `
       <header class="home-top">
-        <p class="home-date">${esc(now.toLocaleDateString(L, { weekday: 'long', day: 'numeric', month: 'long' }))} · 🔔 ${esc(hour)} · ${w[0]} ${esc(w[i + 1])}</p>
+        <p class="home-date">${esc(V.I18n.date(now, { weekday: 'long' }))} · 🔔 ${esc(hour)} · ${w[0]} ${esc(w[i + 1])}</p>
         <h1 class="title">Valeria</h1>
         <p class="sub">${esc(slogan)}</p>
-        <p class="home-feast">✝ ${f.today ? t('home.feastToday', { name: f.name }) : t('home.feastNext', { name: f.name, date: f.date })}</p>
+        ${f.today ? '' : `<p class="home-feast"><button class="linkish" data-act="lib-open" data-id="calendar">${f.f.icon} ${t('home.feastNext', { name: f.name, date: f.date })}</button></p>`}
       </header>
+      ${f.today ? `<section class="feast-banner" data-act="lib-open" data-id="calendar">
+        <span class="fb-orn">${V.Feasts.look(f.f).banner}</span>
+        <div><small>📅 ${t('home.feastDay')}</small><b>${f.f.icon} ${esc(f.name)}</b><em>${esc(f.f.desc[L])}</em></div>
+        <span class="fb-orn">${V.Feasts.look(f.f).banner}</span></section>` : ''}
 
       <div class="ticker"><div class="ticker-in">${ticker}<span class="dot">❦</span>${ticker}</div></div>
+
+      <section class="h-sec herald">
+        <h3 class="sec">📯 ${t('news.title')} <button class="more" data-go="news">${t('home.all')}${unread ? ` · 🆕 ${unread}` : ''} ›</button></h3>
+        <button class="news-item headline" data-act="news-open" data-id="${head.id}"><span class="news-ic">${head.icon}</span><span class="news-t"><small>${V.News.CAT[head.cat][i]}</small><b>${esc(head.title[i])}</b><em>${esc(head.sum[i])}</em></span></button>
+        ${tids.slice(0, 2).map(n => `<button class="news-item small" data-act="tiding-open" data-k="${n.k}"><span class="news-ic">${n.icon}</span><span class="news-t"><small>${esc(n.region.name[L])}</small><b>${esc(n.title)}</b></span></button>`).join('')}
+      </section>
 
       <section class="lady" style="--c1:${esc((lady.colors || [])[0] || '#7a1f2b')};--c2:${esc((lady.colors || [])[1] || '#b08d3c')}">
         <span class="lady-tag">🌹 ${t('home.lady')}</span>

@@ -27,6 +27,18 @@ Valeria.HOUSES = [
   { id: 'percy', realm: 'en', name: { en: 'House of Percy', fr: 'Maison Percy' }, colors: ['#2b3a8f', '#e2c25b'] },
   { id: 'stewart', realm: 'sco', name: { en: 'House of Stewart', fr: 'Maison Stuart' }, colors: ['#1f4f8f', '#f2ecdc'] },
   { id: 'fitzgerald', realm: 'irl', name: { en: 'House of FitzGerald', fr: 'Maison FitzGerald' }, colors: ['#f2ecdc', '#b3202f'] },
+  { id: 'luxembourg', realm: 'hre', name: { en: 'House of Luxembourg', fr: 'Maison de Luxembourg' }, colors: ['#2e5fa8', '#ece8dc'] },
+  { id: 'habsburg', realm: 'hre', name: { en: 'House of Habsburg', fr: 'Maison de Habsbourg' }, colors: ['#c42a2a', '#fbf8f0'] },
+  { id: 'wittelsbach', realm: 'hre', name: { en: 'House of Wittelsbach', fr: 'Maison de Wittelsbach' }, colors: ['#3a7cc4', '#f4f4f4'] },
+  { id: 'wettin', realm: 'hre', name: { en: 'House of Wettin', fr: 'Maison de Wettin' }, colors: ['#1a1a1a', '#e8c547'] },
+  { id: 'savoy', realm: 'sav', name: { en: 'House of Savoy', fr: 'Maison de Savoie' }, colors: ['#d7262f', '#ffffff'] },
+  { id: 'garai', realm: 'hun', name: { en: 'House of Garai', fr: 'Maison Garai' }, colors: ['#1f3a6b', '#d4af37'] },
+  { id: 'jagiellon', realm: 'pol', name: { en: 'House of Jagiellon', fr: 'Maison Jagellon' }, colors: ['#c0392b', '#f8f4ea'] },
+  { id: 'welf', realm: 'hre', name: { en: 'House of Welf', fr: 'Maison Guelfe' }, colors: ['#c8102e', '#e8c547'] },
+  { id: 'mecklenburg', realm: 'hre', name: { en: 'House of Mecklenburg', fr: 'Maison de Mecklembourg' }, colors: ['#1a1a1a', '#e3b341'] },
+  { id: 'hohenzollern', realm: 'hre', name: { en: 'House of Hohenzollern', fr: 'Maison de Hohenzollern' }, colors: ['#f4f4f4', '#1a1a1a'] },
+  { id: 'griffin', realm: 'dan', name: { en: 'House of Pomerania (the Griffins)', fr: 'Maison de Poméranie (les Griffons)' }, colors: ['#b3202f', '#f2ecdc'] },
+  { id: 'teutonic', realm: 'teu', name: { en: 'Teutonic Order', fr: 'Ordre Teutonique' }, colors: ['#f4f1e8', '#1a1a1a'] },
   { id: 'church', realm: '',name: { en: 'The Church', fr: "L'Église" }, colors: ['#4a2b5e', '#d9c27a'] },
   { id: 'commoner', realm: '', name: { en: 'Commoner', fr: 'Roturier' }, colors: ['#6b4f2f', '#a8865a'] }
 ];

@@ -6,7 +6,7 @@
 (() => {
   const V = window.Valeria;
   const Store = V.Store;
-  V.VERSION = '0.5.1';
+  V.VERSION = '0.6.0';
   const S = () => Store.state;
   const t = (k, v) => V.I18n.t(k, v);
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -49,17 +49,21 @@
   function memoryCard(c) {
     const M = c.mem || {}, L = V.I18n.lang, evs = V.EVENTS.events;
     const ev = id => evs.find(e => e.id === id);
-    const date = ts => new Date(ts).toLocaleDateString(L, { day: 'numeric', month: 'short', year: 'numeric' });
+    const date = ts => V.I18n.date(ts, { month: 'short' });
     const firsts = Object.keys(M.first || {}).filter(id => ev(id) && ev(id).kind === 'act').sort((a, b) => M.first[a] - M.first[b]);
     const favs = Object.keys(M.count || {}).filter(id => ev(id) && M.count[id] >= 2).sort((a, b) => M.count[b] - M.count[a]).slice(0, 5);
     const asks = Object.keys(M.asks || {}).filter(id => (V.ASKS || []).some(a => a.id === id));
-    if (!firsts.length && !favs.length && !asks.length) return `<div class="memory empty-mem"><h4>🧠 ${t('mem.title')}</h4><p class="small muted">${t('mem.none')}</p></div>`;
+    const scs = Object.keys(M.scenes || {}).filter(V.Scenes.byId), eps = Object.keys(M.eps || {}).filter(V.Scenes.epById), epNow = M.ep && V.Scenes.epById(M.ep.id);
+    if (!firsts.length && !favs.length && !asks.length && !scs.length && !eps.length && !epNow) return `<div class="memory empty-mem"><h4>🧠 ${t('mem.title')}</h4><div class="feelbar static">${feelMeters(c, L)}</div><p class="small muted">${t('mem.none')}</p></div>`;
     const x = (k) => `<button class="mem-x" data-act="mem-del" data-k="${esc(k)}" title="${t('mem.forget')}">✕</button>`;
     const ansTxt = v => (v === 'yes' ? '✅ ' + t('mem.yes') : v === 'no' ? '❌ ' + t('mem.no') : '✒️ ' + v);
     return `<div class="memory"><h4>🧠 ${t('mem.title')}</h4>
+      <div class="feelbar static">${feelMeters(c, L)}</div>
       ${firsts.length ? `<h5>🌟 ${t('mem.firsts')}</h5><ul>${firsts.map(id => `<li>${ev(id).icon} ${esc(ev(id).name[L])} <small>${date(M.first[id])}</small>${x('first:' + id)}</li>`).join('')}</ul>` : ''}
       ${favs.length ? `<h5>❤️ ${t('mem.favs')}</h5><ul>${favs.map(id => `<li>${ev(id).icon} ${esc(ev(id).name[L])} <b>×${M.count[id]}</b>${x('count:' + id)}</li>`).join('')}</ul>` : ''}
       ${asks.length ? `<h5>❔ ${t('mem.answers')}</h5><ul>${asks.map(id => { const a = V.ASKS.find(q => q.id === id); return `<li><i>${esc(a.q[L].replace('{sen}', userName()))}</i> → ${esc(ansTxt(M.asks[id]))}${x('asks:' + id)}</li>`; }).join('')}</ul>` : ''}
+      ${scs.length ? `<h5>🎬 ${t('mem.scenes')}</h5><ul>${scs.map(id => { const s = V.Scenes.byId(id); return `<li>${s.icon} ${esc(s.name[L])} <b>×${M.scenes[id]}</b>${x('scenes:' + id)}</li>`; }).join('')}</ul>` : ''}
+      ${eps.length || epNow ? `<h5>📖 ${t('mem.episodes')}</h5><ul>${epNow ? `<li>${epNow.icon} ${esc(epNow.name[L])} <small>${M.ep.i}/${epNow.scenes.length} · ${t('mem.epNow')}</small>${x('ep:now')}</li>` : ''}${eps.map(id => { const e = V.Scenes.epById(id); return `<li>${e.icon} ${esc(e.name[L])} <small>${date(M.eps[id])}</small>${x('eps:' + id)}</li>`; }).join('')}</ul>` : ''}
       ${M.last ? `<p class="small muted">📮 ${t('mem.last')}: ${date(M.last)}</p>` : ''}</div>`;
   }
 
@@ -68,11 +72,20 @@
     const id = V.Gen.regionOf(c), O = (V.ORIGINS || {})[id];
     if (!O) return '';
     const i = V.I18n.lang === 'fr' ? 1 : 0;
+    const evIc = ids => (ids || []).map(x => V.EVENTS.events.find(e => e.id === x)).filter(Boolean).map(e => `<span title="${esc(e.name[V.I18n.lang])}">${e.icon}</span>`).join(' ');
+    const row = (k, v) => (v ? `<tr><th>${k}</th><td>${v}</td></tr>` : '');
     return `<div class="homeland"><h4>🌍 ${t('profile.homeland')}: ${esc(regionLabel(id))}</h4>
       <div class="chips">
         <span class="chip">🍲 ${esc(O.food[i])}</span><span class="chip">🍷 ${esc(O.drink[i])}</span><span class="chip">🗣️ <i>${esc(O.oath[i])}</i></span>
         ${O.traits.map(x => `<span class="chip ${c.traits.includes(x) ? 'on' : ''}">${esc(traitLabel(x))}</span>`).join('')}
-      </div><p class="small muted">${esc(O.custom[i].charAt(0).toUpperCase() + O.custom[i].slice(1))}.</p></div>`;
+      </div>
+      <table class="bk-kv">
+        ${row('👋', O.greet ? `<i>${esc(O.greet[i])}</i>${O.bye ? ` · <i>${esc(O.bye[i])}</i>` : ''}` : (O.bye ? `<i>${esc(O.bye[i])}</i>` : ''))}
+        ${row('💞', O.pet ? `<i>${esc(O.pet[i])}</i>` : '')}${row('✝️', O.saint ? esc(O.saint[i]) : '')}${row('🎉', O.feast ? esc(O.feast[i]) : '')}
+        ${row('🎶', O.song ? esc(O.song[i]) : '')}${row('📜', O.proverb ? `« ${esc(O.proverb[i])} »` : '')}
+        ${row('❤️', evIc(O.likes))}${row('🙅', evIc(O.dislikes))}
+      </table>
+      <p class="small muted">${esc(O.custom[i].charAt(0).toUpperCase() + O.custom[i].slice(1))}.</p></div>`;
   }
 
   function toast(msg) {
@@ -136,7 +149,7 @@
   function dropThread(id) {
     const s = S();
     s.threads = s.threads.filter(x => x.id !== id);
-    ['chats', 'side', 'turns', 'bot', 'botEvent', 'botAsk', 'botLog'].forEach(k => delete s[k][id]);
+    ['chats', 'side', 'turns', 'bot', 'botEvent', 'botAsk', 'botLog', 'botScene'].forEach(k => delete s[k][id]);
     s.pinned = s.pinned.filter(x => x !== id);
   }
   function openThread(id) {
@@ -152,7 +165,7 @@
     window.scrollTo(0, 0);
   }
   function render() {
-    const tab = { court: 'home', profile: 'home', edit: 'home', book: 'library', page: 'library', labs: 'library', lab: 'library', group: 'letters' }[view.name] || view.name;
+    const tab = { court: 'home', profile: 'home', edit: 'home', book: 'library', page: 'library', labs: 'library', lab: 'library', news: 'home', article: 'home', tiding: 'home', group: 'letters' }[view.name] || view.name;
     document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('on', b.dataset.go === tab));
     document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
     document.body.classList.toggle('in-chat', view.name === 'chat');
@@ -323,13 +336,17 @@
               <hr>
               <button data-act="bot">🤖 ${t('chat.bot')}: <b>${bot ? t('chat.on') : t('chat.off')}</b></button>
               <button data-act="quick-toggle">⚡ ${t('chat.quick')}: <b>${quickOn() ? t('chat.on') : t('chat.off')}</b></button>
+              <button data-act="tips-toggle">🕯️ ${t('tips.menu')}: <b>${tipsOn() ? t('chat.on') : t('chat.off')}</b></button>
+              <button data-act="cards-cycle">📰 ${t('feel.cards')}: <b>${t('feel.lvl' + cardsLvl())}</b></button>
               ${bot ? '' : `<button data-act="turns">⇄ ${t('chat.turns')}: <b>${S().turns[th.id] !== false ? t('chat.on') : t('chat.off')}</b></button>`}
               <button data-act="rename-thread" data-id="${esc(th.id)}">✎ ${t('chat.rename')}</button>
               ${th.group ? '' : `<button data-act="chat-head">👤 ${t('home.profile')}</button>`}
               <button class="danger-item" data-act="burn">🔥 ${t('chat.burn')}</button>
             </div>
           </header>
+          <div class="feelbar top" id="feelbar" hidden></div>
           <div class="msgs" id="msgs"></div>
+          <div class="tips" id="tips" hidden></div>
           <div class="quick" id="quick"></div>
           <div class="qsheet" id="qsheet" hidden></div>
           <div class="fxbar" id="fxbar" hidden></div>
@@ -342,6 +359,8 @@
       drawMsgs();
       drawSide();
       drawQuick();
+      drawTips();
+      drawFeel();
     },
 
     me() {
@@ -368,7 +387,7 @@
           <label>${t('me.lang')}<select id="langSel"><option value="en">English</option><option value="fr">Français</option></select></label>
           <label>${t('me.theme')}<select id="themeSel"><option value="parchment">${t('me.parchment')}</option><option value="candle">${t('me.candle')}</option></select></label>
           <div class="two">
-            <label>🎵 ${t('me.music')}<select id="musicSel"><option value="1">${t('chat.on')}</option><option value="0">${t('chat.off')}</option></select></label>
+            <label>🎵 ${t('me.music')}<select id="musicSel"><option value="1">${t('me.musicRec')}</option><option value="lute">🪕 ${t('me.musicLute')}</option><option value="0">${t('chat.off')}</option></select></label>
             <label>🔔 ${t('me.sfx')}<select id="sfxSel"><option value="1">${t('chat.on')}</option><option value="0">${t('chat.off')}</option></select></label>
           </div>
           <label>🔊 ${t('me.volume')}<input type="range" id="volRange" min="0" max="1" step="0.05" value="${V.Sound.volume()}"></label>
@@ -383,7 +402,7 @@
         <p class="muted small center">Valeria · ${V.VERSION}</p>`;
       $('#langSel').value = V.I18n.lang;
       $('#themeSel').value = theme();
-      $('#musicSel').value = V.Sound.musicOn() ? '1' : '0';
+      $('#musicSel').value = V.Sound.musicMode();
       $('#sfxSel').value = V.Sound.sfxOn() ? '1' : '0';
     }
   };
@@ -415,7 +434,7 @@
       <button data-act="m-del">🗑 ${t('msg.delete')}</button></div>`;
     const on = sel === m.id;
     const cls = [on ? 'sel' : '', fresh.has(m.id) ? 'fresh' : '', m.effect && m.effect !== 'none' ? 'eff-' + m.effect : ''].join(' ');
-    if (m.from === 'sys') return `<div class="msg sys ${cls}" data-mid="${esc(m.id)}"><span>❦ ${esc(m.text)} ❦</span>${on ? acts : ''}</div>`;
+    if (m.from === 'sys') return `<div class="msg sys ${m.st ? 'st' : ''} ${cls}" data-mid="${esc(m.id)}"><span>❦ ${esc(m.text)} ❦</span>${on ? acts : ''}</div>`;
     const me = m.from === 'me';
     const c = me ? null : charById(th.group ? m.who : th.charId);
     const body = (m.type === 'photo' && m.src ? `<img class="ph" src="${esc(m.src)}" alt="" onerror="this.remove()">` : '')
@@ -424,7 +443,7 @@
     const badge = V.FX.isScreen(m.effect) ? `<button class="fx-badge" data-act="fx-replay" data-fx="${esc(m.effect)}">${V.FX.ICON[m.effect]}</button>` : '';
     return `<div class="msg ${me ? 'me' : 'her'} ${cls}" data-mid="${esc(m.id)}">
       ${me ? '' : crest(c, 'xs')}
-      <div class="bubble">${from}${body}${m.react ? `<span class="react">${esc(m.react)}</span>` : ''}${badge}</div>
+      <div class="bubble">${from}${body}${m.react ? `<span class="react">${esc(m.react)}</span>` : ''}${badge}${m.feel && cardsLvl() === 2 ? `<span class="feelchip" title="${t('feel.chip')}">${esc(m.feel)}</span>` : ''}</div>
       ${on ? acts : ''}</div>`;
   }
 
@@ -451,6 +470,8 @@
     const o = Object.assign({ id: Store.uid(), ts: Date.now() }, m);
     if (!o.who) delete o.who;
     if (!o.effect) delete o.effect;
+    if (!o.feel) delete o.feel;
+    if (!o.st) delete o.st;
     (S().chats[tid] = S().chats[tid] || []).push(o);
     save();
     fresh.add(o.id);
@@ -500,15 +521,29 @@
     }
     if (r.rec.ans) mem.asks[r.rec.ans.id] = r.rec.ans.val;
     mem.last = Date.now();
-    const hit = V.Bot.match(text, c), log = S().botLog[th.id] = (S().botLog[th.id] || []);
+    const hit = V.Bot.match(text, c), log = S().botLog[th.id] = (S().botLog[th.id] || []), recent = log.slice(-3);
     if (hit) { log.push(hit.id); if (log.length > 12) log.splice(0, log.length - 12); }
+    // 🎬 scene / 📖 episode progress (js/scenes.js); when nothing matched she may offer one
+    const sr = V.Scenes.step({ st: S().botScene[th.id] || null, id: hit && hit.id, char: c, mem, lang: charLang(c) });
+    if (sr.st) S().botScene[th.id] = sr.st; else delete S().botScene[th.id];
+    const offer = !hit && !r.ask && Math.random() < 0.25 ? V.Scenes.offer({ st: sr.st, char: c, mem, lang: charLang(c) }) : null;
+    // 🤝❤️🔥 her feelings (js/feel.js): a change chip on her first bubble, 📰 status cards when a threshold is crossed
+    const fl = V.Feel.step({ char: c, id: hit && hit.id, recent, answered: !!r.rec.ans, scene: sr.kinds, gapDays, lang: charLang(c), you: userName() });
+    const lvl = cardsLvl();
     const tid = th.id, who = th.group ? c.id : undefined;
     const queue = [];
     if (r.sys) queue.push({ from: 'sys', text: r.sys });
-    r.replies.forEach((x, i) => queue.push({ from: 'her', text: x, who, effect: i === 0 ? r.effect : '' }));
+    r.replies.forEach((x, i) => queue.push({ from: 'her', text: x, who, effect: i === 0 ? r.effect : '', feel: i === 0 && lvl === 2 ? fl.chip : '' }));
+    if (lvl) fl.cards.forEach(x => queue.push({ from: 'sys', text: x, st: 1 }));
+    sr.notes.forEach((x, i) => queue.push({ from: 'sys', text: x, effect: i === sr.notes.length - 1 ? sr.effect : '' }));
+    // 📅 on a feast day she speaks of it once (js/feasts.js)
+    const fe = V.Feasts.current(), fk = fe && V.Feasts.dayKey(new Date()) + ':' + fe.id;
+    if (fe && mem.feastDay !== fk) { mem.feastDay = fk; sr.lines.unshift(V.Feasts.line(fe, c, charLang(c), userName())); }
+    sr.lines.concat(offer ? [offer.line] : []).forEach(x => queue.push({ from: 'her', text: x.replace(/\{(sen|you)\}/g, userName()), who }));
+    save();
     const step = () => {
       const m = queue.shift();
-      if (!m) { typing = null; drawIfHere(tid); if (view.name === 'chat' && view.id === tid) drawQuick(); return; }
+      if (!m) { typing = null; drawIfHere(tid); if (view.name === 'chat' && view.id === tid) { drawQuick(); drawTips(); drawFeel(); } return; }
       if (m.from === 'sys') { pushMsg(tid, m); step(); return; }
       typing = { tid, name: c.name };
       drawIfHere(tid);
@@ -532,13 +567,46 @@
     const mode = typed && chips.length ? 'complete' : 'quick';
     if (mode === 'quick') {
       if (typed && typed !== picked) { box.innerHTML = ''; box.hidden = true; return; }
-      chips = V.Suggest.quick({ char: c, current: S().botEvent[th.id] || null, asked: botOn(th.id) ? S().botAsk[th.id] || null : null,
+      chips = V.Suggest.quick({ char: c, current: S().botEvent[th.id] || null, asked: botOn(th.id) ? S().botAsk[th.id] || null : null, scene: S().botScene[th.id] || null,
         log: S().botLog[th.id] || [], empty: !(S().chats[th.id] || []).some(m => m.from !== 'sys'), lang: V.I18n.lang, user: S().user });
     }
+    // 🎬 scene strip: icon, name, ●●○ progress, ✕ ends it (no reward)
+    const p = V.Scenes.progress(S().botScene[th.id], c), L = V.I18n.lang;
     box.hidden = false;
-    box.innerHTML = `<span class="qlabel">${mode === 'complete' ? '🔮' : '⚡'}</span>` +
+    box.innerHTML = (p ? `<span class="qscene" title="${esc(p.sc.desc[L])}">${p.sc.icon} ${esc(p.sc.name[L])} <b>${'●'.repeat(p.n)}${'○'.repeat(Math.max(0, p.need - p.n))}</b> ${p.n}/${p.need}${p.ready && p.sc.fin ? ' 🏁' : ''}<button data-act="sc-end" title="${t('scene.end')}">✕</button></span>` : '') +
+      `<span class="qlabel">${mode === 'complete' ? '🔮' : '⚡'}</span>` +
       chips.map(q => `<button class="qchip ${['yes', 'no', 'place'].includes(q.id) ? 'ans' : ''}" data-act="q-pick" data-text="${esc(q.text)}" title="${esc(q.why.join(' · '))}">${q.icon} ${esc(q.label)}</button>`).join('') +
       `<button class="qchip more" data-act="q-more" title="${t('quick.more')}">⋯</button>`;
+  }
+  // 📰 status cards level: 0 off, 1 cards, 2 cards + change chips (default)
+  const cardsLvl = () => { const v = localStorage.getItem('valeria:cards'); return v === '0' ? 0 : v === '1' ? 1 : 2; };
+  // 🤝❤️🔥 her feelings above the advice (one character, bot on)
+  const feelMeters = (c, L) => V.Feel.KEYS.map(k => { const m = V.Feel.meta(k), v = V.Feel.init(c)[k];
+    return `<span class="fm fm-${k}" title="${esc(m.name[L])} ${v}/100">${m.icon} <i><b style="width:${v}%"></b></i> ${v}</span>`; }).join('');
+  function drawFeel() {
+    const box = $('#feelbar'), th = threadById(view.id);
+    if (!box || !th) return;
+    const c = threadChars(th)[0];
+    if (th.group || !botOn(th.id) || !c) { box.hidden = true; return; }
+    box.hidden = false;
+    box.innerHTML = feelMeters(c, V.I18n.lang);
+  }
+  // 🕯️ Dame Mathilde's advice bar (like Carmen's 💡 Lia): bot on, after each answer; ✕ or ⋮ turns it off
+  const tipsOn = () => localStorage.getItem('valeria:tips') !== '0';
+  function drawTips() {
+    const box = $('#tips'), th = threadById(view.id);
+    if (!box || !th) return;
+    const c = threadChars(th)[0];
+    if (!tipsOn() || !botOn(th.id) || !c) { box.hidden = true; return; }
+    const L = V.I18n.lang;
+    const r = V.Suggest.tips({ char: c, current: S().botEvent[th.id] || null, asked: S().botAsk[th.id] || null, scene: S().botScene[th.id] || null,
+      empty: !(S().chats[th.id] || []).some(m => m.from !== 'sys'), lang: L });
+    const chips = r.ids.map(id => V.Suggest.chip(id, c, L)).filter(Boolean);
+    box.hidden = false;
+    box.innerHTML = `<span class="tips-ava" title="${t('tips.who')}">🕯️</span>
+      <div class="tips-body"><p data-act="tips-more" title="${esc(r.say.replace(/<[^>]+>/g, ''))}">${r.say}</p>
+        ${chips.length ? `<div class="chips">${chips.map(q => `<button class="qchip" data-act="q-pick" data-text="${esc(q.text)}">${q.icon} ${esc(q.label)}</button>`).join('')}</div>` : ''}</div>
+      <button class="icon tips-x" data-act="tips-toggle" title="${t('tips.off')}">✕</button>`;
   }
   // 🎭 Events list (like Carmen's event picker): next steps, her favourites, surprise, category tabs, search
   let sheetCat = 'all';
@@ -817,10 +885,30 @@
     'mem-del': a => {
       const c = charById(view.id), [k, id] = a.dataset.k.split(':');
       if (!c || !c.mem || !c.mem[k]) return;
-      delete c.mem[k][id];
+      if (k === 'ep') delete c.mem.ep; else delete c.mem[k][id];
       if (k === 'first') delete (c.mem.count || {})[id];
       save();
       render();
+    },
+    'tips-more': () => { const b = $('#tips'); if (b) b.classList.toggle('open'); },
+    'cards-cycle': () => {
+      const n = (cardsLvl() + 1) % 3;
+      localStorage.setItem('valeria:cards', String(n));
+      screens.chat();
+      toast(`📰 ${t('feel.cards')}: ${t('feel.lvl' + n)}`);
+    },
+    'tips-toggle': () => {
+      localStorage.setItem('valeria:tips', tipsOn() ? '0' : '1');
+      screens.chat();
+      toast(`🕯️ ${t('tips.menu')}: ${tipsOn() ? t('chat.on') : t('chat.off')}`);
+    },
+    'sc-end': () => {
+      const th = threadById(view.id), st = th && S().botScene[th.id], sc = st && V.Scenes.byId(st.id);
+      if (!sc) return;
+      delete S().botScene[th.id];
+      pushMsg(th.id, { from: 'sys', text: `🎬 ${sc.icon} ${sc.name[V.I18n.lang]} ✕` });
+      drawQuick();
+      drawTips();
     },
     'quick-toggle': () => {
       localStorage.setItem('valeria:quick', quickOn() ? '0' : '1');
@@ -835,8 +923,8 @@
     view: () => view,
     write: id => openThread((lastThreadOf(id) || newThread(id)).id)
   };
-  Object.assign(acts, V.MapView.actions(UI), V.Library.actions(UI), V.Home.actions(UI), V.Labs.actions(UI));
-  Object.assign(screens, V.Library.screens(UI), V.Labs.screens(UI), { home: () => V.Home.render(UI) });
+  Object.assign(acts, V.MapView.actions(UI), V.Library.actions(UI), V.Home.actions(UI), V.Labs.actions(UI), V.News.actions(UI));
+  Object.assign(screens, V.Library.screens(UI), V.Labs.screens(UI), V.News.screens(UI), { home: () => V.Home.render(UI) });
 
   /* ---------- events ---------- */
   main.addEventListener('click', e => {
@@ -889,7 +977,7 @@
     } catch (err) { /* unreadable image: ignore */ }
     if (el.id === 'langSel') { V.I18n.setLang(el.value); render(); }
     if (el.id === 'themeSel') setTheme(el.value);
-    if (el.id === 'musicSel') V.Sound.setMusic(el.value === '1');
+    if (el.id === 'musicSel') V.Sound.setMusic(el.value);
     if (el.id === 'sfxSel') V.Sound.setSfx(el.value === '1');
     // 📏 figure select: one value per group in draft.traits
     if (el.dataset && el.dataset.fig && draft) {
@@ -932,7 +1020,7 @@
 
   /* ---------- start ---------- */
   setTheme(theme());
-  V.FX.ambient();
+  V.Feasts.apply();
   V.Sound.init();
   render();
   if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});

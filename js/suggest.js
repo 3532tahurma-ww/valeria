@@ -10,7 +10,9 @@
  *   done in the last 5 letters −2 · question already asked −3 · intimacy with nothing tender before −1
  * complete(text, char) → chips whose name or trigger words start like the last word typed
  * groups(char)  → every event / question by category, for the "⋯" picker
- * ctx: { char, current, asked, log (recent event ids, newest last), empty, lang (UI), user }
+ *   🎬 scene in progress → its next steps +5 · 📖 her episode → the next scene's opening event +2.5
+ * tips(ctx) → { say (HTML), ids } 🕯️ Dame Mathilde's advice bar (like Carmen's 💡 Lia)
+ * ctx: { char, current, asked, scene (state.botScene of the letter), log (recent event ids, newest last), empty, lang (UI), user }
  */
 window.Valeria = window.Valeria || {};
 
@@ -40,6 +42,9 @@ Valeria.Suggest = (() => {
     q_drink: ['What do you drink?', 'Que buvez-vous ?'], q_lover: ['Do you have a lover?', 'Avez-vous un amant ?'], q_faith: ['Do you believe in God?', 'Croyez-vous en Dieu ?'],
     q_english: ['What do you think of the English?', 'Que pensez-vous des Anglais ?'], q_french: ['What do you think of the French?', 'Que pensez-vous des Français ?'],
     q_like: ['What do you like?', "Qu'aimez-vous ?"],
+    q_saint: ['Who is your patron saint?', 'Quel est votre saint patron ?'], q_feast: ['What festival do you have at home?', 'Quelle est la fête patronale chez vous ?'],
+    q_song: ['Sing me a song of your home.', 'Chantez-moi une chanson de chez vous.'], q_proverb: ['Tell me a saying from your land.', 'Dites-moi un dicton de chez vous.'],
+    q_tongue: ['Say hello in your tongue.', 'Dites bonjour dans votre langue.'],
     hairplay: ['Let your hair down.', 'Dénouez vos cheveux.'], blindfold: ['Close your eyes…', 'Fermez les yeux…'], window: ['Come by the window.', 'Venez à la fenêtre.'],
     breasts: ['*kisses your breasts*', '*embrasse vos seins*'], bottom: ['*hands on your hips*', '*les mains sur vos hanches*'], spank: ['*spanks you*', '*vous donne une fessée*'],
     lower: ['Let me kiss lower…', 'Laissez-moi embrasser plus bas…'], anal: ['The other way, tonight?', "Par l'autre chemin, ce soir ?"],
@@ -106,6 +111,9 @@ Valeria.Suggest = (() => {
     V.EVENTS.events.forEach(e => add(e.id, 0));
     if (cur && FLOW[cur.id]) FLOW[cur.id].forEach((id, k) => add(id, 3 - k * 0.2, T('Natural next step', 'Suite naturelle')));
     if (cur && cur.cat === 'intimacy') ['faster', 'slower', 'again', 'name', 'look'].forEach(id => add(id, 2, T('During intimacy', "Pendant l'intimité")));
+    // 🎬 steps of the scene in progress, or 📖 the scene her episode waits for (js/scenes.js)
+    if (V.Scenes && ctx.scene) V.Scenes.next(ctx.scene, char).forEach((id, k) => add(id, 5 - k * 0.3, T('🎬 Scene step', '🎬 Étape de la scène')));
+    else if (V.Scenes && char) { const ep = V.Scenes.epNext(char.mem); if (ep) add(ep.open, 2.5, T('📖 Next scene of the episode', '📖 Scène suivante de l’épisode')); }
     if (!cur) OPENERS.forEach(id => add(id, isQ(evById(id) || {}) ? 1 : 0.8, ''));
     if (ctx.empty) add('greet', 4, T('A first letter', 'Une première lettre'));
     const hour = new Date().getHours();
@@ -116,7 +124,7 @@ Valeria.Suggest = (() => {
       const e = evById(x.id);
       if (isQ(e)) {
         if (log.includes(x.id)) x.s -= 3; else { x.s += 0.6; x.why.push(T('Not asked yet', 'Pas encore demandé')); }
-        if (home && ['q_from', 'q_food', 'q_drink'].includes(x.id) && !log.includes(x.id)) { x.s += 1; x.why.push(T('Her homeland', 'Sa terre natale')); }
+        if (home && ['q_from', 'q_food', 'q_drink', 'q_saint', 'q_feast', 'q_song', 'q_proverb', 'q_tongue'].includes(x.id) && !log.includes(x.id)) { x.s += 1; x.why.push(T('Her homeland', 'Sa terre natale')); }
       }
       if ((e.variants || []).some(v => (v.traits || v.origin) && V.Bot.fits(char, v))) { x.s += 1.5; x.why.push(T('Suits her temper', 'Convient à son caractère')); }
       if (e.traits) { x.s += 2; x.why.push(T('Only for her kind', 'Réservé à son genre')); }
@@ -155,5 +163,52 @@ Valeria.Suggest = (() => {
     return CAT.map(([cat, ic, en, fr]) => ({ cat, title: `${ic} ${L === 'fr' ? fr : en}`, items: V.EVENTS.events.filter(e => e.cat === cat && V.Bot.fits(char, e)).map(e => chip(e.id, char, L)) }));
   }
 
-  return { SAY, FLOW, quick, complete, groups, sayOf, chip };
+  // 🕯️ Dame Mathilde's advice above the letter (like Carmen's 💡 Lia): one sentence for the moment + up to 4 event chips
+  // order: her question → 🎬 scene in progress → 📅 feast day not spoken of yet → first letter → after the climax → 📖 episode → intimacy → tenderness → a new episode / scene
+  function tips(ctx) {
+    const L = ctx.lang === 'fr' ? 'fr' : 'en', char = ctx.char, mem = (char && char.mem) || {}, S = V.Scenes;
+    const T = (en, fr) => (L === 'fr' ? fr : en), b = s => `<b>${s}</b>`;
+    const cur = ctx.current ? evById(ctx.current) : null, nm = id => { const e = evById(id); return e ? `${e.icon} ${e.name[L]}` : id; };
+    const ok = ids => ids.filter((id, i) => ids.indexOf(id) === i && evById(id) && V.Bot.fits(char, evById(id))).slice(0, 4);
+    const res = (say, ids) => ({ say, ids: ok(ids || []) });
+    const p = S && ctx.scene ? S.progress(ctx.scene, char) : null;
+    if (ctx.asked) return res(T('She asked you something. Answer her first: your next letter is your reply.', 'Elle vous a posé une question. Répondez d’abord : votre prochaine lettre sera la réponse.'));
+    if (p) {
+      const nx = S.next(ctx.scene, char), dots = '●'.repeat(p.n) + '○'.repeat(Math.max(0, p.need - p.n));
+      const how = p.ready ? T(`all done, finish it with ${b(nm(p.sc.fin))}.`, `tout est fait, finissez par ${b(nm(p.sc.fin))}.`)
+        : p.sc.mode === 'seq' ? T(`in order, next comes ${b(nm(nx[0]))}.`, `dans l’ordre, ensuite ${b(nm(nx[0]))}.`)
+        : T(`do any of these, in any order.`, `faites l’un de ceux-ci, dans l’ordre qu’il vous plaira.`);
+      return res(`🎬 ${b(S.label(p.sc, L))} ${dots} ${p.n}/${p.need}: ${how}`, nx);
+    }
+    // 📅 a feast day she has not spoken of yet (js/feasts.js)
+    const fe = V.Feasts && V.Feasts.current();
+    if (fe && mem.feastDay !== V.Feasts.dayKey(new Date()) + ':' + fe.id) return res(T(`📅 Today is ${b(fe.icon + ' ' + fe.name[L])}. ${fe.desc[L] || ''} Wish her a happy feast, bring a gift, take her dancing.`,
+      `📅 C’est aujourd’hui ${b(fe.icon + ' ' + fe.name[L])}. ${fe.desc[L] || ''} Souhaitez-lui bonne fête, offrez un présent, emmenez-la danser.`), ['greet', 'gift', 'feast', 'dance']);
+    if (ctx.empty) return res(T('A first letter! Greet her properly, praise her, ask where she comes from.', 'Une première lettre ! Saluez-la comme il se doit, complimentez-la, demandez d’où elle vient.'), ['greet', 'compliment', 'q_from', 'handkiss']);
+    if (cur && cur.id === 'climax') return res(T('Do not run off now. Hold her, tell her you love her: she will remember.', 'Ne filez pas maintenant. Serrez-la, dites-lui que vous l’aimez : elle s’en souviendra.'), ['cuddle', 'love', 'q_memory', 'again']);
+    const ep = S && S.epNext(mem), E = ep && S.epById(mem.ep.id);
+    if (E) return res(T(`📖 ${b(S.label(E, L))} ${mem.ep.i + 1}/${E.scenes.length}: the next scene is ${b(S.label(ep, L))}, it begins with ${b(nm(ep.open))}.`,
+      `📖 ${b(S.label(E, L))} ${mem.ep.i + 1}/${E.scenes.length} : la scène suivante est ${b(S.label(ep, L))}, elle commence par ${b(nm(ep.open))}.`), [ep.open]);
+    // 🤝❤️🔥 her feelings (js/feel.js)
+    const f = V.Feel && char ? V.Feel.init(char) : null, fn = k => `${V.Feel.meta(k).icon} ${V.Feel.meta(k).name[L]} ${f[k]}`;
+    if (f && cur && cur.kind === 'act' && V.Feel.tooSoon(cur, f)) {
+      const n = V.Feel.needOf(cur), k = Object.keys(n).find(x => f[x] < n[x]);
+      return res(T(`She hesitates: ${b(nm(cur.id))} asks for ${b(V.Feel.meta(k).name[L] + ' ' + n[k])} and she has ${b(fn(k))}. Slow down and win her first.`,
+        `Elle hésite : ${b(nm(cur.id))} demande ${b(V.Feel.meta(k).name[L] + ' ' + n[k])} et elle en a ${b(fn(k))}. Ralentissez et gagnez-la d’abord.`), ['slower', 'hug', 'handhold', 'love']);
+    }
+    if (f && f.desire >= 80 && !(cur && cur.cat === 'intimacy')) return res(T(`${b(fn('desire'))}: she is burning. Do not keep her waiting.`, `${b(fn('desire'))} : elle brûle. Ne la faites pas attendre.`), ['undress', 'kiss', 'missionary', 'lower']);
+    if (cur && cur.cat === 'intimacy') return res(T('Keep the rhythm or change it; when you cannot hold back, the climax.', 'Gardez le rythme ou changez-le ; quand vous n’en pouvez plus, l’extase.'), (FLOW[cur.id] || []).concat('climax'));
+    if (cur && cur.kind === 'act') return res(T('She is warming to you. Go a little further, gently.', 'Elle se laisse aller. Allez un peu plus loin, doucement.'), FLOW[cur.id] || []);
+    if (f && f.trust < 15) return res(T(`${b(fn('trust'))}: she does not trust you yet. An apology, an embrace, a question about her fears will help.`, `${b(fn('trust'))} : elle ne vous fait pas encore confiance. Des excuses, une étreinte, une question sur ses peurs aideront.`), ['sorry', 'hug', 'q_fear', 'pray']);
+    if (f && f.love < 5) return res(T(`${b(fn('love'))}: her heart is not won yet. Poems, gifts and sweet words.`, `${b(fn('love'))} : son cœur n’est pas encore conquis. Poèmes, présents et mots doux.`), ['poem', 'gift', 'compliment', 'dance']);
+    if (S) {
+      const e = (V.EPISODES || []).find(x => !(mem.eps || {})[x.id] && S.epOk(x, char, mem));
+      if (e) { const first = S.byId(e.scenes[0]); return res(T(`📖 She dreams of ${b(S.label(e, L))}. It starts with the scene ${b(S.label(first, L))}: ${b(nm(first.open))}.`, `📖 Elle rêve de ${b(S.label(e, L))}. Cela commence par la scène ${b(S.label(first, L))} : ${b(nm(first.open))}.`), [first.open]); }
+      const scs = (V.SCENES || []).filter(s => S.usable(s, char) && !(mem.scenes || {})[s.id]);
+      if (scs.length) { const sc = scs[0]; return res(T(`🎬 You have never played ${b(S.label(sc, L))} with her. It begins with ${b(nm(sc.open))}.`, `🎬 Vous n’avez jamais joué ${b(S.label(sc, L))} avec elle. Cela commence par ${b(nm(sc.open))}.`), [sc.open]); }
+    }
+    return res(T('Court her: a compliment, a question about her land, a dance.', 'Faites-lui la cour : un compliment, une question sur sa terre, une danse.'), ['compliment', 'q_feast', 'dance']);
+  }
+
+  return { SAY, FLOW, quick, complete, groups, sayOf, chip, tips };
 })();

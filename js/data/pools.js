@@ -1,6 +1,6 @@
 /*
  * Valeria - pools for 🎲 random characters (js/gen.js)
- * first[pool][f|m], surname[pool]: pool = region.names ('en', 'fr', 'scot', 'wales', 'irl', 'nav', 'flem')
+ * first[pool][f|m], surname[pool]: pool = region.names ('en', 'fr', 'scot', 'wales', 'irl', 'nav', 'flem', 'ger', 'boh', 'hun', 'pol', 'dan')
  * titles.f / titles.m: [EN, FR] ordinary titles (rulers come from map regions)
  * mottos, origins, secrets, hopes: [EN, FR]; {name} = first name, {city} = seat
  */
@@ -35,6 +35,26 @@ Valeria.POOLS = {
     flem: {
       f: ['Margriet', 'Machteld', 'Clementia', 'Jacoba', 'Godelieve', 'Aleidis', 'Beatrijs', 'Ida', 'Hadewijch', 'Liedewij'],
       m: ['Boudewijn', 'Diederik', 'Gwijde', 'Jan', 'Lodewijk', 'Willem', 'Arnulf', 'Filips']
+    },
+    ger: {
+      f: ['Elisabeth', 'Kunigunde', 'Margarethe', 'Agnes', 'Mechthild', 'Adelheid', 'Gertrud', 'Richenza', 'Hedwig', 'Katharina', 'Sophia', 'Irmgard', 'Walburga', 'Beatrix', 'Ursula', 'Ottilie', 'Gisela', 'Jutta'],
+      m: ['Friedrich', 'Ludwig', 'Albrecht', 'Heinrich', 'Rudolf', 'Konrad', 'Ernst', 'Wilhelm', 'Otto', 'Sigismund', 'Leopold', 'Ulrich', 'Dietrich']
+    },
+    boh: {
+      f: ['Ludmila', 'Dobroslava', 'Anežka', 'Eliška', 'Kateřina', 'Johana', 'Zdislava', 'Markéta', 'Bohuslava', 'Jitka', 'Ofka', 'Perchta'],
+      m: ['Václav', 'Jiří', 'Přemysl', 'Boleslav', 'Jan', 'Vratislav', 'Oldřich', 'Zikmund', 'Hynek', 'Zbyněk']
+    },
+    hun: {
+      f: ['Erzsébet', 'Katalin', 'Ilona', 'Borbála', 'Margit', 'Orsolya', 'Dorottya', 'Zsófia', 'Klára', 'Piroska', 'Ágnes', 'Anna'],
+      m: ['László', 'Mátyás', 'János', 'István', 'Miklós', 'Imre', 'Béla', 'András', 'Gábor', 'Zsigmond']
+    },
+    dan: {
+      f: ['Margrete', 'Ingeborg', 'Kirsten', 'Cecilie', 'Sofie', 'Dorothea', 'Helvig', 'Ingrid', 'Karen', 'Mette', 'Agnete', 'Elline'],
+      m: ['Erik', 'Valdemar', 'Christoffer', 'Knud', 'Oluf', 'Niels', 'Peder', 'Henrik', 'Esbern', 'Absalon']
+    },
+    pol: {
+      f: ['Jadwiga', 'Elżbieta', 'Zofia', 'Małgorzata', 'Dobrawa', 'Kunegunda', 'Salomea', 'Ryksa', 'Agnieszka', 'Katarzyna', 'Barbara', 'Anna'],
+      m: ['Władysław', 'Kazimierz', 'Bolesław', 'Mieszko', 'Jan', 'Zbigniew', 'Stanisław', 'Henryk', 'Jakub', 'Wojciech']
     }
   },
 
@@ -45,7 +65,12 @@ Valeria.POOLS = {
     wales: ['of Gwynedd', 'of Powys', 'of Dyfed', 'of Gower', 'of Brecon', 'of Anglesey'],
     irl: ['of Desmond', 'of Ormond', 'of Leinster', 'of Connacht', 'of Thomond', 'of Ulster'],
     nav: ['de Olite', 'de Estella', 'de Tafalla', 'de Sangüesa', 'de Lizarra', 'de Viana'],
-    flem: ['van Gistel', 'van Brugge', 'van Gent', 'van der Straeten', 'van Halewyn', 'van Rijsel', 'van Ieper']
+    flem: ['van Gistel', 'van Brugge', 'van Gent', 'van der Straeten', 'van Halewyn', 'van Rijsel', 'van Ieper'],
+    ger: ['von Falkenstein', 'von Hohenfels', 'von Lichtenau', 'von Wildenstein', 'von Rabenau', 'von Löwenstein', 'von Kronberg', 'von Ehrenfels', 'von Greifenstein', 'von Eschenbach', 'von Rotenburg'],
+    boh: ['z Rožmberka', 'ze Šternberka', 'z Pernštejna', 'z Lipé', 'z Kunštátu', 'z Hradce', 'z Lobkovic', 'z Kolovrat'],
+    hun: ['Garai', 'Báthori', 'Szapolyai', 'Rozgonyi', 'Perényi', 'Kanizsai', 'Bánfi', 'Héderváry'],
+    dan: ['Brahe', 'Bille', 'Rosenkrantz', 'Thott', 'Gyldenstierne', 'Krognos', 'Ulfstand', 'Hvide'],
+    pol: ['z Tęczyna', 'z Melsztyna', 'z Oleśnicy', 'z Szamotuł', 'z Ostroroga', 'z Pilczy', 'z Kurozwęk']
   },
 
   titles: {

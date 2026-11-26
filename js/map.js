@@ -9,7 +9,7 @@ window.Valeria = window.Valeria || {};
 
 Valeria.MapView = (() => {
   const V = Valeria;
-  const FULL = [0, 0, 538, 700];
+  const FULL = [0, 0, 920, 700];
   const proj = ([lon, lat]) => [(lon + 11) * 0.64 * 40, (59 - lat) * 40];
   const xy = p => proj(p).map(n => n.toFixed(1)).join(',');
   const path = poly => 'M' + poly.map(xy).join('L') + 'Z';
@@ -25,7 +25,7 @@ Valeria.MapView = (() => {
   const region = id => V.REGIONS.find(r => r.id === id);
 
   function bboxOf(r) {
-    const pts = r.poly.map(proj), xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+    const pts = [r.poly].concat(r.isles || []).flat().map(proj), xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
     const cx = (Math.min(...xs) + Math.max(...xs)) / 2, cy = (Math.min(...ys) + Math.max(...ys)) / 2;
     const w = Math.max(200, (Math.max(...xs) - Math.min(...xs)) * 2.6), h = w * (FULL[3] / FULL[2]);
     return [cx - w / 2, cy - h / 2, w, h];
@@ -54,11 +54,11 @@ Valeria.MapView = (() => {
         </pattern>
         <radialGradient id="vign" cx="50%" cy="50%" r="75%"><stop offset="60%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#3b2a1a" stop-opacity=".35"/></radialGradient>
       </defs>
-      <rect class="sea" x="-200" y="-200" width="1000" height="1100" data-act="map-reset"/>
-      <rect class="sea-w" x="-200" y="-200" width="1000" height="1100" fill="url(#waves)" pointer-events="none"/>`;
+      <rect class="sea" x="-200" y="-200" width="1400" height="1100" data-act="map-reset"/>
+      <rect class="sea-w" x="-200" y="-200" width="1400" height="1100" fill="url(#waves)" pointer-events="none"/>`;
     V.BACKDROP.forEach(p => { out += `<path class="back" d="${path(p)}" data-act="map-reset"/>`; });
     V.REGIONS.forEach(r => {
-      out += `<path class="reg ${sel === r.id ? 'on' : ''}" d="${path(r.poly)}" fill="${V.REALMS[r.realm].fill}" data-act="map-region" data-id="${r.id}"><title>${UI.esc(r.name[L])}</title></path>`;
+      out += `<path class="reg ${sel === r.id ? 'on' : ''}" d="${[r.poly].concat(r.isles || []).map(path).join('')}" fill="${r.fill || V.REALMS[r.realm].fill}" data-act="map-region" data-id="${r.id}"><title>${UI.esc(r.name[L])}</title></path>`;
     });
     V.REGIONS.forEach(r => {
       r.cities.forEach(([n, lon, lat], i) => {
@@ -83,7 +83,7 @@ Valeria.MapView = (() => {
       <text class="deco ship s2" x="${nx.toFixed(0)}" y="${ny.toFixed(0)}">⛵</text>`;
     const [tx, ty] = proj([4.6, 58.0]);
     out += `<g class="cartouche" transform="translate(${tx.toFixed(0)},${ty.toFixed(0)})"><rect x="-78" y="-18" width="156" height="34" rx="4"/><text y="5">Mappa Occidentis</text></g>
-      <rect x="-200" y="-200" width="1000" height="1100" fill="url(#vign)" pointer-events="none"/></svg>`;
+      <rect x="-200" y="-200" width="1400" height="1100" fill="url(#vign)" pointer-events="none"/></svg>`;
     return out;
   }
 
