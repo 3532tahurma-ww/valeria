@@ -16,6 +16,6 @@
 - Profil: 🧠 Memory kartı (ilk kezler + tarih, favoriler, cevapların, son mektup); ✕ `mem-del` siler.
 - Kütüphane: 🧠 Book of Memory (4 bölüm, canlı).
 
-## 🎭 Olaylar listesi (sohbette 🎭 düğmesi ya da ⚡ çubuğundaki "⋯")
+## 🎭 Olaylar listesi (sohbette ⋮ → 🎭 Events ya da ⚡ çubuğundaki "⋯")
 - Üstte (sadece "All" sekmesinde): 🔗 Next from here (`FLOW`), ❤️ Her favourites (hafızadan), 🎲 Surprise me (uygun rastgele act).
 - Sekmeler: All · Questions · Courtship · Tenderness · Intimacy · Commands; arama kutusu. Çip → yazma alanına; tekrar dokun → gönder.

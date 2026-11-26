@@ -1,4 +1,10 @@
-﻿# Changelog
+# Changelog
+
+## 0.5.2 (2026-11-26) — sw `valeria-v7`
+- Hata: boş efekt çubuğu (`#fxbar`) kısayolların altında hep görünüyordu (CSS `display:flex` `hidden`'ı eziyordu); `.fxbar[hidden]` eklendi.
+
+## 0.5.1 (2026-11-26) — sw `valeria-v6`
+- Sohbet sadeleşti: alt çubukta sadece yazma alanı + 🔏 (arma yalnızca bot kapalıyken); 🎭 Events, ✨ Effect, 📜 Narration ⋮ menüye taşındı; başlıktaki 🤖 rozeti kalktı; menü seçimden sonra kapanır.
 
 ## 0.5.0 (2026-11-26) — sw `valeria-v5`
 - 🎭 Olaylar düğmesi + liste (sonraki, favoriler, sürpriz, sekmeler, arama).

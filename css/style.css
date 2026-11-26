@@ -598,3 +598,10 @@ body.candle .leaf-b > p:first-child::first-letter { color: var(--gold); }
 .empty-mem p { margin: 0; }
 .two.fig { grid-template-columns: 1fr 1fr; }
 .link { background: none; border: 0; padding: 0; color: var(--wine); text-decoration: underline; font: inherit; }
+
+/* v0.5.1: lighter composer */
+.menu hr { border: 0; border-top: 1px solid var(--gold); margin: 0; }
+.composer .send.fx-on { background: var(--gold); box-shadow: 0 0 10px rgba(226, 189, 95, .8); }
+.composer .send { font-size: 1.5rem; }
+
+.fxbar[hidden] { display: none; }

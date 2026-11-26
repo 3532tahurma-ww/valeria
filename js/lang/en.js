@@ -44,6 +44,7 @@ Valeria.LANG.en = {
   'mem.answers': 'What you told her',
   'mem.last': 'Last letter',
   'chat.events': 'Events',
+  'chat.notePrompt': 'Narration line (shown in the middle):',
   'ev.next': 'Next from here',
   'ev.favs': 'Her favourites',
   'ev.surprise': 'Surprise me',

@@ -46,13 +46,13 @@ Valeria.BOOKS = [
         title: { en: 'Writing letters', fr: 'Écrire des lettres' },
         body: {
           en: `<p>Open a character and tap <b>✒️ Write</b>. One character can have several named correspondences.</p>
-<p>The crest at the bottom left shows who is writing. Tap it to change side when bot mode is off. <b>📜</b> adds a narration line in the middle, <b>✨</b> chooses an effect for the next letter, <b>🔏</b> seals and sends.</p>
+<p>Write and tap <b>🔏</b> to seal and send. When bot mode is off, a crest appears at the bottom left: tap it to choose who is writing.</p>
 <p>Tap a letter to edit it, move it to the other side, give it an effect or delete it.</p>
-<p>The <b>⋮</b> menu at the top right holds <b>🤖 Bot mode</b>, <b>⇄ Take turns</b>, <b>✎ Rename</b>, the profile and <b>🔥 Burn this correspondence</b>.</p>`,
+<p>Everything else is in the <b>⋮</b> menu at the top right: <b>🎭 Events</b>, <b>✨ Effect</b> for the next letter (the seal glows while one is waiting), <b>📜 Narration</b> (a line in the middle), <b>🤖 Bot mode</b>, <b>⚡ Shortcuts</b>, <b>⇄ Take turns</b>, <b>✎ Rename</b>, the profile and <b>🔥 Burn this correspondence</b>.</p>`,
           fr: `<p>Ouvrez un personnage et touchez <b>✒️ Écrire</b>. Un personnage peut avoir plusieurs correspondances nommées.</p>
-<p>Le blason en bas à gauche montre qui écrit. Touchez-le pour changer de côté quand le mode bot est coupé. <b>📜</b> ajoute une ligne de narration au centre, <b>✨</b> choisit un effet pour la prochaine lettre, <b>🔏</b> scelle et envoie.</p>
+<p>Écrivez puis touchez <b>🔏</b> pour sceller et envoyer. Quand le mode bot est coupé, un blason apparaît en bas à gauche : touchez-le pour choisir qui écrit.</p>
 <p>Touchez une lettre pour la modifier, la passer de l'autre côté, lui donner un effet ou la supprimer.</p>
-<p>Le menu <b>⋮</b> en haut à droite contient <b>🤖 Mode bot</b>, <b>⇄ Chacun son tour</b>, <b>✎ Renommer</b>, le profil et <b>🔥 Brûler cette correspondance</b>.</p>`
+<p>Tout le reste est dans le menu <b>⋮</b> en haut à droite : <b>🎭 Événements</b>, <b>✨ Effet</b> pour la prochaine lettre (le sceau brille tant qu'il attend), <b>📜 Narration</b> (une ligne au centre), <b>🤖 Mode bot</b>, <b>⚡ Raccourcis</b>, <b>⇄ Chacun son tour</b>, <b>✎ Renommer</b>, le profil et <b>🔥 Brûler cette correspondance</b>.</p>`
         }
       },
       {
@@ -75,10 +75,10 @@ Valeria.BOOKS = [
         body: {
           en: `<p>In the character form, <b>📏 Figure</b> sets her height, build, bosom, hips and intimate sizes (the same values as Carmen). 🎲 rolls a figure that fits her build. In <b>👑 Me</b> you set your own gender and size. All of these change her answers, her questions and some events: see the <i>Book of Temperaments</i>.</p>
 <p>Each character also has a <b>🧠 memory</b>: first times with their dates, favourites, your answers to her questions and your last letter. She brings them up herself, and you can ask “do you remember…?”. Read the <i>Book of Memory</i>; the memory is shown on her profile, where ✕ makes her forget a line.</p>
-<p>In a letter, <b>🎭</b> opens the list of everything she reacts to: what comes next, her favourites, a surprise, and every event by category with a search box.</p>`,
+<p>In a letter, <b>⋮ → 🎭 Events</b> (or <b>⋯</b> in the shortcut bar) opens the list of everything she reacts to: what comes next, her favourites, a surprise, and every event by category with a search box.</p>`,
           fr: `<p>Dans le formulaire, <b>📏 Silhouette</b> fixe sa taille, sa corpulence, sa poitrine, ses hanches et ses mesures intimes (les mêmes valeurs que Carmen). 🎲 tire une silhouette cohérente avec sa corpulence. Dans <b>👑 Moi</b>, vous réglez votre genre et votre taille. Tout cela change ses réponses, ses questions et certains événements : voir le <i>Livre des tempéraments</i>.</p>
 <p>Chaque personnage a aussi une <b>🧠 mémoire</b> : premières fois avec leur date, favoris, vos réponses à ses questions et votre dernière lettre. Elle en parle d'elle-même, et vous pouvez demander « vous souvenez-vous… ? ». Lisez le <i>Livre de la mémoire</i> ; la mémoire est visible sur son profil, où ✕ lui fait oublier une ligne.</p>
-<p>Dans une lettre, <b>🎭</b> ouvre la liste de tout ce à quoi elle réagit : la suite, ses favoris, une surprise, et chaque événement par catégorie avec une recherche.</p>`
+<p>Dans une lettre, <b>⋮ → 🎭 Événements</b> (ou <b>⋯</b> dans la barre de raccourcis) ouvre la liste de tout ce à quoi elle réagit : la suite, ses favoris, une surprise, et chaque événement par catégorie avec une recherche.</p>`
         }
       },
       {

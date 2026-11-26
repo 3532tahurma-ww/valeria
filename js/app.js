@@ -6,7 +6,7 @@
 (() => {
   const V = window.Valeria;
   const Store = V.Store;
-  V.VERSION = '0.5.0';
+  V.VERSION = '0.5.1';
   const S = () => Store.state;
   const t = (k, v) => V.I18n.t(k, v);
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -315,12 +315,15 @@
             <button class="icon" data-act="back-chat">‹</button>
             <button class="who" data-act="chat-head"><span class="crests">${cs.slice(0, 3).map(c => crest(c, 'sm')).join('')}</span>
               <span><strong>${esc(th.title)}</strong><small>${esc(cs.map(c => c.name).join(', '))}</small></span></button>
-            ${bot ? `<span class="bot-pill" title="${t('chat.bot')}">🤖</span>` : ''}
             <button class="icon kebab" data-act="menu" title="${t('chat.menu')}">⋮</button>
             <div class="menu" id="chatMenu" hidden>
+              <button data-act="q-more">🎭 ${t('chat.events')}</button>
+              <button data-act="fx-open">✨ ${t('chat.effect')}${pendingFx ? `: <b>${V.FX.ICON[pendingFx]}</b>` : ''}</button>
+              <button data-act="note">📜 ${t('chat.note')}</button>
+              <hr>
               <button data-act="bot">🤖 ${t('chat.bot')}: <b>${bot ? t('chat.on') : t('chat.off')}</b></button>
               <button data-act="quick-toggle">⚡ ${t('chat.quick')}: <b>${quickOn() ? t('chat.on') : t('chat.off')}</b></button>
-              <button data-act="turns">⇄ ${t('chat.turns')}: <b>${S().turns[th.id] !== false ? t('chat.on') : t('chat.off')}</b></button>
+              ${bot ? '' : `<button data-act="turns">⇄ ${t('chat.turns')}: <b>${S().turns[th.id] !== false ? t('chat.on') : t('chat.off')}</b></button>`}
               <button data-act="rename-thread" data-id="${esc(th.id)}">✎ ${t('chat.rename')}</button>
               ${th.group ? '' : `<button data-act="chat-head">👤 ${t('home.profile')}</button>`}
               <button class="danger-item" data-act="burn">🔥 ${t('chat.burn')}</button>
@@ -331,11 +334,8 @@
           <div class="qsheet" id="qsheet" hidden></div>
           <div class="fxbar" id="fxbar" hidden></div>
           <footer class="composer">
-            <button class="side" data-act="side" title="${t('chat.side')}"></button>
+            ${bot ? '' : `<button class="side" data-act="side" title="${t('chat.side')}"></button>`}
             <textarea id="txt" rows="1"></textarea>
-            <button class="icon ev-btn" data-act="q-more" title="${t('chat.events')}">🎭</button>
-            <button class="icon fx-btn" data-act="fx-open" title="${t('chat.effect')}">✨</button>
-            <button class="icon" data-act="note" title="${t('chat.note')}">📜</button>
             <button class="icon send" data-act="send" title="${t('chat.send')}">🔏</button>
           </footer>
         </div>`;
@@ -400,12 +400,11 @@
   }
   function drawSide() {
     const th = threadById(view.id), b = $('.composer .side'), ta = $('#txt');
-    if (!th || !b) return;
+    if (!th || !ta) return;
     const bot = botOn(th.id);
     const s = bot ? 'me' : sideOf(th);
     const c = s === 'me' ? null : charById(th.group ? s : th.charId);
-    b.innerHTML = c ? crest(c, 'sm') : userCrest('sm');
-    b.disabled = bot;
+    if (b) b.innerHTML = c ? crest(c, 'sm') : userCrest('sm');
     ta.placeholder = t('chat.placeholder', { name: c ? c.name : userName() });
   }
 
@@ -583,8 +582,9 @@
     const bar = $('#fxbar');
     if (bar) bar.hidden = true;
     fxFor = null;
-    const b = $('.fx-btn');
-    if (b) b.classList.toggle('on', !!pendingFx);
+    // a pending effect makes the seal button glow
+    const b = $('.composer .send');
+    if (b) b.classList.toggle('fx-on', !!pendingFx);
   }
 
   /* ---------- saving forms ---------- */
@@ -718,7 +718,12 @@
       pushMsg(id, { from: 'sys', text: t(on ? 'chat.botOn' : 'chat.botOff') });
     },
     'side': () => { const th = threadById(view.id); S().side[th.id] = nextSide(th); save(); drawSide(); },
-    'note': () => send(true),
+    // 📜 narration line: the text being written, or asked for
+    'note': () => {
+      const ta = $('#txt');
+      if (!ta.value.trim()) { const v = prompt(t('chat.notePrompt')); if (!v || !v.trim()) return; ta.value = v.trim(); }
+      send(true);
+    },
     'send': () => send(false),
     'm-edit': () => {
       const m = curMsg();
@@ -848,7 +853,10 @@
       a.classList.toggle('on', i < 0);
       return;
     }
-    if (a.dataset.act) { const fn = acts[a.dataset.act]; if (fn) fn(a, e); return; }
+    if (a.dataset.act) {
+      if (menu && a.closest('#chatMenu')) menu.hidden = true;
+      const fn = acts[a.dataset.act]; if (fn) fn(a, e); return;
+    }
     if (a.classList.contains('msg')) {
       if (a.classList.contains('eff-ink') && !a.classList.contains('revealed')) { a.classList.add('revealed'); return; }
       sel = sel === a.dataset.mid ? null : a.dataset.mid;

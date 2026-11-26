@@ -1,6 +1,6 @@
 /* Valeria service worker: offline cache. Bump VERSION on every release.
  * Music/ is not cached (large files, audio range requests): background music needs the network. */
-const VERSION = 'valeria-v5';
+const VERSION = 'valeria-v7';
 importScripts('js/data/portraits.js');
 const FILES = [
   './', 'index.html', 'manifest.json', 'icons/icon.svg', 'css/style.css',

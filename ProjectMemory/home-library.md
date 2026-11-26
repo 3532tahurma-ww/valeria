@@ -14,7 +14,8 @@ Carmen'in portal ana sayfası gibi. Günlük her şey tarihle tohumlanır (`Gen.
 - `gen` kitapları `GEN(UI)[ad]()` ile canlı veriden üretilir (olaylar, sorular, ASKS, TOPICS, varyantlar, ORIGINS, FX): veri değişince kitap kendiliğinden güncel. Elle yazılan Guide değişen özellikle birlikte güncellenmeli.
 
 ## ⋮ Sohbet menüsü
-- Sohbet başlığında sağda ⋮: 🤖 Bot mode (On/Off), ⇄ Take turns, ✎ Rename, 👤 Profile (tekli), 🔥 Burn this correspondence. Dışarı dokununca kapanır. Bot açıkken başlıkta 🤖 rozeti.
+- Sohbet başlığında sağda ⋮: 🎭 Events, ✨ Effect (sonraki mektup; bekleyen efekt varken 🔏 parlar), 📜 Narration (yazılanı ya da sorulanı orta satır yapar) | 🤖 Bot mode, ⚡ Shortcuts, ⇄ Take turns (sadece bot kapalıyken), ✎ Rename, 👤 Profile (tekli), 🔥 Burn. Bir seçeneğe ya da dışarı dokununca kapanır.
+- Alt çubuk sade (v0.5.1): sadece yazma alanı + 🔏; taraf seçen arma sadece bot kapalıyken.
 - **Bot modu varsayılan açık**: `botOn(id) = state.bot[id] !== false` (kapatılınca `false` yazılır).
 
 ## Alt menü
