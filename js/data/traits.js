@@ -1,0 +1,43 @@
+/*
+ * Valeria - character presets
+ * TRAITS: stored on the character as the English id (backup-compatible with Carmen: traits = string array).
+ *   Labels come from the dictionaries as 'trait.<id>'. Unknown traits (e.g. from a Carmen backup) are kept and shown as-is.
+ * HOUSES: character.house = id; colors → character.colors (crest gradient).
+ * TITLES: [EN, FR] suggestions for character.job.
+ */
+window.Valeria = window.Valeria || {};
+
+Valeria.TRAITS = {
+  personality: ['Chivalrous', 'Courtly', 'Pious', 'Proud', 'Cunning', 'Gentle', 'Bold', 'Shy', 'Witty',
+    'Melancholic', 'Passionate', 'Loyal', 'Jealous', 'Romantic', 'Stern', 'Mischievous', 'Learned', 'Rebellious'],
+  style: ['Courtly speech', 'Plain speech', 'Brief letters', 'Long letters', 'Poetic', 'Teasing', 'Uses vous', 'Uses tu']
+};
+
+Valeria.HOUSES = [
+  { id: 'valois', realm: 'fr', name: { en: 'House of Valois', fr: 'Maison de Valois' }, colors: ['#1d3a8a', '#d4af37'] },
+  { id: 'plantagenet', realm: 'en', name: { en: 'House of Plantagenet', fr: 'Maison Plantagenêt' }, colors: ['#a3172b', '#e0b84a'] },
+  { id: 'lancaster', realm: 'en', name: { en: 'House of Lancaster', fr: 'Maison de Lancastre' }, colors: ['#b3202f', '#f2e6c9'] },
+  { id: 'york', realm: 'en', name: { en: 'House of York', fr: "Maison d'York" }, colors: ['#4b5a8a', '#f4efe2'] },
+  { id: 'burgundy', realm: 'fr', name: { en: 'House of Burgundy', fr: 'Maison de Bourgogne' }, colors: ['#6b1e3a', '#1f3a6b'] },
+  { id: 'brittany', realm: 'fr', name: { en: 'House of Brittany', fr: 'Maison de Bretagne' }, colors: ['#1a1a1a', '#f5f1e6'] },
+  { id: 'anjou', realm: 'fr', name: { en: 'House of Anjou', fr: "Maison d'Anjou" }, colors: ['#2a4f9e', '#c9342f'] },
+  { id: 'navarre', realm: 'fr', name: { en: 'House of Navarre', fr: 'Maison de Navarre' }, colors: ['#9e1b20', '#e8c547'] },
+  { id: 'beaufort', realm: 'en', name: { en: 'House of Beaufort', fr: 'Maison Beaufort' }, colors: ['#2f5d3a', '#f0ead8'] },
+  { id: 'neville', realm: 'en', name: { en: 'House of Neville', fr: 'Maison Neville' }, colors: ['#8b1a1a', '#f0ead8'] },
+  { id: 'percy', realm: 'en', name: { en: 'House of Percy', fr: 'Maison Percy' }, colors: ['#2b3a8f', '#e2c25b'] },
+  { id: 'stewart', realm: 'sco', name: { en: 'House of Stewart', fr: 'Maison Stuart' }, colors: ['#1f4f8f', '#f2ecdc'] },
+  { id: 'fitzgerald', realm: 'irl', name: { en: 'House of FitzGerald', fr: 'Maison FitzGerald' }, colors: ['#f2ecdc', '#b3202f'] },
+  { id: 'church', realm: '',name: { en: 'The Church', fr: "L'Église" }, colors: ['#4a2b5e', '#d9c27a'] },
+  { id: 'commoner', realm: '', name: { en: 'Commoner', fr: 'Roturier' }, colors: ['#6b4f2f', '#a8865a'] }
+];
+
+Valeria.TITLES = [
+  ['Queen', 'Reine'], ['King', 'Roi'], ['Princess', 'Princesse'], ['Prince', 'Prince'],
+  ['Duchess', 'Duchesse'], ['Duke', 'Duc'], ['Countess', 'Comtesse'], ['Count', 'Comte'],
+  ['Baroness', 'Baronne'], ['Baron', 'Baron'], ['Lady', 'Dame'], ['Knight', 'Chevalier'],
+  ['Squire', 'Écuyer'], ['Lady-in-waiting', 'Dame de compagnie'], ['Troubadour', 'Troubadour'],
+  ['Minstrel', 'Ménestrel'], ['Abbess', 'Abbesse'], ['Scribe', 'Scribe'], ['Healer', 'Guérisseuse'],
+  ['Merchant', 'Marchande'], ['Innkeeper', 'Aubergiste'], ['Seamstress', 'Couturière'],
+  ['Archer', 'Archer'], ['Spy', 'Espionne']
+];
+// Valeria.CITIES (seat suggestions) is built from the map regions in js/gen.js

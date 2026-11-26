@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#efe3c4"/>
+  <path d="M116 96h280v170c0 90-64 140-140 170-76-30-140-80-140-170z" fill="#7a1f2b" stroke="#b08d3c" stroke-width="18"/>
+  <path d="M256 96v340" stroke="#b08d3c" stroke-width="10" opacity=".5"/>
+  <path d="M256 96h140v170c0 90-64 140-140 170z" fill="#1f3a6b"/>
+  <text x="256" y="330" text-anchor="middle" font-family="Palatino Linotype, Georgia, serif" font-size="230" fill="#f4e6c3">V</text>
+</svg>
