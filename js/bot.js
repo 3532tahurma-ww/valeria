@@ -24,6 +24,7 @@
  *   🌍 homeReact after every event: greeting / farewell in her tongue, her oath on strong moments, a line when her land likes / dislikes it
  * Placeholders: {sen}/{you} user, {ben}/{me} her name, {city} {region} {house} {title} {age} {food} {drink} {oath} {custom} {event} {word} {place} {placecustom}
  *   homeland: {pet} {saint} {feast} {song} {proverb} {greetword} {byeword}
+ *   ⚔️ {chron}: the latest event of 1415 from her side (js/data/chronicle.js); plain fallback 15% mentions it within 7 days
  */
 window.Valeria = window.Valeria || {};
 
@@ -135,7 +136,9 @@ Valeria.Bot = (() => {
       // 🌍 homeland voice (js/data/homeland.js)
       pet: o('pet', ['my dear', 'mon cher']), saint: o('saint', ['all the saints', 'tous les saints']), feast: o('feast', ['the harvest feast', 'la fête des moissons']),
       song: o('song', ['an old ballad', 'une vieille ballade']), proverb: o('proverb', ['Slowly goes far', 'Qui va lentement va loin']),
-      greetword: o('greet', ['Good morrow', 'Bonjour']), byeword: o('bye', ['Farewell', 'Adieu'])
+      greetword: o('greet', ['Good morrow', 'Bonjour']), byeword: o('bye', ['Farewell', 'Adieu']),
+      // ⚔️ the latest event of 1415, as her land sees it (js/data/chronicle.js)
+      chron: V.Chronicle ? V.Chronicle.line(char, L, null, you) : ''
     };
   }
   const fill = (s, v) => String(s).replace(/\{(\w+)\}/g, (m, k) => (v[k] != null ? v[k] : m));
@@ -260,6 +263,7 @@ Valeria.Bot = (() => {
     else if (r < 0.5 && word) { v.word = word; say(V.ECHO[L]); }
     else if (r < 0.62 && O) addOrigin();
     else if (r < 0.72 && O && O.proverb && RG.proverb) memLine(RG.proverb, {});
+    else if (V.Chronicle && roll(0.15) && V.Chronicle.fresh(char, L, null, you)) out.push(V.Chronicle.fresh(char, L, null, you));
     else say(lines(D.fallback, L, char));
     return finish();
 

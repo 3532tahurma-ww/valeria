@@ -191,5 +191,45 @@ Valeria.ORIGINS = {
     food: ['herring of the Sound and rye porridge', 'hareng du Sund et bouillie de seigle'], drink: ['mead and Rostock beer', 'hydromel et bière de Rostock'], oath: ['By Saint Knud!', 'Par saint Knud !'],
     custom: ['one king wears three crowns, and the queen is an English princess', 'un seul roi porte trois couronnes, et la reine est une princesse anglaise'], traits: ['Bold', 'Proud', 'Loyal'],
     lines: { en: ['Every ship that enters the Baltic passes under our eyes, {sen}. Every one.', '*draws her fur closer* The Sound froze last winter. We walked to Scania.'], fr: ['Chaque navire qui entre dans la Baltique passe sous nos yeux, {sen}. Chacun.', '*resserre sa fourrure* Le Sund a gelé l’hiver dernier. Nous sommes allés à pied en Scanie.'] }
+  },
+  milan: {
+    food: ['risotto with saffron and a slice of grana', 'riz au safran et une lamelle de grana'], drink: ['red wine of the Oltrepò', "vin rouge de l'Oltrepò"], oath: ['By Saint Ambrose!', 'Par saint Ambroise !'],
+    custom: ['the serpent of the Visconti is painted on every gate, and the new duke trusts no one', 'la guivre des Visconti est peinte sur chaque porte, et le nouveau duc ne se fie à personne'], traits: ['Cunning', 'Proud', 'Courtly'],
+    lines: { en: ['Our armourers dress half the knights of Christendom, {sen}. Yours too, I would wager.', '*lowers her voice* The duke hides from his own court. They say he is afraid of thunder.'], fr: ['Nos armuriers habillent la moitié des chevaliers de la Chrétienté, {sen}. Les vôtres aussi, je parie.', '*baisse la voix* Le duc se cache de sa propre cour. On dit qu’il a peur du tonnerre.'] }
+  },
+  venice: {
+    food: ['cuttlefish in its ink and sweet spiced fritters', 'seiches à l’encre et beignets épicés'], drink: ['malmsey from Crete', 'malvoisie de Crète'], oath: ['By Saint Mark!', 'Par saint Marc !'],
+    custom: ['every Ascension the Doge throws a gold ring into the sea and marries it', 'à chaque Ascension, le doge jette un anneau d’or dans la mer et l’épouse'], traits: ['Cunning', 'Courtly', 'Passionate'],
+    lines: { en: ['Pepper, silk and glass, {sen}: all the East comes to us first, and leaves a little poorer.', '*laughs* We have no horses here. We have gondolas, and they keep secrets better.'], fr: ['Poivre, soie et verre, {sen} : tout l’Orient passe d’abord chez nous, et repart un peu plus pauvre.', '*rit* Nous n’avons pas de chevaux ici. Nous avons des gondoles, et elles gardent mieux les secrets.'] }
+  },
+  este: {
+    food: ['cappellacci of pumpkin and salami of Ferrara', 'cappellacci à la courge et salami de Ferrare'], drink: ['sparkling Lambrusco', 'Lambrusco pétillant'], oath: ['By Saint George!', 'Par saint Georges !'],
+    custom: ['our marquis keeps more poets than soldiers, and more ladies than poets', 'notre marquis entretient plus de poètes que de soldats, et plus de dames que de poètes'], traits: ['Courtly', 'Passionate', 'Learned'],
+    lines: { en: ['The mist rises off the Po every evening, {sen}. A good hour for secrets.', 'In Mantua the Gonzaga breed the finest horses in Italy. And they know it.'], fr: ['La brume monte du Pô chaque soir, {sen}. Une bonne heure pour les secrets.', 'À Mantoue, les Gonzague élèvent les plus beaux chevaux d’Italie. Et ils le savent.'] }
+  },
+  genoa: {
+    food: ['pesto of basil and fish soup', 'pistou de basilic et soupe de poisson'], drink: ['white wine of the Cinque Terre', 'vin blanc des Cinque Terre'], oath: ['By Saint George!', 'Par saint Georges !'],
+    custom: ['our bankers lend to kings, and our crossbowmen fight for whoever pays', 'nos banquiers prêtent aux rois, et nos arbalétriers se battent pour qui les paie'], traits: ['Bold', 'Cunning', 'Plain speech'],
+    lines: { en: ['A Genoese is born with salt in her hair and a ledger in her hand, {sen}.', 'We change our doge more often than our gowns. This year it is a Fregoso.'], fr: ['Une Génoise naît avec du sel dans les cheveux et un registre à la main, {sen}.', 'Nous changeons de doge plus souvent que de robe. Cette année, c’est un Fregoso.'] }
+  },
+  swiss: {
+    food: ['mountain cheese melted by the fire and dried beef', 'fromage de montagne fondu au feu et viande séchée'], drink: ['white wine of the lake shores', 'vin blanc des rives du lac'], oath: ['By Saint Verena!', 'Par sainte Vérène !'],
+    custom: ['we have no duke and want none: the valleys swore an oath to one another, and keep it with the halberd', 'nous n’avons pas de duc et n’en voulons pas : les vallées se sont juré fidélité, et tiennent parole à la hallebarde'], traits: ['Bold', 'Plain speech', 'Rebellious'],
+    lines: { en: ['This spring our men took the Aargau from the Habsburgs while their duke hid with a runaway pope, {sen}. 😏', '*laughs* A Swiss bows to God and to no one else. You may try, though.'], fr: ['Ce printemps, nos hommes ont pris l’Argovie aux Habsbourg pendant que leur duc se cachait avec un pape en fuite, {sen}. 😏', '*rit* Une Suissesse ne s’incline que devant Dieu. Vous pouvez toujours essayer.'] }
+  },
+  trent: {
+    food: ['buckwheat polenta with mountain mushrooms and speck', 'polenta de sarrasin aux champignons de montagne et speck'], drink: ['red Teroldego of the Adige', "Teroldego rouge de l'Adige"], oath: ['By Saint Vigilius!', 'Par saint Vigile !'],
+    custom: ['our prince is a bishop, our neighbours are Tyroleans, and every bridge on the Adige pays a toll', 'notre prince est un évêque, nos voisins sont tyroliens, et chaque pont sur l’Adige paie un péage'], traits: ['Pious', 'Stern', 'Cunning'],
+    lines: { en: ['Half of us speak Italian, half German, and we all complain in both, {sen}.', 'The Duke of Tyrol wants our bishop’s castle. The bishop prays. I would rather sharpen something.'], fr: ['La moitié d’entre nous parle italien, l’autre allemand, et nous nous plaignons tous dans les deux, {sen}.', 'Le duc de Tyrol veut le château de notre évêque. L’évêque prie. Moi, j’aiguiserais plutôt quelque chose.'] }
+  },
+  friuli: {
+    food: ['crisp frico of cheese and ham of San Daniele', 'frico au fromage et jambon de San Daniele'], drink: ['golden Ribolla wine', 'vin doré de Ribolla'], oath: ['By Saint Hermagoras!', 'Par saint Hermagore !'],
+    custom: ['our patriarch is a prince of the Church, and Venice wants his lands more every year', 'notre patriarche est un prince de l’Église, et Venise convoite ses terres un peu plus chaque année'], traits: ['Loyal', 'Proud', 'Stern'],
+    lines: { en: ['From the castle of Udine you can see the Alps and the sea at once, {sen}. Come and look.', '*sighs* The Venetians smile at us like a cat at a sparrow.'], fr: ['Du château d’Udine, on voit à la fois les Alpes et la mer, {sen}. Venez voir.', '*soupire* Les Vénitiens nous sourient comme un chat à un moineau.'] }
+  },
+  florence: {
+    food: ['bread without salt, beans and roast boar', 'pain sans sel, haricots et sanglier rôti'], drink: ['red wine of Chianti', 'vin rouge du Chianti'], oath: ['By Saint John!', 'Par saint Jean !'],
+    custom: ['the gold florin is good in every market from London to Cairo', 'le florin d’or a cours sur tous les marchés de Londres au Caire'], traits: ['Learned', 'Proud', 'Rebellious'],
+    lines: { en: ['They are building a dome on our cathedral that no one knows how to finish, {sen}. Florentines are like that.', '*quotes Dante under her breath* …and then pretends she did not.'], fr: ['On bâtit sur notre cathédrale une coupole que personne ne sait achever, {sen}. Les Florentins sont ainsi.', '*cite Dante à mi-voix* …puis fait semblant de rien.'] }
   }
 };

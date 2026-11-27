@@ -38,6 +38,13 @@ Valeria.HOUSES = [
   { id: 'mecklenburg', realm: 'hre', name: { en: 'House of Mecklenburg', fr: 'Maison de Mecklembourg' }, colors: ['#1a1a1a', '#e3b341'] },
   { id: 'hohenzollern', realm: 'hre', name: { en: 'House of Hohenzollern', fr: 'Maison de Hohenzollern' }, colors: ['#f4f4f4', '#1a1a1a'] },
   { id: 'griffin', realm: 'dan', name: { en: 'House of Pomerania (the Griffins)', fr: 'Maison de Poméranie (les Griffons)' }, colors: ['#b3202f', '#f2ecdc'] },
+  { id: 'visconti', realm: 'mil', name: { en: 'House of Visconti', fr: 'Maison Visconti' }, colors: ['#2a4a9e', '#e8d9b0'] },
+  { id: 'mocenigo', realm: 'ven', name: { en: 'House of Mocenigo', fr: 'Maison Mocenigo' }, colors: ['#9e1f2a', '#e8c547'] },
+  { id: 'este', realm: 'est', name: { en: 'House of Este', fr: "Maison d'Este" }, colors: ['#f2ecdc', '#2b4f9e'] },
+  { id: 'gonzaga', realm: 'est', name: { en: 'House of Gonzaga', fr: 'Maison de Gonzague' }, colors: ['#8a1c1c', '#d4af37'] },
+  { id: 'doria', realm: 'gen', name: { en: 'House of Doria', fr: 'Maison Doria' }, colors: ['#d4af37', '#1a1a1a'] },
+  { id: 'medici', realm: 'flo', name: { en: 'House of Medici', fr: 'Maison de Médicis' }, colors: ['#e3b341', '#b3202f'] },
+  { id: 'gorizia', realm: 'aqu', name: { en: 'House of Gorizia', fr: 'Maison de Goritz' }, colors: ['#3b5ba5', '#f2ecdc'] },
   { id: 'teutonic', realm: 'teu', name: { en: 'Teutonic Order', fr: 'Ordre Teutonique' }, colors: ['#f4f1e8', '#1a1a1a'] },
   { id: 'church', realm: '',name: { en: 'The Church', fr: "L'Église" }, colors: ['#4a2b5e', '#d9c27a'] },
   { id: 'commoner', realm: '', name: { en: 'Commoner', fr: 'Roturier' }, colors: ['#6b4f2f', '#a8865a'] }

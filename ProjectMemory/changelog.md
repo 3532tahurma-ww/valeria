@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.15.1 (2026-11-27) — sw `valeria-v23`
+- 🏔️ Bavyera/Avusturya'nın güneyindeki boşluklar dolduruldu → 45 bölge: `swiss` (Swiss Confederation, realm `swi`, isim `ger`, haneler commoner/church), `trent` (Prince-Bishopric of Trent, `tre`, church/habsburg), `friuli` (Friuli & Istria, Patriarchate of Aquileia `aqu`, yeni hane gorizia). Venice'in kuzey noktaları `LB17-20` adlandırıldı. Köken + yöre sesi, 3 aziz günü (Vigilius 26/6, Hermagoras 12/7, Felix & Regula 11/9), 3 haber (+ dağ geçidi haberi swiss/trent), kitaplarda 42 → 45, `italy` fermanına "The Alps filled in" bölümü.
+
+## 0.15.0 (2026-11-27) — sw `valeria-v22`
+- 🦁 Kuzey İtalya: 5 bölge (Milan & Lombardy, Venice & the Veneto, Ferrara & Mantua `este`, Genoa & Liguria, Florence & Tuscany) → 42. Realm `mil|ven|est|gen|flo`, haneler visconti, mocenigo, este, gonzaga, doria, medici; isim havuzu `ita`; noktalar `LB1-16` (LB8 Savoy sınırına eklendi), backdrop Liguria kıyısı yeni noktalara hizalandı, Ligurian Sea. Köken + yöre sesi 5 bölge; Saint Mark (25/4), Saint Ambrose (7/12), George → genoa/este, Midsummer → florence; 5 bölge haberi; kitaplarda 37 → 42; 📯 ferman `italy`.
+
+## 0.14.0 (2026-11-27) — sw `valeria-v21`
+- 🗺️⚔️ Haritada kronik katmanı: `CHRONICLE_PLACES` + olay `at` + `CHRONICLE_ROUTE` (`js/data/chronicle.js`). Geçmiş olaylar yerinde işaret (rozet = olay sayısı, son 7 gün atar), Henri'nin yolu kesikli kırmızı çizgi. İşaret kartı: olaylar + saraydan 3 ses; sese dokun → mektup "What news?" hazır. Guide "The map" bölümü, ferman `chron-map`, yeni anahtarlar `map.chron|askNews|askHint`.
+
+## 0.13.1 (2026-11-27) — sw `valeria-v20`
+- 🌹 Yeni beden sorusu `q_anal` ("Have you ever tried the other way?"): Anal Size'a göre 3 varyant (dar / Average / gevşek) + varsayılan; `prio: 1` (`anal` olayıyla eşit, uzun tetikleyici kazanır; tek başına "anal" hâlâ olay). SAY + FEEL_EV (desire +2); `chronicle` fermanındaki "Frank answers" bölümüne eklendi.
+
+## 0.13.0 (2026-11-27) — sw `valeria-v19`
+- ⚔️ 1415 Kroniği: `js/data/chronicle.js` (15 gerçek olay, gerçek gün/ay; diyar tarafına göre tepki `her.en|fr|bur|boh|far`, `Valeria.Chronicle`). Haberci'de "⚔️ 1415" sekmesi (gelmemiş olaylar 🔒), ana sayfa Herald kartında son olay. Yeni soru `q_news` ("What news?" → `{chron}`), sade yedek cevapta son 7 gün içindeki olaydan %15 kendiliğinden söz. "Agincourt" haberi (`TIDINGS`) artık `after: [10, 25]`.
+- 💾 Bölünmüş kayıt (Carmen gibi): sohbetler `valeria:v1:c:<id>`, `monia` `valeria:v1:p:monia`, ana kayıtta `chats: {}` + `__split`. Sadece değişen anahtar yazılır; eski tek anahtarlı kayıt id'ye göre birleşir. `Store.usage()` → 👑 Me'de kullanım satırı. Yedek biçimi değişmedi.
+- 🔍 Mektup arşivi (`archive` ekranı, ✉️ Letters → 🔍): tüm mektuplarda arama (vurgulu), sekmeler All / 🗝️ Sealed chest / Received / Sent, sonuca dokun → mektup seçili açılır. Mesaj menüsünde 🗝️ (mesaj alanı `star: 1`).
+- 🔥 Beden soruları (q_height, q_figure, q_bust, q_hips, q_tight, q_mysize) artık geçiştirmiyor: varsayılan cevaplar erotik tonda, eksik değerlere (Average, M/M-L) varyant eklendi.
+- Guide "The Herald" güncellendi + yeni bölüm "The archive and the chests"; 📯 ferman `chronicle`. `V.VERSION` 0.13.0.
+
 ## 0.12.0 (2026-11-26) — sw `valeria-v18`
 - 🪕 Lavta müziği: `js/data/lute.js` (6 özgün orta çağ parçası) + `sound.js` `Lute` motoru (Karplus-Strong tel, bas, burdon, tef, yankı; tekrarlarda süsleme). Ayarlar → Music: Minstrels / 🪕 Lute / Off (`valeria:music = 'lute'`). Çevrimdışı çalışır. Guide "Music and sounds" güncellendi; 📯 ferman `lute`.
 

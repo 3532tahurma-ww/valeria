@@ -70,7 +70,7 @@ Valeria.Home = (() => {
     // 📯 ticker and Herald card: today's tidings (js/news.js) + the latest proclamation
     const tids = V.News.tidings(UI, 8);
     const ticker = tids.map(n => `<button data-act="tiding-open" data-k="${n.k}">${n.icon} ${esc(n.title)}</button>`).join('<span class="dot">❦</span>');
-    const head = V.PROCLAMATIONS[0], unread = V.News.unread();
+    const head = V.PROCLAMATIONS[0], unread = V.News.unread(), chr = V.Chronicle.latest();
 
     // 📜 proclamations + 🗺️ ladies of the realms
     const pro = notablesOfDay(UI, 2, 'pro');
@@ -104,7 +104,8 @@ Valeria.Home = (() => {
       <section class="h-sec herald">
         <h3 class="sec">📯 ${t('news.title')} <button class="more" data-go="news">${t('home.all')}${unread ? ` · 🆕 ${unread}` : ''} ›</button></h3>
         <button class="news-item headline" data-act="news-open" data-id="${head.id}"><span class="news-ic">${head.icon}</span><span class="news-t"><small>${V.News.CAT[head.cat][i]}</small><b>${esc(head.title[i])}</b><em>${esc(head.sum[i])}</em></span></button>
-        ${tids.slice(0, 2).map(n => `<button class="news-item small" data-act="tiding-open" data-k="${n.k}"><span class="news-ic">${n.icon}</span><span class="news-t"><small>${esc(n.region.name[L])}</small><b>${esc(n.title)}</b></span></button>`).join('')}
+        ${chr ? `<button class="news-item small" data-act="news-tab" data-k="chr"><span class="news-ic">${chr.icon}</span><span class="news-t"><small>⚔️ ${t('news.chr')}${V.Chronicle.isToday(chr) ? ' · ' + t('news.chrToday') : ''}</small><b>${esc(chr.t[i])}</b></span></button>` : ''}
+        ${tids.slice(0, 2).map(n =>`<button class="news-item small" data-act="tiding-open" data-k="${n.k}"><span class="news-ic">${n.icon}</span><span class="news-t"><small>${esc(n.region.name[L])}</small><b>${esc(n.title)}</b></span></button>`).join('')}
       </section>
 
       <section class="lady" style="--c1:${esc((lady.colors || [])[0] || '#7a1f2b')};--c2:${esc((lady.colors || [])[1] || '#b08d3c')}">

@@ -1,6 +1,7 @@
 /*
  * Valeria - 📯 The Herald (data: js/data/news.js)
- * Screens: news { tab: 'pro' | 'tid' }, article { id } (a proclamation), tiding { k } (one of today's tidings)
+ * Screens: news { tab: 'pro' | 'tid' | 'chr' }, article { id } (a proclamation), tiding { k } (one of today's tidings)
+ * ⚔️ 'chr' tab: Chronicle of 1415 (js/data/chronicle.js), events up to today's day and month; later ones sealed 🔒.
  * Today's tidings: TIDINGS templates × notables of random lands, seeded by the date (same all day, like Home).
  *   They also feed the 📯 ticker and the Herald card on Home. A tiding links to its land on the map and to its lady.
  * Unread proclamations: localStorage 'valeria:seen' (ids) → 🆕 badge.
@@ -19,7 +20,8 @@ Valeria.News = (() => {
   // today's tidings: [{ k, icon, title, story, region, i, nb }]
   function tidings(UI, n) {
     const L = UI.lang(), x = L === 'fr' ? 1 : 0, r = V.Gen.rng(dayKey() + 'tidings');
-    const regs = V.REGIONS.slice().sort(() => r() - 0.5), tpl = V.TIDINGS.slice().sort(() => r() - 0.5);
+    const now = new Date(), md = (now.getMonth() + 1) * 100 + now.getDate();
+    const regs = V.REGIONS.slice().sort(() => r() - 0.5), tpl = V.TIDINGS.filter(tp => !tp.after || tp.after[0] * 100 + tp.after[1] <= md).sort(() => r() - 0.5);
     return tpl.slice(0, n || 8).map((tp, k) => {
       const fits = g => tp.home.some(o => o === g.id || o === 'realm:' + g.realm);
       const reg = (tp.home && regs.find(fits)) || regs[k % regs.length], list = V.MapView.notables(UI, reg.id), i = Math.floor(r() * list.length), nb = list[i];
@@ -34,6 +36,18 @@ Valeria.News = (() => {
   function screens(UI) {
     const t = UI.t, esc = UI.esc;
     const date = d => V.I18n.date(new Date(d + 'T12:00:00'));
+    // ⚔️ Chronicle of 1415: what has come to pass (newest first), then what is still sealed
+    const chronicle = x => {
+      const C = V.Chronicle, y = new Date().getFullYear(), day = e => V.I18n.date(new Date(y, e.m - 1, e.d, 12));
+      const past = C.past(), sealed = C.sealed();
+      return `<p class="muted small center">${t('news.chrSub')}</p>
+        <ul class="news-list">${past.map((e, k) => `<li><div class="news-item ${k === 0 ? 'headline' : ''}">
+          <span class="news-ic">${e.icon}</span>
+          <span class="news-t"><small>${esc(day(e))}${C.isToday(e) ? ` · <b class="new">${t('news.chrToday')}</b>` : ''}</small><b>${esc(e.t[x])}</b><em>${esc(e.s[x])}</em></span></div></li>`).join('')}
+        ${past.length ? '' : `<li class="empty"><p>${t('news.chrQuiet')}</p></li>`}
+        ${sealed.map(e => `<li><div class="news-item sealed"><span class="news-ic">🔒</span>
+          <span class="news-t"><small>${esc(day(e))}</small><b>${t('news.chrSealed')}</b></span></div></li>`).join('')}</ul>`;
+    };
     return {
       news() {
         const L = UI.lang(), x = L === 'fr' ? 1 : 0, tab = UI.view().tab || 'pro', s = seen();
@@ -43,8 +57,9 @@ Valeria.News = (() => {
           <nav class="news-tabs">
             <button class="chip ${tab === 'pro' ? 'on' : ''}" data-act="news-tab" data-k="pro">📜 ${t('news.pro')}${unread() ? ` <b class="dot-new">${unread()}</b>` : ''}</button>
             <button class="chip ${tab === 'tid' ? 'on' : ''}" data-act="news-tab" data-k="tid">🗺️ ${t('news.tid')}</button>
+            <button class="chip ${tab === 'chr' ? 'on' : ''}" data-act="news-tab" data-k="chr">⚔️ ${t('news.chr')}</button>
           </nav>
-          ${tab === 'pro' ? `<ul class="news-list">${V.PROCLAMATIONS.map((p, k) => `<li><button class="news-item ${k === 0 ? 'headline' : ''}" data-act="news-open" data-id="${p.id}">
+          ${tab === 'chr' ? chronicle(x) : tab === 'pro' ?`<ul class="news-list">${V.PROCLAMATIONS.map((p, k) => `<li><button class="news-item ${k === 0 ? 'headline' : ''}" data-act="news-open" data-id="${p.id}">
               <span class="news-ic">${p.icon}</span>
               <span class="news-t"><small>${CAT[p.cat][x]} · ${esc(date(p.date))}${s.includes(p.id) ? '' : ' · <b class="new">🆕</b>'}</small><b>${esc(p.title[x])}</b><em>${esc(p.sum[x])}</em></span></button></li>`).join('')}</ul>`
           : `<ul class="news-list">${tids.map(n => `<li><button class="news-item" data-act="tiding-open" data-k="${n.k}">

@@ -158,6 +158,11 @@ body.candle .msg.her .bubble { border-left-color: var(--gold); }
 .from { display: block; font-size: .8rem; margin-bottom: 2px; }
 .ph { display: block; max-width: 220px; border-radius: 3px; margin-bottom: 4px; }
 .react { position: absolute; right: 6px; bottom: -11px; font-size: .9rem; }
+.bubble .star { position: absolute; left: -8px; top: -9px; font-size: .8rem; }
+.msg.found .bubble { animation: found 1.6s ease-out; }
+@keyframes found { 0% { box-shadow: 0 0 0 4px var(--gold); } 100% { box-shadow: 0 0 0 0 transparent; } }
+.news-item.sealed { opacity: .55; }
+#arcList mark { background: var(--gold); color: inherit; border-radius: 2px; padding: 0 1px; }
 .msg.sys { align-self: center; max-width: 92%; flex-direction: column; align-items: center; text-align: center; color: var(--muted); font-style: italic; }
 .msg.sel .bubble, .msg.sys.sel > span { outline: 2px dashed var(--gold); outline-offset: 2px; }
 .acts { flex-basis: 100%; display: flex; gap: 4px; justify-content: flex-start; }
@@ -368,6 +373,16 @@ body.candle .map .lbl, body.candle .map .cname { fill: #f0e0bf; stroke: rgba(0, 
 .map .hic { font-size: 7px; font-style: italic; fill: #6b4f2f; pointer-events: none; }
 .map .cartouche rect { fill: rgba(244, 236, 212, .92); stroke: #b08d3c; stroke-width: 1.5; }
 .map .cartouche text { font-family: var(--gothic); font-size: 14px; text-anchor: middle; fill: #7a1f2b; }
+.map .route { fill: none; stroke: #7a1f2b; stroke-width: 1.6; stroke-dasharray: 5 4; stroke-linejoin: round; opacity: .8; pointer-events: none; animation: march 1.2s linear infinite; }
+@keyframes march { to { stroke-dashoffset: -9; } }
+.map .pin { cursor: pointer; }
+.map .pin > circle { fill: #f4ecd4; stroke: #7a1f2b; stroke-width: 1.4; transition: stroke-width .2s; }
+.map .pin > text { font-size: 9px; text-anchor: middle; pointer-events: none; }
+.map .pin.on > circle { stroke: #b08d3c; stroke-width: 2.6; filter: drop-shadow(0 0 4px rgba(176, 141, 60, .9)); }
+.map .pin.new > circle { animation: pinpulse 1.6s ease-in-out infinite; }
+@keyframes pinpulse { 50% { stroke-width: 3.2; stroke: #c0392b; } }
+body.candle .map .pin > circle { fill: #3a3022; stroke: #d4ad55; }
+.chron-card h4 { justify-content: flex-start; gap: 6px; }
 .map-hint { padding: 16px; }
 .region-card { margin-top: 14px; background: var(--paper); border: 1px solid var(--line); border-top: 4px solid var(--wine); border-radius: 4px; padding: 12px; box-shadow: var(--shadow); animation: rise .35s ease both; }
 .region-card header h3 { margin: 0; font-family: var(--gothic); font-weight: normal; font-size: 1.6rem; color: var(--wine); }

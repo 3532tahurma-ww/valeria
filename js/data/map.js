@@ -40,7 +40,11 @@ window.Valeria = window.Valeria || {};
     NG1: [5.6, 53.4], NG2: [7.0, 53.6], NG3: [8.6, 53.9], NG4: [9.8, 53.5], NG5: [11.2, 53.0], NG7: [11.0, 54.1], NG8: [12.5, 54.3],
     NG9: [13.4, 54.6], NG10: [12.9, 54.2], NG11: [12.9, 53.3], NG12: [11.6, 53.1], NG13: [14.3, 53.9], NG14: [15.6, 54.2], NG15: [16.6, 54.6],
     DK1: [8.7, 54.35], DK2: [10.1, 54.45],
-    I1: [17.2, 54.0], I2: [17.3, 54.75], I3: [18.4, 54.8], I4: [18.65, 54.4], I5: [19.6, 54.45], I6: [20.3, 54.7], I7: [21.1, 55.7], I8: [22.8, 54.4]
+    I1: [17.2, 54.0], I2: [17.3, 54.75], I3: [18.4, 54.8], I4: [18.65, 54.4], I5: [19.6, 54.45], I6: [20.3, 54.7], I7: [21.1, 55.7], I8: [22.8, 54.4],
+    // Northern Italy (LB8 lies on the Savoy line Z3-Z4)
+    LB1: [8.95, 46.45], LB2: [10.7, 45.85], LB3: [10.75, 45.42], LB4: [10.5, 45.05], LB5: [10.0, 45.0], LB6: [9.95, 44.45], LB7: [9.2, 44.7],
+    LB8: [8.304, 44.55], LB9: [11.2, 45.25], LB10: [11.7, 45.05], LB11: [12.4, 44.95], LB12: [12.3, 44.6], LB13: [11.6, 44.7], LB14: [11.1, 44.55],
+    LB15: [10.5, 44.3], LB16: [10.0, 44.03], LB17: [11.6, 46.0], LB18: [12.3, 46.15], LB19: [12.7, 46.1], LB20: [12.95, 45.6]
   };
   const pt = p => (typeof p === 'string' ? P[p] : p);
 
@@ -58,7 +62,15 @@ window.Valeria = window.Valeria || {};
     hun: { name: { en: 'Kingdom of Hungary', fr: 'Royaume de Hongrie' }, fill: '#c7d98f' },
     pol: { name: { en: 'Kingdom of Poland', fr: 'Royaume de Pologne' }, fill: '#e6a6ab' },
     teu: { name: { en: 'State of the Teutonic Order', fr: "État de l'ordre Teutonique" }, fill: '#d9d6cc' },
-    dan: { name: { en: 'Kingdom of Denmark (Kalmar Union)', fr: 'Royaume de Danemark (Union de Kalmar)' }, fill: '#b5a3d6' }
+    dan: { name: { en: 'Kingdom of Denmark (Kalmar Union)', fr: 'Royaume de Danemark (Union de Kalmar)' }, fill: '#b5a3d6' },
+    mil: { name: { en: 'Duchy of Milan', fr: 'Duché de Milan' }, fill: '#b7cf9a' },
+    ven: { name: { en: 'Most Serene Republic of Venice', fr: 'Sérénissime République de Venise' }, fill: '#eab29c' },
+    est: { name: { en: 'Marquisates of Ferrara and Mantua', fr: 'Marquisats de Ferrare et de Mantoue' }, fill: '#e8d18a' },
+    gen: { name: { en: 'Republic of Genoa', fr: 'République de Gênes' }, fill: '#d9a6c2' },
+    flo: { name: { en: 'Republic of Florence', fr: 'République de Florence' }, fill: '#9fcfbd' },
+    swi: { name: { en: 'Swiss Confederation', fr: 'Confédération suisse' }, fill: '#d98c8c' },
+    tre: { name: { en: 'Prince-Bishopric of Trent', fr: 'Principauté épiscopale de Trente' }, fill: '#c3b0d6' },
+    aqu: { name: { en: 'Patriarchate of Aquileia', fr: "Patriarcat d'Aquilée" }, fill: '#a9c6e0' }
   };
 
   const R = (id, realm, en, fr, o) => Object.assign({ id, realm, name: { en, fr } }, o);
@@ -189,7 +201,54 @@ window.Valeria = window.Valeria || {};
     R('savoy', 'sav', 'Savoy & Piedmont', 'Savoie et Piémont', {
       short: { en: 'Savoy', fr: 'Savoie' }, of: ['of Savoy', 'de Savoie'], names: 'fr', lang: 'fr', houses: ['savoy'], ruler: ['Countess of Savoy', 'Comtesse de Savoie'], second: ['Princess of Piedmont', 'Princesse de Piémont'],
       label: [7.6, 45.25], cities: [['Turin', 7.68, 45.07], ['Aosta', 7.32, 45.74], ['Nice', 7.3, 43.76], ['Ivrea', 7.88, 45.47]],
-      poly: ['E11', 'Z1', 'Z2', 'Z3', 'Z4', 'M1', 'E14', 'E13', 'E12']
+      poly: ['E11', 'Z1', 'Z2', 'Z3', 'LB8', 'Z4', 'M1', 'E14', 'E13', 'E12']
+    }),
+    R('milan', 'mil', 'Milan & Lombardy', 'Milan et Lombardie', {
+      short: { en: 'Milan', fr: 'Milan' }, of: ['of Milan', 'de Milan'], names: 'ita', lang: 'en', houses: ['visconti'], ruler: ['Duchess of Milan', 'Duchesse de Milan'], second: ['Countess of Pavia', 'Comtesse de Pavie'],
+      label: [9.75, 45.75], cities: [['Milan', 9.19, 45.46], ['Pavia', 9.16, 45.19], ['Como', 9.08, 45.81], ['Bergamo', 9.67, 45.7], ['Cremona', 10.02, 45.13], ['Piacenza', 9.69, 45.05]],
+      alias: ['Milano'],
+      poly: ['Z2', 'LB1', 'H11', 'LB2', 'LB3', 'LB4', 'LB5', 'LB6', 'LB7', 'LB8', 'Z3']
+    }),
+    R('swiss', 'swi', 'Swiss Confederation', 'Confédération suisse', {
+      short: { en: 'The Swiss', fr: 'Les Suisses' }, of: ['of Bern', 'de Berne'], names: 'ger', lang: 'en', houses: ['commoner', 'church'], ruler: ['Lady of Bern', 'Dame de Berne'], second: ['Abbess of Zürich', 'Abbesse de Zurich'],
+      label: [8.3, 46.85], cities: [['Bern', 7.45, 46.95], ['Zürich', 8.54, 47.37], ['Lucerne', 8.31, 47.05], ['Schwyz', 8.65, 47.02], ['Basel', 7.59, 47.53]],
+      alias: ['Zurich', 'Luzern'],
+      poly: ['E9', 'J8', 'J7', 'H11', 'LB1', 'Z2', 'Z1', 'E11', 'E10']
+    }),
+    R('trent', 'tre', 'Trent & the Adige', "Trente et l'Adige", {
+      short: { en: 'Trent', fr: 'Trente' }, of: ['of Trent', 'de Trente'], names: 'ita', lang: 'en', houses: ['church', 'habsburg'], ruler: ['Lady of Trent', 'Dame de Trente'], second: ['Abbess of Sonnenburg', 'Abbesse de Sonnenburg'],
+      label: [11.25, 46.25], cities: [['Trent', 11.12, 46.07], ['Pergine', 11.24, 46.06], ['Cles', 11.03, 46.36], ['Arco', 10.89, 45.92]],
+      alias: ['Trento'],
+      poly: ['H11', 'H10', 'LB18', 'LB17', 'LB2']
+    }),
+    R('friuli', 'aqu', 'Friuli & Istria', 'Frioul et Istrie', {
+      short: { en: 'Friuli', fr: 'Frioul' }, of: ['of Gorizia', 'de Goritz'], names: 'ita', lang: 'en', houses: ['gorizia', 'church'], ruler: ['Countess of Gorizia', 'Comtesse de Goritz'], second: ['Lady of Aquileia', "Dame d'Aquilée"],
+      label: [13.15, 46.2], cities: [['Udine', 13.23, 46.06], ['Aquileia', 13.37, 45.77], ['Cividale', 13.43, 46.09], ['Gorizia', 13.62, 45.94], ['Pola', 13.85, 44.87]],
+      alias: ['Udin', 'Pula'],
+      poly: ['H10', 'H9', 'H8', 'H7', [14.2, 45.05], [13.9, 44.8], [13.6, 45.1], [13.55, 45.5], [13.3, 45.7], 'LB20', 'LB19', 'LB18']
+    }),
+    R('venice', 'ven', 'Venice & the Veneto', 'Venise et la Vénétie', {
+      short: { en: 'Venice', fr: 'Venise' }, of: ['of Venice', 'de Venise'], names: 'ita', lang: 'en', houses: ['mocenigo'], ruler: ['Dogaressa of Venice', 'Dogaresse de Venise'], second: ['Lady of Padua', 'Dame de Padoue'],
+      label: [11.75, 45.75], cities: [['Venice', 12.33, 45.44], ['Padua', 11.88, 45.41], ['Verona', 10.99, 45.44], ['Vicenza', 11.55, 45.55], ['Treviso', 12.24, 45.67]],
+      alias: ['Venezia'],
+      poly: ['LB2', 'LB17', 'LB18', 'LB19', 'LB20', [12.55, 45.45], [12.35, 45.2], 'LB11', 'LB10', 'LB9', 'LB3']
+    }),
+    R('este', 'est', 'Ferrara & Mantua', 'Ferrare et Mantoue', {
+      short: { en: 'Ferrara', fr: 'Ferrare' }, of: ['of Ferrara', 'de Ferrare'], names: 'ita', lang: 'en', houses: ['este', 'gonzaga'], ruler: ['Marchioness of Ferrara', 'Marquise de Ferrare'], second: ['Marchioness of Mantua', 'Marquise de Mantoue'],
+      label: [11.15, 44.88], cities: [['Ferrara', 11.62, 44.84], ['Mantua', 10.79, 45.16], ['Modena', 10.93, 44.65], ['Parma', 10.33, 44.8], ['Reggio', 10.63, 44.7]],
+      poly: ['LB3', 'LB9', 'LB10', 'LB11', 'LB12', 'LB13', 'LB14', 'LB15', 'LB6', 'LB5', 'LB4']
+    }),
+    R('genoa', 'gen', 'Genoa & Liguria', 'Gênes et Ligurie', {
+      short: { en: 'Genoa', fr: 'Gênes' }, of: ['of Genoa', 'de Gênes'], names: 'ita', lang: 'en', houses: ['doria'], ruler: ['Lady of Genoa', 'Dame de Gênes'], second: ['Lady of Savona', 'Dame de Savone'],
+      label: [9.1, 44.55], cities: [['Genoa', 8.93, 44.41], ['Savona', 8.48, 44.31], ['La Spezia', 9.82, 44.1], ['Chiavari', 9.32, 44.32]],
+      alias: ['Genova'],
+      poly: ['LB8', 'LB7', 'LB6', 'LB15', 'LB16', [9.8, 44.1], [9.4, 44.25], [8.9, 44.38], [8.4, 44.15], 'Z4']
+    }),
+    R('florence', 'flo', 'Florence & Tuscany', 'Florence et Toscane', {
+      short: { en: 'Florence', fr: 'Florence' }, of: ['of Florence', 'de Florence'], names: 'ita', lang: 'en', houses: ['medici'], ruler: ['Lady of Florence', 'Dame de Florence'], second: ['Lady of Pisa', 'Dame de Pise'],
+      label: [11.3, 43.15], cities: [['Florence', 11.26, 43.77], ['Pisa', 10.4, 43.72], ['Siena', 11.33, 43.32], ['Lucca', 10.5, 43.84], ['Arezzo', 11.88, 43.46]],
+      alias: ['Firenze'],
+      poly: ['LB16', 'LB15', [11.1, 44.2], [11.7, 44.05], [12.1, 43.75], [12.2, 43.3], [11.95, 42.9], [11.6, 42.6], [11.1, 42.4], [10.5, 43.0], [10.3, 43.5], [10.1, 43.9]]
     }),
     R('bavaria', 'hre', 'Bavaria & Swabia', 'Bavière et Souabe', {
       fill: '#e8c590', short: { en: 'Bavaria', fr: 'Bavière' }, of: ['of Bavaria', 'de Bavière'], names: 'ger', lang: 'en', houses: ['wittelsbach'], ruler: ['Duchess of Bavaria', 'Duchesse de Bavière'],
@@ -271,7 +330,7 @@ window.Valeria = window.Valeria || {};
     ['A1', [4.5, 52.0], [4.8, 52.9], [5.6, 53.4], [7.0, 53.6], [8.6, 53.9], [8.6, 55.5], [8.1, 56.6], [9.8, 57.6], [10.6, 57.7], [10.5, 56.5], [10.9, 56.2], [10.6, 55.6], [10.0, 55.0], [11, 54.1], [12.5, 54.3],
       [13.4, 54.6], [14.3, 53.9], [15.6, 54.2], [16.6, 54.6], 'I2', 'I3', 'I4', 'I5', 'I6', 'I7', [21.0, 56.5], [21.6, 57.5], [22.6, 57.7], [23.5, 57.1], [24.3, 57.3], [23.6, 58.3], [23.5, 59.3], [24.8, 59.5], [27.0, 59.5],
       [27.0, 41.0], [19.5, 41.0], [19.4, 41.8], [18.5, 42.4], [18.1, 42.65], [17.0, 43.4], [16.4, 43.5], [15.2, 44.1], 'U10', 'H7', 'H8', [13.3, 45.75], [12.3, 45.4], [12.5, 44.5], [13.6, 43.6], [14.2, 42.5],
-      [15.0, 42.0], [16.0, 41.9], [16.2, 41.4], [16.5, 41.0], [13.0, 41.0], [12.5, 41.5], [12.0, 41.8], [11.1, 42.4], [10.5, 43.0], [10.3, 43.5], [9.8, 44.1], [8.9, 44.4], [8.2, 43.9], 'M1', 'E14', 'E13', 'E12', 'E11', 'E10', 'E9', 'E8', 'E7', 'E6', 'E5', 'E4', 'E3', 'E2'],
+      [15.0, 42.0], [16.0, 41.9], [16.2, 41.4], [16.5, 41.0], [13.0, 41.0], [12.5, 41.5], [12.0, 41.8], [11.1, 42.4], [10.5, 43.0], [10.3, 43.5], [10.1, 43.9], 'LB16', [9.8, 44.1], [9.4, 44.25], [8.9, 44.38], [8.4, 44.15], 'Z4', 'M1', 'E14', 'E13', 'E12', 'E11', 'E10', 'E9', 'E8', 'E7', 'E6', 'E5', 'E4', 'E3', 'E2'],
     // Iberia
     ['R1', [-3.0, 43.45], [-5.5, 43.55], [-7.5, 43.75], [-8.3, 43.5], [-9.2, 43.1], [-8.9, 42.0], [-8.8, 41.0], [1.0, 40.8], [2.2, 41.3], [3.2, 41.9], 'R6', 'R5', 'R4', 'R3', 'R2'],
     // Corsica
@@ -289,6 +348,7 @@ window.Valeria = window.Valeria || {};
     { name: { en: 'Mediterranean', fr: 'Méditerranée' }, at: [5.6, 42.3] },
     { name: { en: 'Ocean Sea', fr: 'Mer Océane' }, at: [-9.2, 48.6] },
     { name: { en: 'Baltic Sea', fr: 'Mer Baltique' }, at: [17.8, 55.7] },
-    { name: { en: 'Adriatic', fr: 'Adriatique' }, at: [15.6, 42.8] }
+    { name: { en: 'Adriatic', fr: 'Adriatique' }, at: [15.6, 42.8] },
+    { name: { en: 'Ligurian Sea', fr: 'Mer Ligure' }, at: [8.9, 43.55] }
   ];
 })();

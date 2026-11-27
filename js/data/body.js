@@ -162,54 +162,73 @@ window.Valeria = window.Valeria || {};
   V.EVENTS.events.push(
     Q('q_height', '📏', 'How tall are you?', 'Quelle est votre taille ?', {
       en: ['how tall are you', 'are you tall', 'are you short'], fr: ['quelle est votre taille', 'etes-vous grande', 'etes-vous petite']
-    }, { en: ['Neither tall nor short. Exactly right for you.'], fr: ['Ni grande ni petite. Juste comme il vous faut.'] }, {
+    }, { en: ['Neither tall nor short. Exactly right for you.', 'Tall enough that my lips reach your neck without trying. 😏'], fr: ['Ni grande ni petite. Juste comme il vous faut.', 'Assez grande pour que mes lèvres atteignent votre cou sans effort. 😏'] }, {
       variants: [
-        { traits: [any('Height', 'Very Short|Short')], reply: { en: ['Small enough to hide behind a tapestry. Useful, sometimes. 😏', 'I have to stand on the bench to kiss anyone.'], fr: ['Assez petite pour me cacher derrière une tapisserie. Utile, parfois. 😏', 'Je dois monter sur le banc pour embrasser qui que ce soit.'] } },
-        { traits: [any('Height', 'Tall|Very Tall')], reply: { en: ['Taller than my brothers, which they hate.', "I see over every head at mass. Including the bishop's."], fr: ['Plus grande que mes frères, ce qu’ils détestent.', "Je vois par-dessus toutes les têtes à la messe. Y compris celle de l'évêque."] } }
+        { traits: [any('Height', 'Very Short|Short')], reply: { en: ['Small enough to hide behind a tapestry. Useful, sometimes. 😏', 'Small enough that you could lift me against the wall, {sen}. Would you?', 'Little, everywhere. You would have to bend down for all of me.'], fr: ['Assez petite pour me cacher derrière une tapisserie. Utile, parfois. 😏', 'Assez petite pour que vous me souleviez contre le mur, {sen}. Le feriez-vous ?', 'Menue, de partout. Il faudrait vous pencher pour tout de moi.'] } },
+        { traits: [any('Height', 'Average')], reply: { en: ['Just the height where my mouth meets yours without anyone stretching.', 'Average, they say. In bed nobody measures. 😏'], fr: ['Juste la taille où ma bouche rencontre la vôtre sans que personne ne s’étire.', 'Moyenne, dit-on. Au lit, personne ne mesure. 😏'] } },
+        { traits: [any('Height', 'Tall|Very Tall')], reply: { en: ["I see over every head at mass. Including the bishop's.", 'Long legs, {sen}. Long enough to wrap twice around you.', 'Tall. Lying down it is a great deal of me to kiss. 😏'], fr: ["Je vois par-dessus toutes les têtes à la messe. Y compris celle de l'évêque.", 'De longues jambes, {sen}. Assez longues pour vous enlacer deux fois.', 'Grande. Allongée, cela fait beaucoup de moi à embrasser. 😏'] } }
       ]
     }),
     Q('q_figure', '⚖️', 'Your figure', 'Votre silhouette', {
       en: ['your figure', 'your body', 'are you slim', 'are you thin'], fr: ['votre silhouette', 'votre corps', 'etes-vous mince']
-    }, { en: ['Ask the tailor. Or come and see. 😏'], fr: ['Demandez au tailleur. Ou venez voir. 😏'] }, {
+    }, { en: ['Warm, smooth, and wasted under all this velvet. Imagine it without. 😏', 'Picture me in nothing but my shift, {sen}, the candle behind me. That is my figure.'], fr: ['Chaude, lisse, et gâchée sous tout ce velours. Imaginez-la sans. 😏', 'Imaginez-moi en simple chemise, {sen}, la chandelle derrière moi. Voilà ma silhouette.'] }, {
       variants: [
-        { traits: [any('Weight', 'Very Thin|Thin|Slim')], reply: { en: ['Slender, they say. The wind could carry me off.'], fr: ['Svelte, dit-on. Le vent pourrait m’emporter.'] } },
-        { traits: [any('Weight', 'Curvy|Chubby|Overweight')], reply: { en: ['Soft and round where it matters. No complaints so far. 😏'], fr: ['Douce et ronde là où il faut. Aucune plainte jusqu’ici. 😏'] } }
+        { traits: [any('Weight', 'Very Thin|Thin|Slim')], reply: { en: ['Slender, they say. Your hands would meet around my waist.', 'Slim and light. Easy to carry to bed, {sen}. 😏'], fr: ['Svelte, dit-on. Vos mains se rejoindraient autour de ma taille.', 'Mince et légère. Facile à porter jusqu’au lit, {sen}. 😏'] } },
+        { traits: [any('Weight', 'Average')], reply: { en: ['A waist to hold, hips to grip. Nothing missing, nothing spare.', 'Just enough of me to fill your arms. Come and check. 😏'], fr: ['Une taille à tenir, des hanches à saisir. Rien ne manque, rien de trop.', 'Juste assez de moi pour remplir vos bras. Venez vérifier. 😏'] } },
+        { traits: [any('Weight', 'Curvy|Chubby|Overweight')], reply: { en: ['Soft and round where it matters. No complaints so far. 😏', 'Plenty of me to hold, {sen}. Your hands will not know where to start.'], fr: ['Douce et ronde là où il faut. Aucune plainte jusqu’ici. 😏', 'Beaucoup de moi à tenir, {sen}. Vos mains ne sauront pas par où commencer.'] } }
       ]
     }),
     Q('q_bust', '🍒', 'Her bosom?', 'Sa poitrine ?', {
       en: ['how big are your breasts', 'bosom size', 'size of your breasts', 'are your breasts'], fr: ['taille de vos seins', 'vos seins sont', 'taille de votre poitrine']
-    }, { en: ['*laughs* What a question for a letter!'], fr: ['*rit* Quelle question pour une lettre !'] }, {
+    }, { en: ['*loosens her laces a little* Round, soft, and very sensitive, {sen}. Write me what you would do with them.', 'They ache under this bodice when I read your letters. Is that answer enough? 😏'], fr: ['*desserre un peu son lacet* Ronde, douce, et très sensible, {sen}. Écrivez-moi ce que vous en feriez.', 'Elle me fait mal sous ce corsage quand je lis vos lettres. Cela vous suffit-il ? 😏'] }, {
       gender: '♀',
       variants: [
-        { traits: [any('Boob Size', '70|75')], reply: { en: ['Small. They fit in one hand. Yours, perhaps.'], fr: ['Menue. Elle tient dans une main. La vôtre, peut-être.'] } },
-        { traits: [any('Boob Size', '80|85')], reply: { en: ['Just enough to fill a bodice properly.'], fr: ['Juste assez pour remplir un corsage comme il faut.'] } },
-        { traits: [any('Boob Size', '90|95')], reply: { en: ['Enough that my bodices need two maids to lace.'], fr: ['Assez pour qu’il faille deux servantes pour lacer mes corsages.'] } }
+        { traits: [any('Boob Size', '70|75')], reply: { en: ['Small. They fit in one hand. Yours, perhaps.', 'Small and pert, and so sensitive one kiss makes me gasp. 😳'], fr: ['Menue. Elle tient dans une main. La vôtre, peut-être.', 'Menue et ferme, et si sensible qu’un seul baiser me fait haleter. 😳'] } },
+        { traits: [any('Boob Size', '80|85')], reply: { en: ['Just enough to fill a bodice properly. And your palms.', 'Full and soft, {sen}. They spill a little when the laces come undone. 😏'], fr: ['Juste assez pour remplir un corsage comme il faut. Et vos paumes.', 'Pleine et douce, {sen}. Elle déborde un peu quand le lacet se défait. 😏'] } },
+        { traits: [any('Boob Size', '90|95')], reply: { en: ['Enough that my bodices need two maids to lace.', 'Heavy and full. You would need both hands, and your mouth. 😏'], fr: ['Assez pour qu’il faille deux servantes pour lacer mes corsages.', 'Lourde et pleine. Il vous faudrait les deux mains, et votre bouche. 😏'] } }
       ]
     }),
     Q('q_hips', '🍑', 'Her hips?', 'Ses hanches ?', {
       en: ['how big is your bottom', 'how are your hips', 'size of your hips'], fr: ['taille de vos hanches', 'vos hanches sont']
-    }, { en: ['A lady does not answer that. || …come and measure.'], fr: ['Une dame ne répond pas à cela. || …venez mesurer.'] }, {
+    }, { en: ['Round enough to fill your hands when you pull me close. 😏', '*turns slowly in front of the mirror* Made to be gripped, {sen}.'], fr: ['Assez rondes pour remplir vos mains quand vous m’attirez à vous. 😏', '*se tourne lentement devant le miroir* Faites pour être saisies, {sen}.'] }, {
       gender: '♀',
       variants: [
-        { traits: [any('Butt Size', 'XS|S')], reply: { en: ['Narrow. I could pass for a page in breeches.'], fr: ["Étroites. Je pourrais passer pour un page en chausses."] } },
-        { traits: [any('Butt Size', 'L|XL')], reply: { en: ['Wide enough to make the priests pray harder. 😏'], fr: ['Assez larges pour faire prier les prêtres plus fort. 😏'] } }
+        { traits: [any('Butt Size', 'XS|S')], reply: { en: ['Narrow. I could pass for a page in breeches.', 'Small and firm. One palm covers it, {sen}. Try. 😏'], fr: ["Étroites. Je pourrais passer pour un page en chausses.", 'Petites et fermes. Une paume suffit à les couvrir, {sen}. Essayez. 😏'] } },
+        { traits: [any('Butt Size', 'M|M/L')], reply: { en: ['Round and firm, the kind that sways when I climb the stairs ahead of you.', 'Just right to fill your hands, {sen}. Not a finger wasted. 😏'], fr: ['Rondes et fermes, de celles qui ondulent quand je monte l’escalier devant vous.', 'Juste de quoi remplir vos mains, {sen}. Pas un doigt de perdu. 😏'] } },
+        { traits: [any('Butt Size', 'L|XL')], reply: { en: ['Wide enough to make the priests pray harder. 😏', 'Generous, {sen}. Soft enough to sink your fingers into.'], fr: ['Assez larges pour faire prier les prêtres plus fort. 😏', 'Généreuses, {sen}. Assez douces pour y enfoncer les doigts.'] } }
       ]
     }),
     Q('q_tight', '🌸', 'Is she tight?', 'Est-elle étroite ?', { en: ['are you tight', 'how tight'], fr: ['etes-vous etroite', 'es-tu etroite'] }, {
-      en: ['*throws a cushion at the letter* Find out yourself, {sen}.'], fr: ['*jette un coussin sur la lettre* Découvrez-le vous-même, {sen}.']
+      en: ['*blushes, but answers* Tight enough to hold you, wet enough to welcome you, {sen}.', 'Warm and snug. Just thinking of you makes it worse. 😳'], fr: ['*rougit, mais répond* Assez étroite pour vous retenir, assez humide pour vous accueillir, {sen}.', 'Chaude et serrée. Rien que de penser à vous, c’est pire. 😳']
     }, {
       gender: '♀',
       variants: [
-        { traits: [any('Pussy Size', TIGHT)], reply: { en: ['Tighter than the purse of a Lombard banker. 😳', 'You will find out… slowly.'], fr: ['Plus serrée que la bourse d’un banquier lombard. 😳', 'Vous le découvrirez… lentement.'] } },
-        { traits: [any('Pussy Size', 'Relaxed|Loose|Very Loose')], reply: { en: ['I am a woman of some experience, {sen}. Does it frighten you?', 'Not a nun, if that is what you ask. 😏'], fr: ["Je suis une femme d'expérience, {sen}. Cela vous effraie ?", "Pas une nonne, si c'est ce que vous demandez. 😏"] } }
+        { traits: [any('Pussy Size', TIGHT)], reply: { en: ['Tighter than the purse of a Lombard banker. 😳', 'Very. You would have to go slowly, and I would feel every bit of you.', 'So tight it almost hurts at first, {sen}. Then it does not. 😳'], fr: ['Plus serrée que la bourse d’un banquier lombard. 😳', 'Très. Il faudrait y aller lentement, et je vous sentirais tout entier.', 'Si étroite que cela fait presque mal au début, {sen}. Puis plus du tout. 😳'] } },
+        { traits: [any('Pussy Size', 'Average')], reply: { en: ['Snug and warm, {sen}. I hold on to what I like.', 'Tight enough to grip you, soft enough to take all of you. 😏'], fr: ['Serrée et chaude, {sen}. Je retiens ce qui me plaît.', 'Assez étroite pour vous serrer, assez souple pour vous prendre tout entier. 😏'] } },
+        { traits: [any('Pussy Size', 'Relaxed|Loose|Very Loose')], reply: { en: ['I am a woman of some experience, {sen}. Does it frighten you?', 'Not a nun, if that is what you ask. 😏', 'Soft and open. I take you easily, and I want you deep.'], fr: ["Je suis une femme d'expérience, {sen}. Cela vous effraie ?", "Pas une nonne, si c'est ce que vous demandez. 😏", 'Douce et ouverte. Je vous prends sans peine, et je vous veux profond.'] } }
+      ]
+    }),
+    Q('q_anal', '🌹', 'The other way?', "Par l'autre chemin ?", {
+      en: ['is your ass tight', 'how tight is your ass', 'tight back there', 'have you done anal', 'ever tried anal', 'ever tried the other way', 'have you tried the other way'],
+      fr: ['votre cul est etroit', 'ton cul est serre', 'deja essaye la sodomie', "deja essaye l'autre chemin", 'serree par derriere']
+    }, {
+      en: ['*bites her lip* Nobody asks a lady that… but since it is you: I have wondered, {sen}. Often.', 'Curious, are you? So am I. Come and be curious with me. 😈'],
+      fr: ['*se mord la lèvre* On ne demande pas cela à une dame… mais puisque c’est vous : je me le suis demandé, {sen}. Souvent.', 'Curieux, hein ? Moi aussi. Venez l’être avec moi. 😈']
+    }, {
+      gender: '♀', prio: 1,   // same prio as the 'anal' act, so the longer question triggers win
+      variants: [
+        { traits: [any('Anal Size', TIGHT)], reply: { en: ['Untouched there, {sen}. Very tight. You would have to be patient… and I would let you. 😳', 'So tight I tremble just thinking of it. Slowly, and with oil, if ever.'], fr: ['Jamais touchée là, {sen}. Très serrée. Il faudrait être patient… et je vous laisserais faire. 😳', 'Si serrée que je tremble rien que d’y penser. Lentement, et avec de l’huile, si jamais.'] } },
+        { traits: [any('Anal Size', 'Average')], reply: { en: ['Tight, but not a stranger to it. With care, I like it more than I should confess. 😈', 'Snug, {sen}. Take your time and I will take all of you.'], fr: ['Serrée, mais pas étrangère à la chose. Avec douceur, j’aime cela plus que je ne devrais l’avouer. 😈', 'Étroite, {sen}. Prenez votre temps et je vous prendrai tout entier.'] } },
+        { traits: [any('Anal Size', 'Relaxed|Loose|Very Loose')], reply: { en: ['The other way holds no fear for me, {sen}. I rather crave it. 😈', 'Experienced there too. Do not be gentle unless I beg.'], fr: ['L’autre chemin ne me fait pas peur, {sen}. J’en ai plutôt envie. 😈', 'Expérimentée là aussi. Ne soyez doux que si je vous en supplie.'] } }
       ]
     }),
     Q('q_mysize', '🍆', 'Am I too big?', 'Suis-je trop gros ?', {
       en: ['am i too big', 'too big for you', 'do you like my size'], fr: ['suis-je trop gros', 'trop gros pour vous', 'ma taille vous plait']
-    }, { en: ["Size is a man's worry. I care how you use it. 😏"], fr: ["La taille, c'est un souci d'homme. Moi, je regarde comment vous vous en servez. 😏"] }, {
+    }, { en: ["Size is a man's worry. I care how you use it. 😏", 'Too big? I want to feel all of you, {sen}. That is my answer.'], fr: ["La taille, c'est un souci d'homme. Moi, je regarde comment vous vous en servez. 😏", 'Trop gros ? Je veux vous sentir tout entier, {sen}. Voilà ma réponse.'] }, {
       variants: [
-        { traits: [any('Dick Size', 'Large|Very Large')], reply: { en: ['*blushes* You are… generous. I am not complaining.', 'Too big? Saints, ask me again in the morning.'], fr: ['*rougit* Vous êtes… généreux. Je ne me plains pas.', 'Trop gros ? Saints du ciel, redemandez-moi demain matin.'] } },
-        { traits: [any('Dick Size', 'Small')], reply: { en: ['It is the knight, not the lance, {sen}. 😌'], fr: ["C'est le chevalier qui compte, pas la lance, {sen}. 😌"] } }
+        { traits: [any('Dick Size', 'Large|Very Large')], reply: { en: ['*blushes* You are… generous. I am not complaining.', 'Too big? Saints, ask me again in the morning.', 'You fill me until I cannot think. Too big? Never stop.'], fr: ['*rougit* Vous êtes… généreux. Je ne me plains pas.', 'Trop gros ? Saints du ciel, redemandez-moi demain matin.', 'Vous me comblez au point que je ne pense plus. Trop gros ? Ne vous arrêtez jamais.'] } },
+        { traits: [any('Dick Size', 'Average')], reply: { en: ['Not too big. Exactly the size I ache for. 😏', 'You fit me as if you were made for me, {sen}.'], fr: ['Pas trop gros. Exactement la taille qui me fait languir. 😏', 'Vous m’allez comme si vous étiez fait pour moi, {sen}.'] } },
+        { traits: [any('Dick Size', 'Small')], reply: { en: ['It is the knight, not the lance, {sen}. 😌', 'Too big? No. Just right to tease me for hours. 😏'], fr: ["C'est le chevalier qui compte, pas la lance, {sen}. 😌", 'Trop gros ? Non. Juste ce qu’il faut pour me tourmenter des heures. 😏'] } }
       ]
     }),
     Q('q_memory', '🧠', 'Do you remember?', 'Vous souvenez-vous ?', {

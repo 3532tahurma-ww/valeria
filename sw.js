@@ -1,12 +1,12 @@
 /* Valeria service worker: offline cache. Bump VERSION on every release.
  * Music/ is not cached (large files, audio range requests): background music needs the network. */
-const VERSION = 'valeria-v18';
+const VERSION = 'valeria-v23';
 importScripts('js/data/portraits.js');
 const FILES = [
   './', 'index.html', 'manifest.json', 'icons/icon.svg', 'css/style.css',
   'js/i18n.js', 'js/lang/en.js', 'js/lang/fr.js',
   'js/data/traits.js', 'js/data/events.js', 'js/data/pools.js', 'js/data/map.js', 'js/data/portraits.js',
-  'js/data/origins.js', 'js/data/talk.js', 'js/data/body.js', 'js/data/homeland.js', 'js/data/scenes.js', 'js/data/feelings.js', 'js/data/feasts.js', 'js/data/news.js', 'js/data/books.js', 'js/data/music.js', 'js/data/lute.js',
+  'js/data/origins.js', 'js/data/talk.js', 'js/data/body.js', 'js/data/homeland.js', 'js/data/scenes.js', 'js/data/feelings.js', 'js/data/feasts.js', 'js/data/news.js', 'js/data/chronicle.js', 'js/data/books.js', 'js/data/music.js', 'js/data/lute.js',
   'js/store.js', 'js/bot.js', 'js/scenes.js', 'js/feel.js', 'js/feasts.js', 'js/gen.js', 'js/effects.js', 'js/map.js', 'js/library.js', 'js/home.js', 'js/news.js',
   'js/suggest.js', 'js/labs.js', 'js/sound.js', 'js/app.js'
 ].concat(self.Valeria.PORTRAITS || []);

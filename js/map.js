@@ -3,6 +3,8 @@
  * Tap a region → it zooms in and the card below lists the court characters living there and 5 notables
  * (Gen.notables, deterministic per state.world.seed + reroll count). "Invite to court" turns a notable into a character
  * (character.set = 'map:<region>:<seed>:<i>' marks it as already at court).
+ * ⚔️ Chronicle layer: past events of js/data/chronicle.js as pins (grouped by CHRONICLE_PLACES), King Henry's road
+ * (CHRONICLE_ROUTE) drawn as far as it has gone; a pin opens a card with the events and what the court says of them.
  * app.js calls MapView.render(UI) and merges MapView.actions(UI) into its click actions.
  */
 window.Valeria = window.Valeria || {};
@@ -13,7 +15,7 @@ Valeria.MapView = (() => {
   const proj = ([lon, lat]) => [(lon + 11) * 0.64 * 40, (59 - lat) * 40];
   const xy = p => proj(p).map(n => n.toFixed(1)).join(',');
   const path = poly => 'M' + poly.map(xy).join('L') + 'Z';
-  let sel = null, open = -1, box = FULL.slice();
+  let sel = null, pin = null, open = -1, box = FULL.slice();
 
   const world = UI => {
     const s = UI.S();
@@ -23,6 +25,14 @@ Valeria.MapView = (() => {
   };
   const seedOf = (UI, id) => { const w = world(UI); return `${w.seed}-${w.rolls[id] || 0}`; };
   const region = id => V.REGIONS.find(r => r.id === id);
+  // ⚔️ past chronicle events by place, newest first
+  function places() {
+    const g = {};
+    if (V.Chronicle) V.Chronicle.past().forEach(e => { if (e.at && V.CHRONICLE_PLACES[e.at]) (g[e.at] = g[e.at] || []).push(e); });
+    return g;
+  }
+  const recent = e => (Date.now() - new Date(new Date().getFullYear(), e.m - 1, e.d)) / 864e5 <= 7;
+  const pinBox = k => { const [x, y] = proj(V.CHRONICLE_PLACES[k].at), w = 240, h = w * (FULL[3] / FULL[2]); return [x - w / 2, y - h / 2, w, h]; };
 
   function bboxOf(r) {
     const pts = [r.poly].concat(r.isles || []).flat().map(proj), xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
@@ -72,6 +82,17 @@ Valeria.MapView = (() => {
       out += `<text class="lbl ${sel === r.id ? 'on' : ''}" x="${x.toFixed(1)}" y="${y.toFixed(1)}">${UI.esc(lbl(r))}</text>`;
       if (counts[r.id]) out += `<g class="badge"><circle cx="${(x + 14).toFixed(1)}" cy="${(y + 7).toFixed(1)}" r="6.5"/><text x="${(x + 14).toFixed(1)}" y="${(y + 9.6).toFixed(1)}">${counts[r.id]}</text></g>`;
     });
+    if (V.Chronicle) {
+      const done = new Set(V.Chronicle.past().map(e => e.id));
+      const road = (V.CHRONICLE_ROUTE || []).filter(([id]) => done.has(id)).map(([, p]) => xy(p));
+      if (road.length > 1) out += `<path class="route" d="M${road.join('L')}"/>`;
+      Object.entries(places()).forEach(([k, evs]) => {
+        const [x, y] = proj(V.CHRONICLE_PLACES[k].at);
+        out += `<g class="pin ${pin === k ? 'on' : ''} ${evs.some(recent) ? 'new' : ''}" transform="translate(${x.toFixed(1)},${y.toFixed(1)})" data-act="map-chron" data-k="${k}">
+          <title>${UI.esc(V.CHRONICLE_PLACES[k].name[L === 'fr' ? 1 : 0])}</title><circle r="8"/><text y="3.5">${evs[0].icon}</text>
+          ${evs.length > 1 ? `<g class="badge"><circle cx="7" cy="-7" r="5"/><text x="7" y="-4.4">${evs.length}</text></g>` : ''}</g>`;
+      });
+    }
     V.SEAS.forEach(sea => { const [x, y] = proj(sea.at); out += `<text class="seaname" x="${x.toFixed(1)}" y="${y.toFixed(1)}">${UI.esc(sea.name[L])}</text>`; });
     const [cx, cy] = proj([-9.0, 44.3]);
     out += `<g class="compass" transform="translate(${cx.toFixed(0)},${cy.toFixed(0)})">
@@ -87,8 +108,24 @@ Valeria.MapView = (() => {
     return out;
   }
 
+  // ⚔️ card of a chronicle pin: its events and up to 3 voices of the court (her own side first)
+  function chronCard(UI) {
+    const t = UI.t, esc = UI.esc, L = UI.lang(), x = L === 'fr' ? 1 : 0, C = V.Chronicle;
+    const evs = places()[pin] || [], y = new Date().getFullYear(), day = e => V.I18n.date(new Date(y, e.m - 1, e.d, 12));
+    const chars = UI.S().characters, said = s => s.replace(/,?\s*\{sen\}/g, '');
+    const voices = e => chars.map(c => ({ c, own: e.her[C.side(c)] })).sort((a, b) => !a.own - !b.own).slice(0, 3)
+      .map(v => ({ c: v.c, h: v.own || e.her.far || Object.values(e.her)[0] }));
+    return `<section class="region-card chron-card">
+      <header><h3>${esc(V.CHRONICLE_PLACES[pin].name[x])}</h3><small>⚔️ ${t('map.chron')}</small></header>
+      ${evs.map(e => `<h4>${e.icon} ${esc(e.t[x])}</h4>
+        <p class="small"><small class="muted">${esc(day(e))}</small> ${esc(e.s[x])}</p>
+        ${voices(e).length ? `<ul class="list">${voices(e).map(v => `<li><button class="item" data-act="map-news" data-id="${esc(v.c.id)}">${UI.crest(v.c, 'sm')}<span class="txt"><strong>${esc(v.c.name)}</strong><em>“${esc(said(v.h[x]))}”</em></span><span class="tag">✉️</span></button></li>`).join('')}</ul>` : ''}`).join('')}
+      <p class="muted small">${t('map.askHint')}</p></section>`;
+  }
+
   function card(UI) {
     const t = UI.t, esc = UI.esc, L = UI.lang();
+    if (pin) return chronCard(UI);
     if (!sel) return `<p class="empty map-hint">${t('map.hint')}</p>`;
     const r = region(sel), realm = V.REALMS[r.realm];
     const court = UI.S().characters.filter(c => V.Gen.regionOf(c) === r.id);
@@ -127,13 +164,24 @@ Valeria.MapView = (() => {
 
   const actions = UI => ({
     'map-region': a => {
-      sel = a.dataset.id; open = -1;
+      sel = a.dataset.id; pin = null; open = -1;
       redrawSvg(UI); redrawCard(UI);
       zoomTo(bboxOf(region(sel)));
     },
+    'map-chron': a => {
+      pin = a.dataset.k; sel = null; open = -1;
+      redrawSvg(UI); redrawCard(UI);
+      zoomTo(pinBox(pin));
+    },
+    // open her letters with "What news?" ready to send
+    'map-news': a => {
+      UI.write(a.dataset.id);
+      const ta = document.getElementById('txt');
+      if (ta) { ta.value = UI.t('map.askNews'); ta.focus(); }
+    },
     'map-reset': () => {
-      if (!sel) return;
-      sel = null; open = -1;
+      if (!sel && !pin) return;
+      sel = null; pin = null; open = -1;
       redrawSvg(UI); redrawCard(UI);
       zoomTo(FULL);
     },
@@ -158,7 +206,7 @@ Valeria.MapView = (() => {
   function select(id) {
     const r = region(id);
     if (!r) return;
-    sel = id; open = -1; box = bboxOf(r);
+    sel = id; pin = null; open = -1; box = bboxOf(r);
   }
 
   return { render, actions, select, notables: (UI, id) => V.Gen.notables(id, seedOf(UI, id)) };

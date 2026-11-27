@@ -51,7 +51,9 @@ Valeria.Suggest = (() => {
     hayloft: ['Come up to the hayloft.', 'Montons dans le grenier à foin.'], table: ['On the table. Now.', 'Sur la table. Maintenant.'],
     q_height: ['How tall are you?', 'Quelle est votre taille ?'], q_figure: ['Tell me about your figure.', 'Parlez-moi de votre silhouette.'],
     q_bust: ['How big are your breasts?', 'Quelle est la taille de votre poitrine ?'], q_hips: ['How are your hips?', 'Vos hanches sont-elles larges ?'],
-    q_tight: ['Are you tight?', 'Êtes-vous étroite ?'], q_mysize: ['Am I too big for you?', 'Suis-je trop gros pour vous ?'], q_memory: ['Do you remember our first time?', 'Vous souvenez-vous de notre première fois ?'], q_fear: ['What do you fear?', 'De quoi avez-vous peur ?'], q_dream: ['What is your dream?', 'Quel est votre rêve ?']
+    q_tight: ['Are you tight?', 'Êtes-vous étroite ?'], q_mysize: ['Am I too big for you?', 'Suis-je trop gros pour vous ?'], q_memory: ['Do you remember our first time?', 'Vous souvenez-vous de notre première fois ?'], q_fear: ['What do you fear?', 'De quoi avez-vous peur ?'], q_dream: ['What is your dream?', 'Quel est votre rêve ?'],
+    q_news: ['What news of the world?', 'Quelles nouvelles du monde ?'],
+    q_anal: ['Have you ever tried the other way?', "Avez-vous déjà essayé l'autre chemin ?"]
   };
   const FLOW = {
     greet: ['howareyou', 'compliment', 'q_from'], howareyou: ['compliment', 'q_like', 'missyou'], compliment: ['handkiss', 'love', 'dance'],

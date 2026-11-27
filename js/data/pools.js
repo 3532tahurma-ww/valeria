@@ -1,6 +1,6 @@
 /*
  * Valeria - pools for 🎲 random characters (js/gen.js)
- * first[pool][f|m], surname[pool]: pool = region.names ('en', 'fr', 'scot', 'wales', 'irl', 'nav', 'flem', 'ger', 'boh', 'hun', 'pol', 'dan')
+ * first[pool][f|m], surname[pool]: pool = region.names ('en', 'fr', 'scot', 'wales', 'irl', 'nav', 'flem', 'ger', 'boh', 'hun', 'pol', 'dan', 'ita')
  * titles.f / titles.m: [EN, FR] ordinary titles (rulers come from map regions)
  * mottos, origins, secrets, hopes: [EN, FR]; {name} = first name, {city} = seat
  */
@@ -55,6 +55,10 @@ Valeria.POOLS = {
     pol: {
       f: ['Jadwiga', 'Elżbieta', 'Zofia', 'Małgorzata', 'Dobrawa', 'Kunegunda', 'Salomea', 'Ryksa', 'Agnieszka', 'Katarzyna', 'Barbara', 'Anna'],
       m: ['Władysław', 'Kazimierz', 'Bolesław', 'Mieszko', 'Jan', 'Zbigniew', 'Stanisław', 'Henryk', 'Jakub', 'Wojciech']
+    },
+    ita: {
+      f: ['Beatrice', 'Caterina', 'Bianca', 'Ginevra', 'Isotta', 'Costanza', 'Violante', 'Margherita', 'Valentina', 'Fiammetta', 'Agnese', 'Lucrezia', 'Contessina', 'Taddea'],
+      m: ['Filippo', 'Francesco', 'Niccolò', 'Lorenzo', 'Cosimo', 'Tommaso', 'Guido', 'Bernabò', 'Pandolfo', 'Galeazzo']
     }
   },
 
@@ -70,7 +74,8 @@ Valeria.POOLS = {
     boh: ['z Rožmberka', 'ze Šternberka', 'z Pernštejna', 'z Lipé', 'z Kunštátu', 'z Hradce', 'z Lobkovic', 'z Kolovrat'],
     hun: ['Garai', 'Báthori', 'Szapolyai', 'Rozgonyi', 'Perényi', 'Kanizsai', 'Bánfi', 'Héderváry'],
     dan: ['Brahe', 'Bille', 'Rosenkrantz', 'Thott', 'Gyldenstierne', 'Krognos', 'Ulfstand', 'Hvide'],
-    pol: ['z Tęczyna', 'z Melsztyna', 'z Oleśnicy', 'z Szamotuł', 'z Ostroroga', 'z Pilczy', 'z Kurozwęk']
+    pol: ['z Tęczyna', 'z Melsztyna', 'z Oleśnicy', 'z Szamotuł', 'z Ostroroga', 'z Pilczy', 'z Kurozwęk'],
+    ita: ['Borromeo', 'Pallavicino', 'Dal Verme', 'Malaspina', 'Contarini', 'Morosini', 'Spinola', 'Fieschi', 'Strozzi', 'Albizzi', 'Pio da Carpi', 'Bentivoglio']
   },
 
   titles: {

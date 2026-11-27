@@ -1,6 +1,16 @@
 # Durum
 
 ## Bitti
+### v0.15.1
+- 🏔️ İsviçre, Trento, Friuli & İstria (45 bölge); Alpler'de boşluk kalmadı.
+### v0.15.0
+- 🦁 Kuzey İtalya (5 bölge, 42), haneler, isim havuzu, köken + yöre sesi, 2 aziz günü, haberler, ferman.
+### v0.14.0
+- 🗺️⚔️ Haritada kronik katmanı (işaretler, Henri'nin yolu, olay kartı + "What news?"), ferman.
+### v0.13.1
+- 🌹 Anal Size sorusu `q_anal`.
+### v0.13.0
+- ⚔️ 1415 Kroniği (Haberci sekmesi + "What news?"), 💾 bölünmüş kayıt, 🔍 mektup arşivi + 🗝️ mühürlü sandık, beden sorularına erotik cevaplar, ferman.
 ### v0.12.0
 - 🪕 Canlı üretilen lavta müziği (6 özgün parça, çevrimdışı), ayarlarda Minstrels / Lute / Off, ferman.
 ### v0.11.0
@@ -37,4 +47,4 @@
 2. Mesaj tepkileri ve sohbet temaları (Carmen `theme` nesnesiyle uyumlu).
 3. Fotoğraf mesajı ve albüm (portrelerden).
 4. Bot kural editörü; kelime grupları.
-5. Büyük Carmen yedekleri için bölünmüş kayıt (Carmen store.js'teki gibi).
+5. 🐎 Ulak yolculuğu (haritadaki uzaklığa göre gecikmeli teslim), 🎁 hediyeler, 💍 ittifak/evlilik.

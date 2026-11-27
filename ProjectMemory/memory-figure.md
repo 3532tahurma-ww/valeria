@@ -6,7 +6,7 @@
 - Form: "📏 Figure" seçimleri (`data-fig`), 🎲 `figure` (kiloya uygun göğüs/kalça). Profil: Figure kartı; normal çiplerde gösterilmez (`isFig`). Etiket `traitLabel` → "🍒 Bosom: 85", FR değerler `FIGURE_FR`.
 - Yeni olaylar: hairplay, blindfold, window, breasts (♀), bottom (♀), spank, lower (♀, prio 1), anal (♀, prio 1), hayloft, table.
 - Var olanlara beden varyantları: hug/kiss (Height), compliment (Weight), missionary/cowgirl/climax (Pussy Size + Dick Size), behind (Butt Size).
-- Sorular: q_height, q_figure, q_bust, q_hips, q_tight, q_mysize (Dick Size), q_memory.
+- Sorular: q_height, q_figure, q_bust, q_hips, q_tight, q_anal (Anal Size, `prio: 1` = `anal` olayıyla eşit; uzun tetikleyici kazanır), q_mysize (Dick Size), q_memory. v0.13.0'dan beri beden soruları geçiştirmez: varsayılan cevap da açık sözlü/erotik; her değer grubunun varyantı var (Height Average, Weight Average, Butt Size M|M/L, Pussy Size Average, Dick Size Average dahil).
 - Onun soruları `on: [olay id]` = o olaydan sonra %35: a_bust, a_bustbig (breasts), a_hips (bottom/behind), a_gentle (missionary/cowgirl/anal, dar), a_tall (hug/kiss, kısa), a_curvy (talk, dolgun).
 
 ## 🧠 Hafıza (karakterde `c.mem`, `botReply` yazar)

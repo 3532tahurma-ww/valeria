@@ -73,10 +73,10 @@ Valeria.BOOKS = [
       {
         title: { en: 'Homelands', fr: 'Terres natales' },
         body: {
-          en: `<p>Every character comes from one of the 37 lands of the map, and her land shows in everything she writes. She greets and says farewell in her own tongue, calls you by a word of home, swears by her saints, speaks of her food, her feasts and her songs, and quotes the sayings of her land.</p>
+          en: `<p>Every character comes from one of the 45 lands of the map, and her land shows in everything she writes. She greets and says farewell in her own tongue, calls you by a word of home, swears by her saints, speaks of her food, her feasts and her songs, and quotes the sayings of her land.</p>
 <p>Each land <b>loves</b> some things and <b>frowns upon</b> others: a Provençale loves a bath and a dance, a lady of Navarre frowns upon teasing. She tells you so when you do them.</p>
 <p>Her profile shows her homeland card; the <i>Book of Realms</i> describes every land, and the 🌍 Homeland lab lets you hear a lady of any land.</p>`,
-          fr: `<p>Chaque personnage vient de l'une des 37 terres de la carte, et sa terre se voit dans tout ce qu'elle écrit. Elle salue et dit adieu dans sa langue, vous appelle d'un mot de chez elle, jure par ses saints, parle de sa cuisine, de ses fêtes et de ses chants, et cite les dictons de sa terre.</p>
+          fr: `<p>Chaque personnage vient de l'une des 45 terres de la carte, et sa terre se voit dans tout ce qu'elle écrit. Elle salue et dit adieu dans sa langue, vous appelle d'un mot de chez elle, jure par ses saints, parle de sa cuisine, de ses fêtes et de ses chants, et cite les dictons de sa terre.</p>
 <p>Chaque terre <b>aime</b> certaines choses et en <b>désapprouve</b> d'autres : une Provençale aime le bain et la danse, une dame de Navarre désapprouve la taquinerie. Elle vous le dit quand vous les faites.</p>
 <p>Son profil montre la fiche de sa terre ; le <i>Livre des royaumes</i> décrit chaque terre, et le labo 🌍 Terres natales fait entendre une dame de n'importe quelle terre.</p>`
         }
@@ -86,12 +86,27 @@ Valeria.BOOKS = [
         body: {
           en: `<p><b>📯 The Herald</b> is on Home (the card under the ticker, and "All ›"). Gautier cries two kinds of news:</p>
 <ul><li><b>📜 Proclamations</b>: every novelty of Valeria, each with its own page and Gautier's own account. 🆕 marks the ones you have not read.</li>
-<li><b>🗺️ Tidings of the realms</b>: tourneys, weddings, frosts and scandals, new every morning. Each tiding names a lady: visit her land on the map or answer her letter.</li></ul>
-<p>The scrolling ticker on Home shows the same tidings; tap one to read it.</p>`,
+<li><b>🗺️ Tidings of the realms</b>: tourneys, weddings, frosts and scandals, new every morning. Each tiding names a lady: visit her land on the map or answer her letter.</li>
+<li><b>⚔️ 1415</b>: the true events of the year on their own day: the flight of the pope from Constance, the burning of Jan Hus, the siege of Harfleur, Agincourt on Saint Crispin's day… What has not happened yet stays sealed 🔒 until its day.</li></ul>
+<p>The scrolling ticker on Home shows the same tidings; tap one to read it.</p>
+<p>Ask her <b>“What news?”</b> and she tells you the latest event as her land sees it: a Frenchwoman mourns Agincourt, an Englishwoman rings the bells, a Burgundian keeps her own counsel, a lady of Bohemia does not forgive Constance. In the week after an event she may bring it up herself.</p>`,
           fr: `<p><b>📯 Le Héraut</b> se trouve sur l'Accueil (la fiche sous le bandeau, et « Tout › »). Gautier crie deux sortes de nouvelles :</p>
 <ul><li><b>📜 Proclamations</b> : chaque nouveauté de Valeria, avec sa propre page et le récit de Gautier. 🆕 marque celles que vous n'avez pas lues.</li>
-<li><b>🗺️ Nouvelles des royaumes</b> : tournois, noces, gelées et scandales, nouvelles chaque matin. Chaque nouvelle nomme une dame : visitez sa terre sur la carte ou répondez à sa lettre.</li></ul>
-<p>Le bandeau défilant de l'Accueil montre les mêmes nouvelles ; touchez-en une pour la lire.</p>`
+<li><b>🗺️ Nouvelles des royaumes</b> : tournois, noces, gelées et scandales, nouvelles chaque matin. Chaque nouvelle nomme une dame : visitez sa terre sur la carte ou répondez à sa lettre.</li>
+<li><b>⚔️ 1415</b> : les vrais événements de l'année à leur jour : la fuite du pape de Constance, le bûcher de Jan Hus, le siège d'Harfleur, Azincourt le jour de la Saint-Crépin… Ce qui n'est pas encore arrivé reste scellé 🔒 jusqu'à son jour.</li></ul>
+<p>Le bandeau défilant de l'Accueil montre les mêmes nouvelles ; touchez-en une pour la lire.</p>
+<p>Demandez-lui <b>« Quelles nouvelles ? »</b> et elle vous raconte le dernier événement comme sa terre le voit : une Française pleure Azincourt, une Anglaise fait sonner les cloches, une Bourguignonne garde ses pensées, une dame de Bohême ne pardonne pas Constance. Dans la semaine qui suit un événement, elle peut en parler d'elle-même.</p>`
+        }
+      },
+      {
+        title: { en: 'The archive and the chests', fr: 'Les archives et les coffres' },
+        body: {
+          en: `<p>In <b>✉️ Letters</b>, <b>🔍 Archive</b> searches every letter of every correspondence at once. Filter by <b>💌 Received</b>, <b>✒️ Sent</b> or the <b>🗝️ Sealed chest</b>; tap a result to open the letter in its place.</p>
+<p>To keep a letter in the sealed chest, tap it in the correspondence and choose <b>🗝️</b>. A small key marks it.</p>
+<p>Each correspondence is now stored in its <b>own chest</b> on your device, like in Carmen, so large backups load more easily. <b>👑 Me → Backup</b> shows how much room is used (about 5 MB at most). Backups are unchanged.</p>`,
+          fr: `<p>Dans <b>✉️ Lettres</b>, <b>🔍 Archives</b> cherche dans toutes les lettres de toutes les correspondances à la fois. Filtrez par <b>💌 Reçues</b>, <b>✒️ Envoyées</b> ou le <b>🗝️ Coffre scellé</b> ; touchez un résultat pour ouvrir la lettre à sa place.</p>
+<p>Pour garder une lettre dans le coffre scellé, touchez-la dans la correspondance et choisissez <b>🗝️</b>. Une petite clé la marque.</p>
+<p>Chaque correspondance est désormais rangée dans son <b>propre coffre</b> sur votre appareil, comme dans Carmen, et les grosses sauvegardes se chargent plus facilement. <b>👑 Moi → Sauvegarde</b> indique la place utilisée (environ 5 Mo au plus). Les sauvegardes ne changent pas.</p>`
         }
       },
       {
@@ -182,12 +197,14 @@ Valeria.BOOKS = [
       {
         title: { en: 'The map', fr: 'La carte' },
         body: {
-          en: `<p>The map shows 37 regions, from the Highlands to Navarre and from Brittany to Kraków, Denmark included. Tap one to zoom in; tap the sea to see the whole map again.</p>
+          en: `<p>The map shows 45 regions, from the Highlands to Navarre and from Brittany to Kraków, Denmark, the Swiss and northern Italy included. Tap one to zoom in; tap the sea to see the whole map again.</p>
 <p>The card below lists who from your court lives there and five <b>notables</b>: the ruler first (Queen of France, Duchess of Normandy…), then ladies of every rank. <b>✉️ Invite to court</b> brings one to your court, <b>🎲 New faces</b> shows others.</p>
-<p>The red badge on a region counts your court members living there.</p>`,
-          fr: `<p>La carte montre 37 régions, des Highlands à la Navarre et de la Bretagne à Cracovie, Danemark compris. Touchez-en une pour zoomer ; touchez la mer pour revoir toute la carte.</p>
+<p>The red badge on a region counts your court members living there.</p>
+<p><b>⚔️ The chronicle on the map</b>: every event of 1415 that has come to pass is pinned where it happened (Constance, Harfleur, Agincourt…), and a dashed red line follows King Henry's road as far as he has gone. A pin that pulses is fresh news. Tap a pin: the events of that place, and what three ladies of your court say of them. Tap a lady to ask her “What news?” in a letter.</p>`,
+          fr: `<p>La carte montre 45 régions, des Highlands à la Navarre et de la Bretagne à Cracovie, Danemark, Suisses et Italie du Nord compris. Touchez-en une pour zoomer ; touchez la mer pour revoir toute la carte.</p>
 <p>La fiche en dessous indique qui de votre cour y vit et cinq <b>notables</b> : d'abord la souveraine (Reine de France, Duchesse de Normandie…), puis des dames de tout rang. <b>✉️ Inviter à la cour</b> en amène une à votre cour, <b>🎲 Autres visages</b> en montre d'autres.</p>
-<p>Le badge rouge sur une région compte les membres de votre cour qui y vivent.</p>`
+<p>Le badge rouge sur une région compte les membres de votre cour qui y vivent.</p>
+<p><b>⚔️ La chronique sur la carte</b> : chaque événement de 1415 déjà advenu est épinglé là où il s'est produit (Constance, Harfleur, Azincourt…), et une ligne rouge pointillée suit la route du roi Henri aussi loin qu'il est allé. Une épingle qui palpite est une nouvelle fraîche. Touchez une épingle : les événements du lieu, et ce qu'en disent trois dames de votre cour. Touchez une dame pour lui demander « Quelles nouvelles ? » par lettre.</p>`
         }
       },
       {
@@ -220,5 +237,5 @@ Valeria.BOOKS = [
   { id: 'memory', shelf: 'talk', icon: '🧠', color: '#5a3a6b', gen: 'memory', title: { en: 'Book of Memory', fr: 'Livre de la mémoire' }, sub: { en: 'What she remembers, and when she says so', fr: 'Ce dont elle se souvient, et quand elle le dit' } },
   { id: 'temper', shelf: 'talk', icon: '🎭', color: '#4a2b5e', gen: 'traits', title: { en: 'Book of Temperaments', fr: 'Livre des tempéraments' }, sub: { en: 'Personality changes every answer', fr: 'Le caractère change chaque réponse' } },
   { id: 'calendar', shelf: 'world', icon: '📅', color: '#2a4f8a', gen: 'calendar', title: { en: 'Calendar of Saints', fr: 'Calendrier des saints' }, sub: { en: 'Feast days, their designs, and your own days', fr: 'Jours de fête, leurs décors, et vos propres jours' } },
-  { id: 'realms', shelf: 'world', icon: '🌍', color: '#1d3a8a', gen: 'realms', title: { en: 'Book of Realms', fr: 'Livre des royaumes' }, sub: { en: '37 lands, their tables and their tempers', fr: '37 terres, leurs tables et leurs humeurs' } }
+  { id: 'realms', shelf: 'world', icon: '🌍', color: '#1d3a8a', gen: 'realms', title: { en: 'Book of Realms', fr: 'Livre des royaumes' }, sub: { en: '45 lands, their tables and their tempers', fr: '45 terres, leurs tables et leurs humeurs' } }
 ];

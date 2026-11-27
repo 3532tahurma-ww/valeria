@@ -44,7 +44,7 @@ Valeria.FEEL_EV = {
   window: { love: 2 }, breasts: { desire: 4 }, bottom: { desire: 3 }, spank: { desire: 3, trust: -1 }, lower: { desire: 5, trust: 1 },
   anal: { desire: 4, trust: 1 }, hayloft: { desire: 4, love: 1 }, table: { desire: 5 }, edge: { desire: 6 },
   climax: { love: 2, trust: 1, desire: -40 }, slower: { trust: 1 }, stop: { desire: -5, trust: 1 }, name: { love: 1, desire: 1 }, look: { love: 1 },
-  q_memory: { love: 1 }, q_dream: { trust: 1, love: 1 }, q_fear: { trust: 2 }, q_lover: { trust: -1 }, q_mysize: { desire: 2 }
+  q_memory: { love: 1 }, q_dream: { trust: 1, love: 1 }, q_fear: { trust: 2 }, q_lover: { trust: -1 }, q_mysize: { desire: 2 }, q_news: { trust: 1 }, q_anal: { desire: 2 }
 };
 // acts she wants to know you better for: all intimacy, plus these
 Valeria.FEEL_NEED_CAT = { intimacy: { trust: 30 } };

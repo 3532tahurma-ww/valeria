@@ -30,10 +30,16 @@ Tam alan açıklaması Carmen'de: `C:\Users\3225t\Desktop\Carmen\docs\YEDEK-JSON
 | `characters[].feel` | 🤝❤️🔥 `{ trust, love, desire }` 0–100 |
 | mesaj `feel`, `st` | değişim çipi metni (`'🤝+2 ❤️+1'`), `st: 1` = durum kartı notu |
 | `botScene` | sohbet id → 🎬 süren sahne `{ id, done, idle }` |
+| mesaj `star` | `1` = 🗝️ mühürlü sandıkta (🔍 arşiv) |
 | `characters[].mem.scenes / eps / ep / epSeen` | 🎬 tamamlanan sahneler (sayı), 📖 biten bölümler (zaman), süren bölüm `{ id, i }`, teklif edilen bölümler |
 
 ## Carmen'den gelince
 - Bilinmeyen alanlar (`monia`, `accounts`, `theme`…) olduğu gibi saklanır; tekrar dışa aktarınca kaybolmaz.
 - Carmen'in Türkçe özellikleri (ör. "Neşeli") düzenleme ekranında "Other traits" altında görünür.
 - Carmen'deki `mods/...`, `characters/...` fotoğraf yolları Valeria'da yok: arma + baş harf gösterilir (`onerror` ile).
-- Depolama tek anahtarda (`valeria:v1`, ~5 MB sınırı). Büyük Carmen yedekleri "Storage is full" verebilir; o zaman Carmen'deki gibi bölünmüş kayda geçilmeli.
+
+## 💾 Bölünmüş kayıt (v0.13.0, Carmen store.js gibi)
+- Her sohbet ayrı anahtarda `valeria:v1:c:<thread id>`; büyük alanlar (`PARTS = ['monia']`) `valeria:v1:p:<alan>`, ana kayıtta `null`. Ana kayıt `valeria:v1`: `chats: {}` + `__split: [id…]`.
+- Sırası: önce sohbetler, sonra ana kayıt (kota yarıda dolarsa ana kayıt eski listeyi gösterir). Sadece metni değişen anahtar yazılır (`written`); silinen sohbetin anahtarı silinir; ilk kayıtta artık anahtarlar süpürülür.
+- `__split` yoksa (eski tek anahtarlı kayıt) ayrı anahtarlardaki mesajlar id'ye göre birleştirilir: veri kaybolmaz. `Store.replace` başarısızsa eski state geri yazılır.
+- Toplam sınır yine origin başına ~5 MB; `Store.usage()` (bayt) 👑 Me → Backup'ta gösterilir. Yedek dosyası biçimi değişmedi (`state` içinde `__split` yok).

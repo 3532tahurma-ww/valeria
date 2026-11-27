@@ -12,7 +12,7 @@ Carmen'in (C:\Users\3225t\Desktop\Carmen) yeni versiyonu: orta çağ Fransa–İ
 - `js/data/traits.js` özellikler, haneler, unvanlar. `js/data/events.js` bot olayları; motor `js/bot.js` (biçim dosya başında).
 - `js/home.js` 🏠 ana sayfa (varsayılan ekran). `js/library.js` 📚 kütüphane okuyucusu; kitaplar `js/data/books.js` (elle yazılan + veriden canlı üretilen `gen`). Bir özellik değişince ilgili kitap bölümünü de güncelle.
 - Beden özellikleri, beden olayları/soruları ve hafıza satırları: `js/data/body.js` (talk.js'ten sonra yüklenir). Beden dizgileri Carmen'le aynı kalmalı ("Pussy Size: Tight").
-- Yöre sesi `js/data/homeland.js` (body.js'ten sonra). Haberci: veri `js/data/news.js`, ekranlar `js/news.js`. **Her yeni özellik için en üste bir ferman (PROCLAMATIONS) ve Guide bölümü ekle.**
+- Yöre sesi `js/data/homeland.js` (body.js'ten sonra). Haberci: veri `js/data/news.js`, ekranlar `js/news.js`. ⚔️ 1415 Kroniği `js/data/chronicle.js` (gerçek olaylar, "What news?"). 🔍 Arşiv `app.js` `archive` ekranı; 💾 bölünmüş kayıt `store.js`. **Her yeni özellik için en üste bir ferman (PROCLAMATIONS) ve Guide bölümü ekle.**
 - 🎬 Sahneler / 📖 bölümler: veri `js/data/scenes.js`, motor `js/scenes.js`; 🕯️ Dame Mathilde öneri çubuğu `Suggest.tips` (Carmen'in Lia'sı). Ayrıntı `ProjectMemory/scenes.md`.
 - 🤝❤️🔥 Duygular + 📰 durum kartları: veri `js/data/feelings.js`, motor `js/feel.js`. Yeni olay eklenince `FEEL_EV` / `FEEL_NEED` satırı düşün. Ayrıntı `ProjectMemory/feelings.md`.
 - 📅 Aziz günleri / bayramlar: veri `js/data/feasts.js`, motor `js/feasts.js` (tasarım `Feasts.apply`, 🎉 deney). Ayrıntı `ProjectMemory/feasts.md`.

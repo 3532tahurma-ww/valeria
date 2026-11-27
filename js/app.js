@@ -6,7 +6,7 @@
 (() => {
   const V = window.Valeria;
   const Store = V.Store;
-  V.VERSION = '0.6.0';
+  V.VERSION = '0.15.1';
   const S = () => Store.state;
   const t = (k, v) => V.I18n.t(k, v);
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -165,7 +165,7 @@
     window.scrollTo(0, 0);
   }
   function render() {
-    const tab = { court: 'home', profile: 'home', edit: 'home', book: 'library', page: 'library', labs: 'library', lab: 'library', news: 'home', article: 'home', tiding: 'home', group: 'letters' }[view.name] || view.name;
+    const tab = { court: 'home', profile: 'home', edit: 'home', book: 'library', page: 'library', labs: 'library', lab: 'library', news: 'home', article: 'home', tiding: 'home', group: 'letters', archive: 'letters' }[view.name] || view.name;
     document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('on', b.dataset.go === tab));
     document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
     document.body.classList.toggle('in-chat', view.name === 'chat');
@@ -201,7 +201,7 @@
       const ths = S().threads.slice().sort((a, b) => lastTs(b) - lastTs(a));
       main.innerHTML = `
         <header class="top"><h1 class="title">${t('nav.letters')}</h1></header>
-        <div class="row-actions"><button class="btn ghost" data-go="group">${t('letters.newGroup')}</button></div>
+        <div class="row-actions"><button class="btn ghost" data-go="group">${t('letters.newGroup')}</button><button class="btn ghost" data-go="archive">🔍 ${t('arc.title')}</button></div>
         ${ths.length ? `<ul class="list">${ths.map(th => {
           const cs = threadChars(th);
           return `<li><button class="item" data-thread="${esc(th.id)}">
@@ -211,6 +211,17 @@
               <em>${esc(snippet(th))}</em></span>
             <time>${fmtDay(lastTs(th))}</time></button></li>`;
         }).join('')}</ul>` : `<div class="empty"><p>${t('letters.none')}</p></div>`}`;
+    },
+
+    // 🔍 letter archive: search every letter, 🗝️ sealed chest (starred letters)
+    archive() {
+      const tabs = [['all', '✦'], ['star', '🗝️'], ['her', '💌'], ['me', '✒️']];
+      main.innerHTML = `
+        <header class="bar"><button class="icon" data-go="letters">‹</button><h2>🔍 ${t('arc.title')}</h2><span></span></header>
+        <div class="form"><input id="arcq" placeholder="🔍 ${t('arc.search')}" value="${esc(arc.q)}"></div>
+        <div class="ev-tabs">${tabs.map(([k, ic]) => `<button class="chip ${arc.f === k ? 'on' : ''}" data-act="arc-tab" data-k="${k}">${ic} ${t('arc.' + k)}</button>`).join('')}</div>
+        <div id="arcList"></div>`;
+      drawArchive();
     },
 
     profile() {
@@ -395,6 +406,7 @@
         <div class="row-actions"><button class="btn ghost" data-go="labs">🧪 ${t('labs.title')}</button><button class="btn ghost" data-go="library">📚 ${t('nav.library')}</button></div>
         <h3 class="sec">${t('me.backup')}</h3>
         <p class="muted small">${t('me.backupNote')}</p>
+        <p class="muted small">💾 ${t('me.storage', { kb: Math.round(Store.usage() / 1024), n: Object.keys(S().chats).length })}</p>
         <div class="row-actions">
           <button class="btn" data-act="export">${t('me.export')}</button>
           <label class="btn ghost">${t('me.import')}<input type="file" accept=".json,application/json" id="importIn" hidden></label>
@@ -430,7 +442,7 @@
   function msgHTML(m, th) {
     const acts = `<div class="acts">
       <button data-act="m-edit">✎ ${t('msg.edit')}</button>
-      ${m.from !== 'sys' ? `<button data-act="m-swap">⇄ ${t('msg.swap')}</button><button data-act="m-fx">✨ ${t('chat.effect')}</button>` : ''}
+      ${m.from !== 'sys' ? `<button data-act="m-swap">⇄ ${t('msg.swap')}</button><button data-act="m-fx">✨ ${t('chat.effect')}</button><button data-act="m-star">🗝️ ${t(m.star ? 'arc.unstar' : 'arc.star')}</button>` : ''}
       <button data-act="m-del">🗑 ${t('msg.delete')}</button></div>`;
     const on = sel === m.id;
     const cls = [on ? 'sel' : '', fresh.has(m.id) ? 'fresh' : '', m.effect && m.effect !== 'none' ? 'eff-' + m.effect : ''].join(' ');
@@ -443,7 +455,7 @@
     const badge = V.FX.isScreen(m.effect) ? `<button class="fx-badge" data-act="fx-replay" data-fx="${esc(m.effect)}">${V.FX.ICON[m.effect]}</button>` : '';
     return `<div class="msg ${me ? 'me' : 'her'} ${cls}" data-mid="${esc(m.id)}">
       ${me ? '' : crest(c, 'xs')}
-      <div class="bubble">${from}${body}${m.react ? `<span class="react">${esc(m.react)}</span>` : ''}${badge}${m.feel && cardsLvl() === 2 ? `<span class="feelchip" title="${t('feel.chip')}">${esc(m.feel)}</span>` : ''}</div>
+      <div class="bubble">${from}${body}${m.star ? `<span class="star" title="${t('arc.chest')}">🗝️</span>` : ''}${m.react ? `<span class="react">${esc(m.react)}</span>` : ''}${badge}${m.feel && cardsLvl() === 2 ? `<span class="feelchip" title="${t('feel.chip')}">${esc(m.feel)}</span>` : ''}</div>
       ${on ? acts : ''}</div>`;
   }
 
@@ -465,6 +477,38 @@
     box.scrollTop = keepScroll ? top : box.scrollHeight;
   }
   const drawIfHere = tid => { if (view.name === 'chat' && view.id === tid) drawMsgs(); };
+
+  /* ---------- 🔍 archive ---------- */
+  const arc = { q: '', f: 'all' };
+  function drawArchive() {
+    const box = $('#arcList');
+    if (!box) return;
+    const q = V.Bot.norm(arc.q).trim(), raw = arc.q.trim().toLowerCase();
+    const hits = [];
+    S().threads.forEach(th => (S().chats[th.id] || []).forEach(m => {
+      if (m.from === 'sys' || !m.text) return;
+      if (arc.f === 'star' && !m.star) return;
+      if ((arc.f === 'her' || arc.f === 'me') && m.from !== arc.f) return;
+      if (q && !V.Bot.norm(m.text).includes(q)) return;
+      hits.push({ th, m });
+    }));
+    hits.sort((a, b) => (b.m.ts || 0) - (a.m.ts || 0));
+    const mark = s => {
+      const i = raw ? s.toLowerCase().indexOf(raw) : -1;
+      if (i < 0) return esc(s.length > 160 ? s.slice(0, 160) + '…' : s);
+      const a = Math.max(0, i - 60), b = Math.min(s.length, i + raw.length + 90);
+      return (a ? '…' : '') + esc(s.slice(a, i)) + `<mark>${esc(s.slice(i, i + raw.length))}</mark>` + esc(s.slice(i + raw.length, b)) + (b < s.length ? '…' : '');
+    };
+    const shown = hits.slice(0, 200);
+    box.innerHTML = `<p class="muted small center">${t('arc.count', { n: hits.length })}</p>` + (shown.length ? `<ul class="list">${shown.map(({ th, m }) => {
+      const c = m.from === 'me' ? null : charById(th.group ? m.who : th.charId);
+      return `<li><button class="item" data-act="arc-open" data-tid="${esc(th.id)}" data-mid="${esc(m.id)}">
+        <span class="crests">${c ? crest(c, 'sm') : userCrest('sm')}</span>
+        <span class="txt"><strong>${m.star ? '🗝️ ' : ''}${esc(c ? c.name : userName())}</strong>
+          <small>${esc(th.title || '')}</small><em>${mark(m.text)}</em></span>
+        <time>${fmtDay(m.ts)}</time></button></li>`;
+    }).join('')}</ul>` : `<div class="empty"><p>${t(arc.f === 'star' && !q ? 'arc.noStar' : 'arc.none')}</p></div>`);
+  }
 
   function pushMsg(tid, m) {
     const o = Object.assign({ id: Store.uid(), ts: Date.now() }, m);
@@ -815,6 +859,23 @@
       save();
       drawMsgs(true);
     },
+    'm-star': () => {
+      const m = curMsg();
+      if (!m) return;
+      if (m.star) delete m.star; else m.star = 1;
+      save();
+      drawMsgs(true);
+      toast(t(m.star ? 'arc.starred' : 'arc.unstarred'));
+    },
+    'arc-tab': a => { arc.f = a.dataset.k; document.querySelectorAll('[data-act=arc-tab]').forEach(b => b.classList.toggle('on', b === a)); drawArchive(); },
+    'arc-open': a => {
+      const mid = a.dataset.mid;
+      openThread(a.dataset.tid);
+      sel = mid;
+      drawMsgs();
+      const el = document.querySelector(`.msg[data-mid="${CSS.escape(mid)}"]`);
+      if (el) { el.scrollIntoView({ block: 'center' }); el.classList.add('found'); }
+    },
     'export': exportBackup,
     'summon': () => {
       const d = V.Gen.character({ anyRegion: true });
@@ -1010,6 +1071,7 @@
   main.addEventListener('input', e => {
     if (e.target.id === 'txt') { e.target.style.height = ''; e.target.style.height = Math.min(140, e.target.scrollHeight) + 'px'; drawQuick(); }
     if (e.target.id === 'qsearch') drawSheet(e.target.value);
+    if (e.target.id === 'arcq') { arc.q = e.target.value; drawArchive(); }
     if (e.target.id === 'volRange') V.Sound.setVolume(e.target.value);
   });
 
